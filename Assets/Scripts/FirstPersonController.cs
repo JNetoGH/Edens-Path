@@ -3,7 +3,7 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour
 {
     // Status
-    public bool CanMove { get; private set; } = true;
+    public bool CanMove { get; set; } = true;
     
     [Header("General")]
     [SerializeField] private bool _printDebuggingStatus;
@@ -32,15 +32,13 @@ public class FirstPersonController : MonoBehaviour
     // Inputs
     private Vector2 _moveInputs;
     private bool _jumpInputBuffer;
-    
+
 
     private void Awake()
     {
-        // Setting the cursor
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        CanMove = true;
     }
-    
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -53,7 +51,7 @@ public class FirstPersonController : MonoBehaviour
         if (_printDebuggingStatus)
             PrintDebuggingStatus();
         
-        if (!CanMove) 
+        if (!CanMove)
             return;
         
         UpdateInputs();
@@ -63,6 +61,10 @@ public class FirstPersonController : MonoBehaviour
     private void FixedUpdate()
     {
         ApplyCustomGravity();
+        
+        if (!CanMove)
+            return;
+        
         if (_jumpInputBuffer) 
             Jump();
         Move();
