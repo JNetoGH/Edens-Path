@@ -14,7 +14,8 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float _walkSpeed = 3f;
     [SerializeField] private float _jumpForce = 10f;
     [SerializeField] private float _customGravity = 0.5f;
-    [SerializeField] private float _customGravityThreshold = 100f;
+    [SerializeField, Range(1, 10), Tooltip(TipThreshold)] private float _customGravityThreshold = 10f;
+    private const string TipThreshold = "It's the limit of the Y axis velocity";
     
     [Header("Camera")] 
     [SerializeField, Range(1, 10)] private float _lookSpeedX = 2f; 
@@ -71,6 +72,7 @@ public class FirstPersonController : MonoBehaviour
     private void UpdateInputs()
     {
         _moveInputs = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
+        
         // Normalizes the Dir Vector using clamp in order to not give up on the axis smoothening.
         _moveInputs = Vector2.ClampMagnitude(_moveInputs, 1f);
         
@@ -122,39 +124,20 @@ public class FirstPersonController : MonoBehaviour
     
     private void Move()
     {
+        
         // Moves the Object According to the inputs
-        // Applies the move speed to the inputs 
-        _moveInputs = _moveInputs * _walkSpeed;
-        Vector3 auxVelocityHolder = (transform.TransformDirection(Vector3.forward) * _moveInputs.x) + 
-                                    (transform.TransformDirection(Vector3.right) * _moveInputs.y);
+        Vector3 auxVelocityHolder = (transform.TransformDirection(Vector3.forward) * _moveInputs.x * _walkSpeed) + 
+                                    (transform.TransformDirection(Vector3.right) * _moveInputs.y * _walkSpeed);
         
         // Conservatives the Y velocity before applying in order to do not override the gravity
         auxVelocityHolder.y = _rigidbody.velocity.y;
         _rigidbody.velocity = auxVelocityHolder;
-        
-        // Verifique se o personagem está no ar e tocando em uma parede e para o movimento horizontal.
-        if (!_groundDetector.IsGrounded && IsTouchingWall())
-            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
-    }
-    
-    private bool IsTouchingWall()
-    {
-        float rayLength = 2f; // Ajuste o comprimento do raio conforme necessário.
-        Vector3 rayDirection = transform.forward; // Ajuste a direção conforme necessário (pode ser transform.right para paredes laterais).
-
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, rayDirection, out hit, rayLength))
-        {
-            // Verifique se a colisão é com uma camada de parede específica.
-            if (hit.collider.CompareTag("Wall"))
-                return true;
-        }
-        return false;
     }
     
     private void PrintDebuggingStatus()
     {
-        Debug.Log($"player's velocity: {_rigidbody.velocity}");
+        Debug.Log($"Velocity Lenght: {_rigidbody.velocity.magnitude}");
+        Debug.Log($"Player's Velocity: {_rigidbody.velocity}");
         Debug.Log($"Transformed Vector3.forward: {transform.TransformDirection(Vector3.forward)}");
         Debug.Log($"Transformed Vector3.right: {transform.TransformDirection(Vector3.right)}");
     }

@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 81831138}
   - component: {fileID: 81831137}
   m_Layer: 0
-  m_Name: Game Manager
+  m_Name: Game Handler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,10 +187,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 81831136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233c3b56137b23049b9b87252543367d, type: 3}
+  m_Script: {fileID: 11500000, guid: ffbd1d405ba936d46b0b7c3a2357ba78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _targetFps: 60
+  _targetFps: 144
+  _releaseFps: 0
 --- !u!4 &81831138
 Transform:
   m_ObjectHideFlags: 0
@@ -199,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 81831136}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3260503, y: 2.9452162, z: 6.8056107}
+  m_LocalPosition: {x: 0, y: 5.23, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2776,7 +2777,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415421654}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.42, y: 1.45, z: 1.2}
+  m_LocalPosition: {x: 0.42, y: 1.2, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2799,9 +2800,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _printDebuggingStatus: 1
   _walkSpeed: 3
-  _jumpForce: 30
+  _jumpForce: 10
   _customGravity: 0.5
-  _customGravityThreshold: 20
+  _customGravityThreshold: 10
   _lookSpeedX: 2
   _lookSpeedY: 2
   _upperLookLimitAngle: 80
@@ -2832,7 +2833,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!1 &1457774973
 GameObject:
   m_ObjectHideFlags: 0
@@ -3168,7 +3169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1648561437}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Fancies
   m_TagString: Wall
   m_Icon: {fileID: 0}
@@ -3208,7 +3209,7 @@ PrefabInstance:
     - target: {fileID: 487885705732334654, guid: 5172505cfbc25c644ad2ab70b9c6271a,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 487885705732334654, guid: 5172505cfbc25c644ad2ab70b9c6271a,
         type: 3}
@@ -4035,7 +4036,7 @@ PrefabInstance:
     - target: {fileID: 1025681519537117646, guid: aa99a810914c5b84b9bc5d51f95dd05c,
         type: 3}
       propertyPath: m_Layer
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1025681519537117646, guid: aa99a810914c5b84b9bc5d51f95dd05c,
         type: 3}
