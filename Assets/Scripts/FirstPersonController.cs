@@ -1,12 +1,10 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class FirstPersonController : MonoBehaviour
 {
     // Status
     public bool CanMove { get; private set; } = true;
-
-    [FormerlySerializedAs("_printDebugStatus")]
+    
     [Header("General")]
     [SerializeField] private bool _printDebuggingStatus;
     
@@ -18,22 +16,23 @@ public class FirstPersonController : MonoBehaviour
     private const string TipThreshold = "It's the limit of the Y axis velocity";
     
     [Header("Camera")] 
-    [SerializeField, Range(1, 10)] private float _lookSpeedX = 2f; 
-    [SerializeField, Range(1, 10)] private float _lookSpeedY = 2f;
     [SerializeField, Range(1, 100), Tooltip(TipUpperLook)] private float _upperLookLimitAngle = 80f; 
     [SerializeField, Range(1, 100), Tooltip(TipLowerLook)] private float _lowerLookLimitAngle = 80f; 
     private const string TipUpperLook = "How many degrees the player can look up before the camera stops moving";
     private const string TipLowerLook = "How many degrees the player can look down before the camera stops moving";
+    public float LookSpeedX { get; set; } = 1; // Set by the user using the Game Handler
+    public float LookSpeedY { get; set; } = 1; // Set by the user using the Game Handler
+    private float _cameraRotationX; // Holds the Camera ↑ ↓ rotation, the ← → is applied straight to the parent "player" 
     
     // Components
     private Camera _playerCamera;
     private GroundDetector _groundDetector;
     private Rigidbody _rigidbody;
 
-    // Others
+    // Inputs
     private Vector2 _moveInputs;
     private bool _jumpInputBuffer;
-    private float _cameraRotationX;
+    
 
     private void Awake()
     {
@@ -84,7 +83,7 @@ public class FirstPersonController : MonoBehaviour
     private void HandleMouseLook()
     {
         // The mouse's Y axis (X: ← →, Y: ↑ ↓) rotates the camera in the X axis (X: ↑ ↓ "front", Y: ← →, Z: ↻ ↺ "lateral")
-        _cameraRotationX -= Input.GetAxis("Mouse Y") * _lookSpeedY;
+        _cameraRotationX -= Input.GetAxis("Mouse Y") * LookSpeedY;
         // Clamps the rotation of the camera to the limits
         _cameraRotationX = Mathf.Clamp(_cameraRotationX, -_upperLookLimitAngle, _lowerLookLimitAngle);
         // Rotates the camera in its local coordinates
@@ -94,7 +93,7 @@ public class FirstPersonController : MonoBehaviour
         // in 360° around the Y axis, unlike the X axis where the player's neck would break.
         // The mouse's X axis (X: ← →, Y: ↑ ↓) rotates the player in the Y axis (X: ↑ ↓ "front", Y: ← →, Z: ↻ ↺ "lateral")
         // which will also rotate the camera because its a child object
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * _lookSpeedX, 0);
+        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * LookSpeedX, 0);
     }
     
     private void ApplyCustomGravity()
@@ -124,7 +123,6 @@ public class FirstPersonController : MonoBehaviour
     
     private void Move()
     {
-        
         // Moves the Object According to the inputs
         Vector3 auxVelocityHolder = (transform.TransformDirection(Vector3.forward) * _moveInputs.x * _walkSpeed) + 
                                     (transform.TransformDirection(Vector3.right) * _moveInputs.y * _walkSpeed);
@@ -141,5 +139,5 @@ public class FirstPersonController : MonoBehaviour
         Debug.Log($"Transformed Vector3.forward: {transform.TransformDirection(Vector3.forward)}");
         Debug.Log($"Transformed Vector3.right: {transform.TransformDirection(Vector3.right)}");
     }
-
+    
 }
