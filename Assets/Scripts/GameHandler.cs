@@ -30,20 +30,19 @@ public class GameHandler : MonoBehaviour
     {
         IsInMenu = false;
         LockTheCursor();
-        
         SyncFps();
-        
-        // Syncs the Menu with the Handler default state
-        _toggleUnlockFps.isOn = _unlockFps;
-        _dropdownTargetFps.text = _targetFps.ToString();
-        _sliderMouseSensibilityX.value = _mouseSensibilityX;
-        _sliderMouseSensibilityY.value = _mouseSensibilityY;
     }
 
     private void Start()
     {
         _player = FindObjectOfType<FirstPersonController>();
         SyncMouseSensibility();
+        
+        // Syncs the Menu with the Handler default state
+        _toggleUnlockFps.isOn = _unlockFps;
+        _dropdownTargetFps.text = _targetFps.ToString();
+        _sliderMouseSensibilityX.value = _mouseSensibilityX;
+        _sliderMouseSensibilityY.value = _mouseSensibilityY;
     }
     
     private void Update()
@@ -106,6 +105,11 @@ public class GameHandler : MonoBehaviour
     public static void ResetGame()
     {
         SceneManager.LoadScene(0);
+    }
+
+    public static void ExitGame()
+    {
+        Application.Quit();
     }
     
 }
