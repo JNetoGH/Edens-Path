@@ -1,17 +1,19 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FirstPersonController : MonoBehaviour
 {
     // Status
     public bool CanMove { get; private set; } = true;
 
+    [FormerlySerializedAs("_printDebugStatus")]
     [Header("General")]
-    [SerializeField] private bool _printDebugStatus;
+    [SerializeField] private bool _printDebuggingStatus;
     
     [Header("Movement")]
     [SerializeField] private float _walkSpeed = 3f;
-    [SerializeField] private float _jumpForce = 30f;
-    [SerializeField] private float _customGravity = 30f;
+    [SerializeField] private float _jumpForce = 10f;
+    [SerializeField] private float _customGravity = 0.5f;
     [SerializeField] private float _customGravityThreshold = 100f;
     
     [Header("Camera")] 
@@ -30,7 +32,6 @@ public class FirstPersonController : MonoBehaviour
     // Others
     private Vector2 _moveInputs;
     private bool _jumpInputBuffer;
-    private Vector3 _instantaneousVelocity;
     private float _cameraRotationX;
 
     private void Awake()
@@ -46,21 +47,27 @@ public class FirstPersonController : MonoBehaviour
         _playerCamera = GetComponentInChildren<Camera>();
         _groundDetector = GetComponentInChildren<GroundDetector>();
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        if (!CanMove) return;
+        if (_printDebuggingStatus)
+            PrintDebuggingStatus();
+        
+        if (!CanMove) 
+            return;
+        
         UpdateInputs();
         HandleMouseLook();
-        ApplyCustomGravity();
     }
 
     private void FixedUpdate()
     {
+        ApplyCustomGravity();
+        if (_jumpInputBuffer) 
+            Jump();
         Move();
     }
-
+    
     private void UpdateInputs()
     {
         _moveInputs = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
@@ -90,10 +97,10 @@ public class FirstPersonController : MonoBehaviour
     
     private void ApplyCustomGravity()
     {
-        // Applies custom gravity
+        // Applies custom gravity to an aux variable
         Vector3 auxVelocityHolder = _rigidbody.velocity;
         if (!_groundDetector.IsGrounded)
-            auxVelocityHolder.y -= _customGravity * Time.deltaTime;
+            auxVelocityHolder.y -= _customGravity;
         else
             auxVelocityHolder.y = 0;
         
@@ -101,39 +108,55 @@ public class FirstPersonController : MonoBehaviour
         if (auxVelocityHolder.y < -_customGravityThreshold)
             auxVelocityHolder.y = -_customGravityThreshold;
         
+        // Applies the aux variable to the velocity
         _rigidbody.velocity = auxVelocityHolder;
     }
 
+    private void Jump()
+    {
+        Vector3 auxVelocityHolder = _rigidbody.velocity;
+        auxVelocityHolder.y = _jumpForce;
+        _rigidbody.velocity = auxVelocityHolder;
+        _jumpInputBuffer = false;
+    }
+    
     private void Move()
     {
-        
-        // Simple Jump
-        if (_jumpInputBuffer)
-        {
-            Vector3 auxVelocityHolder = _rigidbody.velocity;
-            auxVelocityHolder.y = _jumpForce;
-            _rigidbody.velocity = auxVelocityHolder;
-            _jumpInputBuffer = false;
-        }
-        
         // Moves the Object According to the inputs
         // Applies the move speed to the inputs 
         _moveInputs = _moveInputs * _walkSpeed;
-        _instantaneousVelocity = (transform.TransformDirection(Vector3.forward) * _moveInputs.x) + 
-                                 (transform.TransformDirection(Vector3.right) * _moveInputs.y);
+        Vector3 auxVelocityHolder = (transform.TransformDirection(Vector3.forward) * _moveInputs.x) + 
+                                    (transform.TransformDirection(Vector3.right) * _moveInputs.y);
         
         // Conservatives the Y velocity before applying in order to do not override the gravity
-        _instantaneousVelocity.y = _rigidbody.velocity.y;
-        _rigidbody.velocity = _instantaneousVelocity;
+        auxVelocityHolder.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = auxVelocityHolder;
         
-        // Debug info
-        if (_printDebugStatus)
-        {
-            Debug.Log($"player's velocity: {_rigidbody.velocity}");
-            Debug.Log($"Transformed Vector3.forward: {transform.TransformDirection(Vector3.forward)}");
-            Debug.Log($"Transformed Vector3.right: {transform.TransformDirection(Vector3.right)}");
-        }
+        // Verifique se o personagem está no ar e tocando em uma parede e para o movimento horizontal.
+        if (!_groundDetector.IsGrounded && IsTouchingWall())
+            _rigidbody.velocity = new Vector3(0, _rigidbody.velocity.y, 0);
     }
+    
+    private bool IsTouchingWall()
+    {
+        float rayLength = 2f; // Ajuste o comprimento do raio conforme necessário.
+        Vector3 rayDirection = transform.forward; // Ajuste a direção conforme necessário (pode ser transform.right para paredes laterais).
 
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, rayDirection, out hit, rayLength))
+        {
+            // Verifique se a colisão é com uma camada de parede específica.
+            if (hit.collider.CompareTag("Wall"))
+                return true;
+        }
+        return false;
+    }
+    
+    private void PrintDebuggingStatus()
+    {
+        Debug.Log($"player's velocity: {_rigidbody.velocity}");
+        Debug.Log($"Transformed Vector3.forward: {transform.TransformDirection(Vector3.forward)}");
+        Debug.Log($"Transformed Vector3.right: {transform.TransformDirection(Vector3.right)}");
+    }
 
 }

@@ -8,13 +8,18 @@ public class GroundDetector : MonoBehaviour
     
     [SerializeField] private LayerMask _groundLayers;
     [SerializeField] private float _yLimitSpeed = 0.4f;
+    [SerializeField] private bool _showGroundDetector = false;
     [SerializeField] private bool _printDebugStatus;
     
+    
+    // Components
     private Rigidbody _playerRigidbody; 
+    private Renderer _renderer;
     
     private void Awake()
     {
         IsGrounded = false;
+        _renderer = GetComponent<Renderer>();
     }
 
     private void Start()
@@ -41,6 +46,17 @@ public class GroundDetector : MonoBehaviour
     {
         if (_printDebugStatus)
             Debug.Log($"Is Grounded {IsGrounded}");
+        
+        // Verifies the state and syncs the color
+        _renderer.enabled = _showGroundDetector;
+        if (_renderer.enabled)
+        {
+            if (IsGrounded)
+                _renderer.material.color = Color.yellow;
+            else
+                _renderer.material.color = Color.red;
+        }
+       
     }
 
     private bool LayerMaskContainsLayer(LayerMask layerMask, int layer)
