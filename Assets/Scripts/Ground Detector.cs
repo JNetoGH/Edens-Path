@@ -39,7 +39,6 @@ public class GroundDetector : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(_playerRigidbody.velocity);
         if (_printDebugStatus)
             Debug.Log($"Is Grounded {IsGrounded}");
     }
