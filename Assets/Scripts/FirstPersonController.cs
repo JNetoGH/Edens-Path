@@ -17,17 +17,22 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField, Range(1, 10), Tooltip(TipThreshold)] private float _customGravityThreshold = 10f;
     private const string TipThreshold = "It's the limit of the Y axis velocity";
     
-    [Header("Camera")] 
-    [SerializeField] private bool _allowCameraFollow = true;
+    [Header("Camera Rotation")] 
+    [SerializeField, Range(0, 0.2f)] private float _mouseThreshold = 0.1f; // Used to avoid jittering on the camera
     [SerializeField, Range(1, 100), Tooltip(TipUpperLook)] private float _upperLookLimitAngle = 80f; 
     [SerializeField, Range(1, 100), Tooltip(TipLowerLook)] private float _lowerLookLimitAngle = 80f; 
     private const string TipUpperLook = "How many degrees the player can look up before the camera stops moving";
     private const string TipLowerLook = "How many degrees the player can look down before the camera stops moving";
-    public float LookSpeedX { get; set; } = 1; // Set by the user using the Game Handler via Menu
-    public float LookSpeedY { get; set; } = 1; // Set by the user using the Game Handler via Menu
-    private Transform _cameraFollowTarget;     // The point where the camera will sync with its position
+    public float LookSpeedX { get; set; } = 2; // Set by the user using the Game Handler via Menu
+    public float LookSpeedY { get; set; } = 2; // Set by the user using the Game Handler via Menu
     private float _cameraRotationX;            // Holds the Camera ↑ ↓ rotation
-    private float _cameraRotationY;            // Holds the Camera ← → rotation
+ 
+    [Header("Camera Smoothing")] 
+    [SerializeField] private bool _useSmoothing = true; // Used to avoid jittering on the camera
+    [SerializeField, Range(0.001f, 0.01f)] private float _smoothTimeX = 0.001f;
+    [SerializeField, Range(0.001f, 0.01f)] private float _smoothTimeY = 0.001f;
+    private float _playerRotationVelocityY;    // Used at the smoothing method
+    private float _cameraRotationVelocityX;    // Used at the smoothing method
     
     // Status
     public bool CanMove { get; set; } = true;
@@ -49,17 +54,22 @@ public class FirstPersonController : MonoBehaviour
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _playerCamera = FindObjectOfType<Camera>();
+        _playerCamera = GetComponentInChildren<Camera>();
         _groundDetector = GetComponentInChildren<GroundDetector>();
-        _cameraFollowTarget = GameObject.Find("Camera Follow Target").transform;
     }
     
     void Update()
     {
+        UpdateInputs();
         if (_printDebuggingStatus) PrintDebuggingStatus();
         if (!CanMove) return;
-        UpdateInputs();
-        HandleMouseLook();
+        
+        // Check for minimal mouse movement using a threshold to avoid camera jittering.
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+        Debug.Log(mouseX + " | " + mouseY);
+        if (Mathf.Abs(mouseX) > _mouseThreshold || Mathf.Abs(mouseY) > _mouseThreshold)
+            UpdatePlayerAndCameraRotationFromMouseInput();
     }
 
     private void FixedUpdate()
@@ -67,7 +77,6 @@ public class FirstPersonController : MonoBehaviour
         if (_useCustomGravity) ApplyCustomGravity();
         if (_jumpInputBuffer && CanMove) Jump();
         if (CanMove) Move();
-        if (_allowCameraFollow) CameraFollow();
     }
     
     private void UpdateInputs()
@@ -79,31 +88,27 @@ public class FirstPersonController : MonoBehaviour
         // Jump Input Buffering 
         if (Input.GetButtonDown("Jump") && _groundDetector.IsGrounded)
             _jumpInputBuffer = true;
-        
-        // Camera Follow
-        if (Input.GetButtonDown("Camera Follow"))
-            _allowCameraFollow = !_allowCameraFollow;
     }
-    
-    private void HandleMouseLook()
+
+    private void UpdatePlayerAndCameraRotationFromMouseInput()
     {
-        // Rotates the player, it doesn't need to be clamped because the player can freely rotate
-        // in 360° around the Y axis, unlike the X axis where the player's neck would break.
-        // The mouse's X axis (X: ← →, Y: ↑ ↓) rotates the player in the Y axis (X: ↑ ↓ "front", Y: ← →, Z: ↻ ↺ "lateral")
-        transform.rotation *= Quaternion.Euler(0, Input.GetAxis("Mouse X") * LookSpeedX, 0);
+        // 1) Rotates the player and the camera (It's a child Object) on the Y axis (X: ↑↓, Y: ←→, Z: ↻↺) using the mouse's X axis (X: ←→, Y: ↑↓) 
+        // 2) Smooths the player rotation to avoid jittering for the Y axis
+        float targetPlayerRotationY = transform.eulerAngles.y + Input.GetAxis("Mouse X") * LookSpeedX;
+        if (_useSmoothing)
+            targetPlayerRotationY = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetPlayerRotationY, ref _playerRotationVelocityY, _smoothTimeY);
+        transform.rotation = Quaternion.Euler(0, targetPlayerRotationY, 0);
         
-        // Rotates the camera on the Y axis:
-        // Just syncs the rotation with the Player in this axis.
-        _cameraRotationY = this.transform.rotation.eulerAngles.y;
-        
-        // Rotates the camera on the X axis:
-        // The mouse's Y axis (X: ← →, Y: ↑ ↓) rotates the camera in the X axis (X: ↑ ↓ "front", Y: ← →, Z: ↻ ↺ "lateral")
-        // Then clamps the rotation of the camera to the limits
-        _cameraRotationX -= Input.GetAxis("Mouse Y") * LookSpeedY;
-        _cameraRotationX = Mathf.Clamp(_cameraRotationX, -_upperLookLimitAngle, _lowerLookLimitAngle);
-        
-        // Applies the rotations to the camera
-        _playerCamera.transform.localRotation = Quaternion.Euler(_cameraRotationX, _cameraRotationY, 0);
+        // 1) Rotates (locally) ONLY the camera on the X axis (X: ↑↓, Y: ←→, Z: ↻↺) using the mouse's Y axis (X: ←→, Y: ↑↓) 
+        // 2) Clamps the rotation of the camera to the limits on the X axis.
+        // 3) Smooths the camera rotation to avoid jittering for the X axis.
+        float targetCameraRotationX = _cameraRotationX - Input.GetAxis("Mouse Y") * LookSpeedY;
+        targetCameraRotationX = Mathf.Clamp(targetCameraRotationX, -_upperLookLimitAngle, _lowerLookLimitAngle);
+        if (_useSmoothing)
+            _cameraRotationX = Mathf.SmoothDampAngle(_cameraRotationX, targetCameraRotationX, ref _cameraRotationVelocityX, _smoothTimeX);
+        else
+            _cameraRotationX = targetCameraRotationX;
+        _playerCamera.transform.localRotation = Quaternion.Euler(_cameraRotationX, 0, 0);
     }
     
     private void ApplyCustomGravity()
@@ -134,11 +139,6 @@ public class FirstPersonController : MonoBehaviour
         Vector3 newVelocity = (transform.forward * _moveDir.x * _moveSpeed) + (transform.right * _moveDir.y * _moveSpeed);
         newVelocity.y = _rigidbody.velocity.y;
         _rigidbody.velocity = newVelocity;
-    }
-
-    private void CameraFollow()
-    {
-        _playerCamera.transform.position = _cameraFollowTarget.transform.position;
     }
 
     private void PrintDebuggingStatus()
