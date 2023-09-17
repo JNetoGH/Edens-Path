@@ -5901,7 +5901,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 96}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1287029036
@@ -6493,11 +6493,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _printDebuggingStatus: 0
-  _walkSpeed: 3
+  _moveSpeed: 3
   _jumpForce: 10
   _useCustomGravity: 1
   _customGravity: 0.5
-  _customGravityThreshold: 10
+  _customGravityThreshold: 8
   _allowCameraFollow: 1
   _upperLookLimitAngle: 80
   _lowerLookLimitAngle: 80

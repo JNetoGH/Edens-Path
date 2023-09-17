@@ -4,26 +4,22 @@ using UnityEngine;
 
 
 // Author => https://sharpcoderblog.com/blog/unity-fps-counter
-
 public class FpsCounter : MonoBehaviour
 { 
     [SerializeField, Tooltip("How often should the number update")]
-    private float _updateInterval = 0.5f; 
-    
+    private float _updateInterval = 0.5f;
     private TextMeshProUGUI _fpsText;
     private float _accum = 0.0f;
     private int _frames = 0;
     private float _timeLeft;
     private float _fps;
-
-    // Use this for initialization
+    
     void Start()
     {
         _fpsText = GetComponent<TextMeshProUGUI>();
         _timeLeft = _updateInterval;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         _timeLeft -= Time.deltaTime;

@@ -1,16 +1,14 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
+[RequireComponent(typeof(Rigidbody))]
 public class FirstPersonController : MonoBehaviour
 {
-    // Status
-    public bool CanMove { get; set; } = true;
     
     [Header("General")]
     [SerializeField] private bool _printDebuggingStatus;
     
     [Header("Movement")]
-    [SerializeField] private float _walkSpeed = 3f;
+    [SerializeField] private float _moveSpeed = 3f;
     [SerializeField] private float _jumpForce = 10f;
     
     [Header("Custom Gravity")]
@@ -25,20 +23,24 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField, Range(1, 100), Tooltip(TipLowerLook)] private float _lowerLookLimitAngle = 80f; 
     private const string TipUpperLook = "How many degrees the player can look up before the camera stops moving";
     private const string TipLowerLook = "How many degrees the player can look down before the camera stops moving";
-    public float LookSpeedX { get; set; } = 1; // Set by the user using the Game Handler
-    public float LookSpeedY { get; set; } = 1; // Set by the user using the Game Handler
-    private Transform _cameraFollowTarget; // The point where the camera will sync with its position
+    public float LookSpeedX { get; set; } = 1; // Set by the user using the Game Handler via Menu
+    public float LookSpeedY { get; set; } = 1; // Set by the user using the Game Handler via Menu
+    private Transform _cameraFollowTarget;     // The point where the camera will sync with its position
+    private float _cameraRotationX;            // Holds the Camera ↑ ↓ rotation
+    private float _cameraRotationY;            // Holds the Camera ← → rotation
+    
+    // Status
+    public bool CanMove { get; set; } = true;
     
     // Components
+    private Rigidbody _rigidbody;
     private Camera _playerCamera;
     private GroundDetector _groundDetector;
-    private Rigidbody _rigidbody;
-
+    
     // Inputs
-    private Vector2 _moveInputs;
+    private Vector2 _moveDir;
     private bool _jumpInputBuffer;
-
-
+    
     private void Awake()
     {
         CanMove = true;
@@ -54,35 +56,33 @@ public class FirstPersonController : MonoBehaviour
     
     void Update()
     {
-        if (_printDebuggingStatus)
-            PrintDebuggingStatus();
-        if (!CanMove)
-            return;
+        if (_printDebuggingStatus) PrintDebuggingStatus();
+        if (!CanMove) return;
         UpdateInputs();
         HandleMouseLook();
     }
 
     private void FixedUpdate()
     {
-        if (_useCustomGravity)
-            ApplyCustomGravity();
-        if (!CanMove)
-            return;
-        if (_jumpInputBuffer) 
-            Jump();
-        Move();
+        if (_useCustomGravity) ApplyCustomGravity();
+        if (_jumpInputBuffer && CanMove) Jump();
+        if (CanMove) Move();
+        if (_allowCameraFollow) CameraFollow();
     }
     
     private void UpdateInputs()
     {
-        _moveInputs = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal"));
-        
-        // Normalizes the Dir Vector using clamp in order to not give up on the axis smoothening.
-        _moveInputs = Vector2.ClampMagnitude(_moveInputs, 1f);
+        // Get the inputs, then, normalizes the Dir Vector using clamp in order to keep the axis smoothing.
+        _moveDir = new Vector2(Input.GetAxis("Vertical"), Input.GetAxis("Horizontal")); 
+        _moveDir = Vector2.ClampMagnitude(_moveDir, 1f);
         
         // Jump Input Buffering 
         if (Input.GetButtonDown("Jump") && _groundDetector.IsGrounded)
             _jumpInputBuffer = true;
+        
+        // Camera Follow
+        if (Input.GetButtonDown("Camera Follow"))
+            _allowCameraFollow = !_allowCameraFollow;
     }
     
     private void HandleMouseLook()
@@ -94,59 +94,53 @@ public class FirstPersonController : MonoBehaviour
         
         // Rotates the camera on the Y axis:
         // Just syncs the rotation with the Player in this axis.
-        Vector3 cam = _playerCamera.transform.rotation.eulerAngles;
-        _playerCamera.transform.rotation = Quaternion.Euler(cam.x, transform.rotation.eulerAngles.y, 0);
+        _cameraRotationY = this.transform.rotation.eulerAngles.y;
         
         // Rotates the camera on the X axis:
         // The mouse's Y axis (X: ← →, Y: ↑ ↓) rotates the camera in the X axis (X: ↑ ↓ "front", Y: ← →, Z: ↻ ↺ "lateral")
         // Then clamps the rotation of the camera to the limits
-        cam = _playerCamera.transform.rotation.eulerAngles;
-        float camRotationX = cam.x; 
-        camRotationX -= Input.GetAxis("Mouse Y") * LookSpeedY;
-        camRotationX = Mathf.Clamp(camRotationX, -_upperLookLimitAngle, _lowerLookLimitAngle);
-        _playerCamera.transform.localRotation = Quaternion.Euler(camRotationX, cam.y, 0);
+        _cameraRotationX -= Input.GetAxis("Mouse Y") * LookSpeedY;
+        _cameraRotationX = Mathf.Clamp(_cameraRotationX, -_upperLookLimitAngle, _lowerLookLimitAngle);
+        
+        // Applies the rotations to the camera
+        _playerCamera.transform.localRotation = Quaternion.Euler(_cameraRotationX, _cameraRotationY, 0);
     }
     
     private void ApplyCustomGravity()
     {
-        // Applies custom gravity to an aux variable
-        Vector3 auxVelocityHolder = _rigidbody.velocity;
-        if (!_groundDetector.IsGrounded)
-            auxVelocityHolder.y -= _customGravity;
-        else
-            auxVelocityHolder.y = 0;
+        // Applies custom gravity to an aux variable Y axis, if grounded, removes it.
+        Vector3 newVelocity = _rigidbody.velocity;
+        newVelocity.y = _groundDetector.IsGrounded ? 0 : newVelocity.y - _customGravity;
         
-        // Checks ig the Y axis of the velocity has reached the threshold
-        if (auxVelocityHolder.y < -_customGravityThreshold)
-            auxVelocityHolder.y = -_customGravityThreshold;
+        // Checks ig the Y axis of the velocity has reached the threshold.
+        if (newVelocity.y < -_customGravityThreshold)
+            newVelocity.y = -_customGravityThreshold;
         
-        // Applies the aux variable to the velocity
-        _rigidbody.velocity = auxVelocityHolder;
+        // Applies the aux variable to the velocity.
+        _rigidbody.velocity = newVelocity;
     }
 
     private void Jump()
-    {
-        Vector3 auxVelocityHolder = _rigidbody.velocity;
-        auxVelocityHolder.y = _jumpForce;
-        _rigidbody.velocity = auxVelocityHolder;
+    {   
+        // Simply overrides the velocity and clears the input buffer.
+        _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _jumpForce, _rigidbody.velocity.z);
         _jumpInputBuffer = false;
     }
     
     private void Move()
     {
-        // Moves the Object According to the inputs
-        Vector3 auxVelocityHolder = (transform.TransformDirection(Vector3.forward) * _moveInputs.x * _walkSpeed) + 
-                                    (transform.TransformDirection(Vector3.right) * _moveInputs.y * _walkSpeed);
-        
-        // Conservatives the Y velocity before applying in order to do not override the gravity
-        auxVelocityHolder.y = _rigidbody.velocity.y;
-        _rigidbody.velocity = auxVelocityHolder;
-        
-        // Camera Follow
-        if (_allowCameraFollow)
-            _playerCamera.transform.position = _cameraFollowTarget.transform.position;
+        // Moves the Object According to the inputs, but keeps the Y velocity as it was before applying
+        // the new velocity, in order to do not override the custom/default gravity.
+        Vector3 newVelocity = (transform.forward * _moveDir.x * _moveSpeed) + (transform.right * _moveDir.y * _moveSpeed);
+        newVelocity.y = _rigidbody.velocity.y;
+        _rigidbody.velocity = newVelocity;
     }
-    
+
+    private void CameraFollow()
+    {
+        _playerCamera.transform.position = _cameraFollowTarget.transform.position;
+    }
+
     private void PrintDebuggingStatus()
     {
         Debug.Log($"Velocity Lenght: {_rigidbody.velocity.magnitude}");
