@@ -52,7 +52,7 @@ public class GroundDetector : MonoBehaviour
         if (_renderer.enabled)
         {
             if (IsGrounded)
-                _renderer.material.color = Color.yellow;
+                _renderer.material.color = Color.cyan;
             else
                 _renderer.material.color = Color.red;
         }
