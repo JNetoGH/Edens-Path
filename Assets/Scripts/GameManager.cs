@@ -7,9 +7,10 @@ using Cursor = UnityEngine.Cursor;
 
 public class GameManager : MonoBehaviour
 {
-    
+
     [Header("FPS")] 
-    [SerializeField] private bool _unlockFps = true;
+    [SerializeField] private bool _useVSync = true;
+    [SerializeField] private bool _unlockFps = false;
     [SerializeField, Range(10, 165)] private int _targetFps = 60;
 
     [Header("Settings Menu Reference")] 
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Settings Menu Components")] 
     [SerializeField] private Toggle _toggleUnlockFps; 
+    [SerializeField] private Toggle _toggleVSync; 
     [SerializeField] private TextMeshProUGUI _dropdownTargetFpsValueText;
     [SerializeField] private Slider _sliderMouseSensibility;
     
@@ -28,11 +30,11 @@ public class GameManager : MonoBehaviour
     {
         _cameraController = FindObjectOfType<CameraController>();
         _playerController = FindObjectOfType<PlayerController>();
-       
         IsInSettingsMenu = false;
         
         // Syncs the Menu Elements with the Editor/Game default states
         _toggleUnlockFps.isOn = _unlockFps;
+        _toggleVSync.isOn = _useVSync;
         _dropdownTargetFpsValueText.text = _targetFps.ToString();
         _sliderMouseSensibility.value = _cameraController.MouseSensitivity;
         SetFps();
@@ -75,12 +77,14 @@ public class GameManager : MonoBehaviour
         
         // FPS sync (from Editor)
         _unlockFps = _toggleUnlockFps.isOn;
+        _useVSync = _toggleVSync.isOn;
         _targetFps = int.Parse(_dropdownTargetFpsValueText.text);
         SetFps();
     }
     
     private void SetFps()
     {
+        QualitySettings.vSyncCount = _useVSync ? 1 : 0;
         Application.targetFrameRate = _unlockFps ? -1 : _targetFps;
     }
     
