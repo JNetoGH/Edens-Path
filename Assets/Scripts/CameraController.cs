@@ -1,10 +1,18 @@
 using UnityEngine;
 
+
 public class CameraController : MonoBehaviour
 {
     
+    // Encapsulation
+    public float MouseSensitivity
+    {
+        get => _mouseSensitivity; 
+        set => _mouseSensitivity = value <= 10 ? value : 10;
+    }
+    
     [Header("Rotation")]
-    [SerializeField, Range(1, 10)] private float _sensitivity = 2f;
+    [SerializeField, Range(1, 10)] private float _mouseSensitivity = 2f;
     [SerializeField, Range(1, 99)] private float _rotationXRange = 80f;
     private float _rotationX;
     private float _rotationY;
@@ -13,11 +21,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform _cameraPosition;
     private float _mouseX;
     private float _mouseY;
-    
-    private void Start()
-    {
-        GameHandler.LockTheCursor();
-    }
     
     private void Update()
     {
@@ -38,8 +41,8 @@ public class CameraController : MonoBehaviour
     
     private void Rotate()
     {
-        _rotationY += _mouseX * _sensitivity;
-        _rotationX -= _mouseY * _sensitivity;
+        _rotationY += _mouseX * _mouseSensitivity;
+        _rotationX -= _mouseY * _mouseSensitivity;
 
         // Keeps the X axis within range 
         _rotationX = Mathf.Clamp(_rotationX, -_rotationXRange, _rotationXRange);

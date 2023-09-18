@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class MouseSliderLabelSync : MonoBehaviour
 {
-
-    [SerializeField] private string _axisName = "?";
+    
     private TextMeshProUGUI _label;
     private Slider _sliderMouseSensibility;
 
@@ -18,6 +17,6 @@ public class MouseSliderLabelSync : MonoBehaviour
 
     private void Update()
     {
-        _label.text = $"Mouse Sensitivity {_axisName}: {_sliderMouseSensibility.value}";
+        _label.text = $"Mouse Sensitivity {_sliderMouseSensibility.value}";
     }
 }

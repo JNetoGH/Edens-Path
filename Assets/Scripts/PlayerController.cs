@@ -1,17 +1,21 @@
 using UnityEngine;
 
+
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
     
+    public bool CanMove { get; set; } = true;
+    
     [Header("References")]
     [SerializeField] private Transform _camera;
+    private CharacterController _characterController;
     
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 3;
+    private Vector3 NormInput => Vector3.ClampMagnitude(new Vector3(_vInput, 0, _hInput), 1);
     private float _vInput;
     private float _hInput;
-    private Vector3 NormInput => Vector3.ClampMagnitude(new Vector3(_vInput, 0, _hInput), 1);
     
     [Header("Jump")]
     [SerializeField, Range(1, 100)] private float _jumpForce = 10f;
@@ -23,11 +27,9 @@ public class PlayerController : MonoBehaviour
     private const string MultTip = "How stong gravity feels like (1 is good)";
     private float _verticalVelocity; 
     
-    // Components
-    private CharacterController _characterController;
-    
     private void Awake()
     {
+        CanMove = true;
         _characterController = GetComponent<CharacterController>();
     }
     
@@ -35,7 +37,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateInputs();
         RotatePlayerAccordingToCamera();
-        Move();
+        if (CanMove) Move();
     }
     
     private void UpdateInputs()
