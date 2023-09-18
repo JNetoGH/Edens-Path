@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour
         // Menu Button Pressed
         if (Input.GetButtonDown("Settings Menu"))
             SwitchMenuState();
+        
+        // Makes sure the Cursor is locked
+        if (!IsInSettingsMenu)
+            LockTheCursor();
     }
     
     public void SwitchMenuState()
