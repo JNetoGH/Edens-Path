@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
         _toggleUnlockFps.isOn = _unlockFps;
         _toggleVSync.isOn = _useVSync;
         _dropdownTargetFpsValueText.text = _targetFps.ToString();
-        _sliderMouseSensibility.value = _cameraController.MouseSensitivity;
+        _sliderMouseSensibility.value = _cameraController.MouseSensitivity * 10;
         SetFps();
     }
 
@@ -67,13 +67,13 @@ public class GameManager : MonoBehaviour
         if (IsInSettingsMenu) ReleaseTheCursor();
         else LockTheCursor();
         _settingsMenu.SetActive(IsInSettingsMenu);
-        _playerController.CanMove = !IsInSettingsMenu;
+        PlayerController.CanMove = !IsInSettingsMenu;
     }
 
     private void SetGameBasedOnMenuValues()
     {
         // Sensibility sync (from CameraController)
-        _cameraController.MouseSensitivity = _sliderMouseSensibility.value;
+        _cameraController.MouseSensitivity = _sliderMouseSensibility.value / 10;
         
         // FPS sync (from Editor)
         _unlockFps = _toggleUnlockFps.isOn;

@@ -12,7 +12,7 @@ public class CameraController : MonoBehaviour
     }
     
     [Header("Rotation")]
-    [SerializeField, Range(1, 10)] private float _mouseSensitivity = 2f;
+    [SerializeField, Range(1, 10)] private float _mouseSensitivity = 1f;
     [SerializeField, Range(1, 99)] private float _rotationXRange = 80f;
     private float _rotationX;
     private float _rotationY;
@@ -24,6 +24,8 @@ public class CameraController : MonoBehaviour
     
     private void Update()
     {
+        if (!PlayerController.CanMove)
+            return;
         UpdateInputs();
         Rotate();
     }

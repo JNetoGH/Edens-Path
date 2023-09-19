@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     
-    public bool CanMove { get; set; } = true;
+    public static bool CanMove { get; set; } = true;
     
     [Header("References")]
     [SerializeField] private Transform _camera;
