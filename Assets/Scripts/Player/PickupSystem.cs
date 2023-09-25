@@ -1,13 +1,13 @@
 using UnityEngine;
 
-public class ObjectPickup : MonoBehaviour
+public class PickupSystem : MonoBehaviour
 {
     
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
     [SerializeField] private Material _beingPickedMaterial;
     [SerializeField] private Transform _pickedUpPosition;
     
-    private bool _isPickingUp = false;  // Flag to track if picking up is in progress
+    public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
     private Pickable _pickedObject; // Reference to the object being picked up
     
     private void Update()
@@ -21,12 +21,12 @@ public class ObjectPickup : MonoBehaviour
             ReleaseObject();
         
         // If an object is being picked up, update its position
-        if (_isPickingUp && _pickedObject != null)
+        if (IsPickingUp && _pickedObject != null)
             UpdateObjectPosition();
 
         // Updates the pikced object internal state
         if (_pickedObject != null)
-            _pickedObject.IsBeingCarried = _isPickingUp;
+            _pickedObject.IsBeingCarried = IsPickingUp;
     }
 
     private void TryPickupObject()
@@ -44,7 +44,7 @@ public class ObjectPickup : MonoBehaviour
             if (_pickedObject == null)
                 return;
             _pickedObject.SetMaterial(_beingPickedMaterial);
-            _isPickingUp = true;
+            IsPickingUp = true;
         }
     }
 
@@ -59,13 +59,13 @@ public class ObjectPickup : MonoBehaviour
 
     private void ReleaseObject()
     {
-        if (_isPickingUp && _pickedObject != null)
+        if (IsPickingUp && _pickedObject != null)
         {
             // Restores the original material of the object
             _pickedObject.ResetToOriginalMaterial();
 
             // Resets the flag and reference to indicate that we are not picking up an object anymore
-            _isPickingUp = false;
+            IsPickingUp = false;
             _pickedObject = null;
         }
     }
