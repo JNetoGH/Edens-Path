@@ -23,10 +23,7 @@ public class PickupSystem : MonoBehaviour
         // If an object is being picked up, update its position
         if (IsPickingUp && _pickedObject != null)
             UpdateObjectPosition();
-
-        // Updates the pikced object internal state
-        if (_pickedObject != null)
-            _pickedObject.IsBeingCarried = IsPickingUp;
+        
     }
 
     private void TryPickupObject()
@@ -45,6 +42,9 @@ public class PickupSystem : MonoBehaviour
                 return;
             _pickedObject.SetMaterial(_beingPickedMaterial);
             IsPickingUp = true;
+            
+            // Updates the picked object internal state
+            _pickedObject.IsBeingCarried = true;
         }
     }
 
@@ -66,6 +66,9 @@ public class PickupSystem : MonoBehaviour
 
             // Resets the flag and reference to indicate that we are not picking up an object anymore
             IsPickingUp = false;
+            // Updates the picked object internal state
+            _pickedObject.IsBeingCarried = false;
+            // sets the current picked object one to be null
             _pickedObject = null;
         }
     }
