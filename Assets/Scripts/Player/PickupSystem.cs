@@ -4,14 +4,14 @@ using UnityEngine;
 public class PickupSystem : MonoBehaviour
 {
     
+    public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
+    private Pickable _pickedObject; // Reference to the object being picked up
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
     [SerializeField, Range(1, 10)] private float _objMoveSpeed = 7f;
     [SerializeField, Range(1, 5)] private float _objMaxDisFromCamera = 3f;
     [SerializeField] private Transform _pickedUpPosition;
     [SerializeField] private Material _beingPickedMaterial;
-    public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
-    private Pickable _pickedObject; // Reference to the object being picked up
-    
+  
     private void Update()
     {
         // Checks for Fire1 button press, Attempts to pick up an object
@@ -74,7 +74,6 @@ public class PickupSystem : MonoBehaviour
         objRb.velocity = Vector3.zero;
         objRb.maxAngularVelocity = 3;
         objRb.drag = 0;
-        objRb.angularDrag = 0;
         
         // checks if the object got stuck too far away from the camera and releases it if so
         Vector3 distanceFromCamera = transform.position - _pickedObject.transform.position;
