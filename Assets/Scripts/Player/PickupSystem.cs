@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 
@@ -6,18 +5,13 @@ public class PickupSystem : MonoBehaviour
 {
     
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
-    [SerializeField] private float _pickedUpObjMoveSpeed = 120;
-    [SerializeField] private Material _beingPickedMaterial;
+    [SerializeField, Range(1, 10)] private float _objMoveSpeed = 7f;
+    [SerializeField, Range(1, 5)] private float _objMaxDisFromCamera = 3f;
     [SerializeField] private Transform _pickedUpPosition;
+    [SerializeField] private Material _beingPickedMaterial;
     public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
     private Pickable _pickedObject; // Reference to the object being picked up
-    private PlayerController _playerController;
-
-    private void Start()
-    {
-        _playerController = FindObjectOfType<PlayerController>();
-    }
-
+    
     private void Update()
     {
         // Checks for Fire1 button press, Attempts to pick up an object
@@ -74,21 +68,28 @@ public class PickupSystem : MonoBehaviour
     /// </summary>
     private void UpdateObjectPosition(bool usedRigidBodyMovement)
     {
-        // Get the Rigidbody component of the picked-up object
+        
+        // Get the Rigidbody component of the picked-up object, and sets it
         Rigidbody objRb = _pickedObject.GetComponent<Rigidbody>();
         objRb.velocity = Vector3.zero;
         objRb.maxAngularVelocity = 3;
         objRb.drag = 0;
         objRb.angularDrag = 0;
         
-        // Calculate the target position
-        Vector3 targetPosition = _pickedUpPosition.position;
+        // checks if the object got stuck too far away from the camera and releases it if so
+        Vector3 distanceFromCamera = transform.position - _pickedObject.transform.position;
+        if (distanceFromCamera.magnitude > _objMaxDisFromCamera)
+        {
+            ReleaseObject();
+            return;
+        }
 
         // Interpolate the object's position towards the target position
-        if (usedRigidBodyMovement)
-            objRb.MovePosition(Vector3.Lerp(objRb.position, targetPosition, Time.deltaTime * _pickedUpObjMoveSpeed));
-        else
-            _pickedObject.transform.position = Vector3.Lerp(_pickedObject.transform.position, targetPosition, Time.deltaTime * _pickedUpObjMoveSpeed);
+        Vector3 targetPosition = _pickedUpPosition.position;
+        if (usedRigidBodyMovement) 
+            objRb.MovePosition(Vector3.Lerp(objRb.position, targetPosition, Time.deltaTime * _objMoveSpeed));
+        else 
+            _pickedObject.transform.position = Vector3.Lerp(_pickedObject.transform.position, targetPosition, Time.deltaTime * _objMoveSpeed);
     }
 
     private void ReleaseObject()
@@ -97,7 +98,6 @@ public class PickupSystem : MonoBehaviour
         {
             // Restores the original material of the object
             _pickedObject.ResetToOriginalMaterial();
-
             // Resets the flag and reference to indicate that we are not picking up an object anymore
             IsPickingUp = false;
             // Updates the picked object internal state

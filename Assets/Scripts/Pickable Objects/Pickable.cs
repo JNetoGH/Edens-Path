@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 
@@ -26,13 +25,12 @@ public class Pickable : MonoBehaviour
 
     private void Update()
     {
+        // Syncs the gravity use
         _rigidbody.useGravity = !IsBeingCarried;
         
         // Disables collision with the player, when being picked up
         if (IsBeingCarried) this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
         else this.gameObject.layer = LayerMask.NameToLayer("Default");
-        
-        if (IsBeingCarried) Debug.Log(gameObject.name + "Is Colliding: " + IsColliding);
     }
 
     public void SetMaterial(Material material)
@@ -54,4 +52,5 @@ public class Pickable : MonoBehaviour
     {
         IsColliding = false;
     }
+    
 }
