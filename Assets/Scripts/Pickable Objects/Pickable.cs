@@ -31,11 +31,6 @@ public class Pickable : MonoBehaviour
         // Disables collision with the player, when being picked up
         if (IsBeingCarried) this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
         else this.gameObject.layer = LayerMask.NameToLayer("Default");
-
-        if (GetComponent<LitableStick>() is not null)
-        {
-            Debug.Log(_rigidbody.angularVelocity.magnitude);
-        }
     }
 
     public void SetMaterial(Material material)
