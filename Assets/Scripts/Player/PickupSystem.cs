@@ -1,15 +1,23 @@
+using System;
 using UnityEngine;
+
 
 public class PickupSystem : MonoBehaviour
 {
     
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
+    [SerializeField] private float _pickedUpObjMoveSpeed = 120;
     [SerializeField] private Material _beingPickedMaterial;
     [SerializeField] private Transform _pickedUpPosition;
-    
     public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
     private Pickable _pickedObject; // Reference to the object being picked up
-    
+    private PlayerController _playerController;
+
+    private void Start()
+    {
+        _playerController = FindObjectOfType<PlayerController>();
+    }
+
     private void Update()
     {
         // Checks for Fire1 button press, Attempts to pick up an object
@@ -19,11 +27,24 @@ public class PickupSystem : MonoBehaviour
         // Checks for Fire1 button release: releases the currently held object
         if (Input.GetButtonUp("Fire1"))
             ReleaseObject();
-        
+    }
+
+    private void FixedUpdate()
+    {
         // If an object is being picked up, update its position
+        // Uses the physics accurate movement
         if (IsPickingUp && _pickedObject != null)
-            UpdateObjectPosition();
-        
+            if (_pickedObject.IsColliding)
+                UpdateObjectPosition(true);
+    }
+
+    private void LateUpdate()
+    {
+        // If an object is being picked up, update its position
+        // Uses the PRETTIER NON-physics accurate movement
+        if (IsPickingUp && _pickedObject != null)
+            if (!_pickedObject.IsColliding)
+                UpdateObjectPosition(false);
     }
 
     private void TryPickupObject()
@@ -48,13 +69,26 @@ public class PickupSystem : MonoBehaviour
         }
     }
 
-    private void UpdateObjectPosition()
+    /// <summary>
+    /// Update the position of the currently held object to move it towards a target position.
+    /// </summary>
+    private void UpdateObjectPosition(bool usedRigidBodyMovement)
     {
-        // Reset the object's velocity to zero (prevents it from having any physics-based movement)
-        Rigidbody rb = _pickedObject.GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.velocity = Vector3.zero;
-        _pickedObject.transform.position = _pickedUpPosition.position;
+        // Get the Rigidbody component of the picked-up object
+        Rigidbody objRb = _pickedObject.GetComponent<Rigidbody>();
+        objRb.velocity = Vector3.zero;
+        objRb.maxAngularVelocity = 3;
+        objRb.drag = 0;
+        objRb.angularDrag = 0;
+        
+        // Calculate the target position
+        Vector3 targetPosition = _pickedUpPosition.position;
+
+        // Interpolate the object's position towards the target position
+        if (usedRigidBodyMovement)
+            objRb.MovePosition(Vector3.Lerp(objRb.position, targetPosition, Time.deltaTime * _pickedUpObjMoveSpeed));
+        else
+            _pickedObject.transform.position = Vector3.Lerp(_pickedObject.transform.position, targetPosition, Time.deltaTime * _pickedUpObjMoveSpeed);
     }
 
     private void ReleaseObject()

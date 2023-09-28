@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     
     public static bool CanMove { get; set; } = true;
+    public bool IsMoving => ClampInput.magnitude > 0;
     
     [Header("References")]
     [SerializeField] private Transform _camera;
@@ -13,7 +14,7 @@ public class PlayerController : MonoBehaviour
     
     [Header("Movement")]
     [SerializeField] private float _moveSpeed = 3;
-    private Vector3 NormInput => Vector3.ClampMagnitude(new Vector3(_vInput, 0, _hInput), 1);
+    private Vector3 ClampInput => Vector3.ClampMagnitude(new Vector3(_vInput, 0, _hInput), 1);
     private float _vInput;
     private float _hInput;
     
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // Moves the player towards the current rotation. Delta Time is required, because its a constant force.
-        Vector3 delta = (transform.forward * NormInput.x) + (transform.right * NormInput.z);
+        Vector3 delta = (transform.forward * ClampInput.x) + (transform.right * ClampInput.z);
         delta = delta * _moveSpeed * Time.deltaTime; 
         
         // Applies the jump force to the vertical velocity delta Time is not required, because its a instantaneous force.

@@ -1,14 +1,23 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
+
+[RequireComponent(typeof(Rigidbody))]
 public class Pickable : MonoBehaviour
 {
 
     public bool IsBeingCarried { get; set; } = false;
-    private Material _originalMaterial;
+    public bool IsColliding { get; private set; } = false;
     [SerializeField] private Renderer _renderer;
     
+    private Material _originalMaterial;
+    private Rigidbody _rigidbody;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
+
     private void Start()
     {
         IsBeingCarried = false;
@@ -17,10 +26,13 @@ public class Pickable : MonoBehaviour
 
     private void Update()
     {
-        if (IsBeingCarried)
-            this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
-        else
-            this.gameObject.layer = LayerMask.NameToLayer("Default");
+        _rigidbody.useGravity = !IsBeingCarried;
+        
+        // Disables collision with the player, when being picked up
+        if (IsBeingCarried) this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
+        else this.gameObject.layer = LayerMask.NameToLayer("Default");
+        
+        if (IsBeingCarried) Debug.Log(gameObject.name + "Is Colliding: " + IsColliding);
     }
 
     public void SetMaterial(Material material)
@@ -32,5 +44,14 @@ public class Pickable : MonoBehaviour
     {
         _renderer.material = _originalMaterial;
     }
-    
+
+    private void OnCollisionStay(Collision other)
+    {
+        IsColliding = true;
+    }
+
+    private void OnCollisionExit(Collision other)
+    {
+        IsColliding = false;
+    }
 }
