@@ -5,13 +5,16 @@ public class PickupSystem : MonoBehaviour
 {
     
     public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
-    private Pickable _pickedObject; // Reference to the object being picked up
+    
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
-    [SerializeField, Range(1, 10)] private float _objMoveSpeed = 7f;
-    [SerializeField, Range(1, 5)] private float _objMaxDisFromCamera = 3f;
+    [SerializeField, Range(1, 10)] private float _objMoveSpeed = 6f;
+    [SerializeField, Range(1, 5)] private float _objMaxDisFromCamera = 3.5f; // should be higher than the _pickupRange
     [SerializeField] private Transform _pickedUpPosition;
     [SerializeField] private Material _beingPickedMaterial;
-  
+    
+    private Pickable _pickedObject; // Reference to the object being picked up
+    private Vector3 _objLastVelocity = Vector3.zero; // used in order to keep the release force of the object.
+    
     private void Update()
     {
         // Checks for Fire1 button press, Attempts to pick up an object
@@ -62,13 +65,9 @@ public class PickupSystem : MonoBehaviour
             _pickedObject.IsBeingCarried = true;
         }
     }
-
-    /// <summary>
-    /// Update the position of the currently held object to move it towards a target position.
-    /// </summary>
-    private void UpdateObjectPosition(bool usedRigidBodyMovement)
+    
+    private void UpdateObjectPosition(bool useRigidbodyMovement)
     {
-        
         // Get the Rigidbody component of the picked-up object, and sets it
         Rigidbody objRb = _pickedObject.GetComponent<Rigidbody>();
         objRb.velocity = Vector3.zero;
@@ -83,25 +82,40 @@ public class PickupSystem : MonoBehaviour
             return;
         }
 
-        // Interpolate the object's position towards the target position
+        // Calculate the target position where the object should be held.
         Vector3 targetPosition = _pickedUpPosition.position;
-        if (usedRigidBodyMovement) 
-            objRb.MovePosition(Vector3.Lerp(objRb.position, targetPosition, Time.deltaTime * _objMoveSpeed));
-        else 
-            _pickedObject.transform.position = Vector3.Lerp(_pickedObject.transform.position, targetPosition, Time.deltaTime * _objMoveSpeed);
+        
+        // Interpolate the object's position towards the target position using Lerp (USING THE RIGIDBODY).
+        // Even though it isn't moved with the rigidbody the velocity must be stored in order to keep the release force.
+        // otherwise the object will just fall in a straight line when released.
+        Vector3 newPosition = Vector3.Lerp(objRb.position, targetPosition, Time.fixedDeltaTime * _objMoveSpeed);
+        _objLastVelocity = (newPosition - objRb.position) / Time.fixedDeltaTime;
+
+        if (useRigidbodyMovement)
+        {
+            objRb.velocity = _objLastVelocity;
+        }
+        else
+        {
+            // Interpolate the object's position towards the target position using Lerp (USING TRANSFORM).
+            newPosition = Vector3.Lerp(_pickedObject.transform.position, targetPosition, Time.deltaTime * _objMoveSpeed);
+            _pickedObject.transform.position = newPosition;
+        }
     }
 
     private void ReleaseObject()
     {
         if (IsPickingUp && _pickedObject != null)
         {
+            // applies the release force on the released object
+            _pickedObject.GetComponent<Rigidbody>().velocity = _objLastVelocity;
             // Restores the original material of the object
             _pickedObject.ResetToOriginalMaterial();
             // Resets the flag and reference to indicate that we are not picking up an object anymore
             IsPickingUp = false;
             // Updates the picked object internal state
             _pickedObject.IsBeingCarried = false;
-            // sets the current picked object one to be null
+            // Sets the current picked object one to be null
             _pickedObject = null;
         }
     }
