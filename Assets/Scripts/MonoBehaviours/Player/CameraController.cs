@@ -4,15 +4,11 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     
-    // Encapsulation
-    public float MouseSensitivity
-    {
-        get => _mouseSensitivity; 
-        set => _mouseSensitivity = value <= 10 ? value : 10;
-    }
+    
+    [Header("Data")]
+    [SerializeField] private GameSettingsData _gameSettingsData;
     
     [Header("Rotation")]
-    [SerializeField, Range(1, 10)] private float _mouseSensitivity = 1f;
     [SerializeField, Range(1, 99)] private float _rotationXRange = 80f;
     private float _rotationX;
     private float _rotationY;
@@ -43,8 +39,9 @@ public class CameraController : MonoBehaviour
     
     private void Rotate()
     {
-        _rotationY += _mouseX * _mouseSensitivity;
-        _rotationX -= _mouseY * _mouseSensitivity;
+        float mouseSensitivity = _gameSettingsData.MouseSensitivity; 
+        _rotationY += _mouseX * mouseSensitivity;
+        _rotationX -= _mouseY * mouseSensitivity;
 
         // Keeps the X axis within range 
         _rotationX = Mathf.Clamp(_rotationX, -_rotationXRange, _rotationXRange);
