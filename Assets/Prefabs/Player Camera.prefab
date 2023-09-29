@@ -269,9 +269,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickupRange: 2.5
-  _objMoveSpeed: 6
   _objMaxDisFromCamera: 3.5
+  _objMoveSpeed: 6
   _pickedUpPosition: {fileID: 234598794568985366}
+  _outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  _outlineWidth: 2
   _beingPickedMaterial: {fileID: 2100000, guid: 2db03d2d931059e4ea31e5f772c73c55,
     type: 2}
 --- !u!20 &5050187347668970843
