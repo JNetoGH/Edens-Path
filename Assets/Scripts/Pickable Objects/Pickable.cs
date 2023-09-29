@@ -6,7 +6,11 @@ public class Pickable : MonoBehaviour
 {
 
     public bool IsBeingCarried { get; set; } = false;
+    public bool IsBeingHitByPickUpRay { get; set; } = false;
     public bool IsColliding { get; private set; } = false;
+    
+    public Outline OutlineScript => _outlineScript;
+    [SerializeField] private Outline _outlineScript;
     [SerializeField] private Renderer _renderer;
     
     private Material _originalMaterial;
@@ -31,6 +35,9 @@ public class Pickable : MonoBehaviour
         // Disables collision with the player, when being picked up
         if (IsBeingCarried) this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
         else this.gameObject.layer = LayerMask.NameToLayer("Default");
+        
+        // Syncs the outline for both either being carried or hit by the camera's ray
+        _outlineScript.enabled = IsBeingHitByPickUpRay || IsBeingCarried;
     }
 
     public void SetMaterial(Material material)

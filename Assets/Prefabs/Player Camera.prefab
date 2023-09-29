@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 2616502474016201759}
   - component: {fileID: 2331526588057698559}
   - component: {fileID: 7025917897061127958}
-  - component: {fileID: 6892907408184000279}
   - component: {fileID: 6839095783774746867}
+  - component: {fileID: 755596987402060471}
   m_Layer: 0
   m_Name: Player Hand L
   m_TagString: Untagged
@@ -28,13 +28,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 258057153754018311}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.19474798, y: -0, z: -0, w: 0.9808533}
+  m_LocalRotation: {x: -0.19509031, y: 0, z: 0, w: 0.98078537}
   m_LocalPosition: {x: -0.75, y: -0.35, z: 0.85}
   m_LocalScale: {x: 0.29, y: 0.29000002, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5941200362851689574}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -22.5, y: 0, z: 0}
 --- !u!33 &2331526588057698559
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -85,27 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6892907408184000279
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258057153754018311}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &6839095783774746867
 Animator:
   serializedVersion: 5
@@ -116,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 258057153754018311}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d42426e3f15e678429befc19c83ed196, type: 2}
+  m_Controller: {fileID: 9100000, guid: 4742d8942b98ffd408f4ceafee507f4b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -127,6 +106,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &755596987402060471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258057153754018311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17da12c94c44232418e0d709ee71c26a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupSytem: {fileID: 8994832783002109896}
 --- !u!1 &2562893202679915366
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,9 +269,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pickupRange: 2.5
+  _objMoveSpeed: 6
+  _objMaxDisFromCamera: 3.5
+  _pickedUpPosition: {fileID: 234598794568985366}
   _beingPickedMaterial: {fileID: 2100000, guid: 2db03d2d931059e4ea31e5f772c73c55,
     type: 2}
-  _pickedUpPosition: {fileID: 234598794568985366}
 --- !u!20 &5050187347668970843
 Camera:
   m_ObjectHideFlags: 0
@@ -396,6 +390,7 @@ GameObject:
   - component: {fileID: 1031284467404527443}
   - component: {fileID: 3030995097193340604}
   - component: {fileID: 1816347120355884353}
+  - component: {fileID: 5728974717569232021}
   m_Layer: 0
   m_Name: Player Hand R
   m_TagString: Untagged
@@ -411,13 +406,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5963054201056097128}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.19474798, y: -0, z: -0, w: 0.9808533}
+  m_LocalRotation: {x: -0.19509031, y: 0, z: 0, w: 0.98078537}
   m_LocalPosition: {x: 0.75, y: -0.35, z: 0.85}
   m_LocalScale: {x: 0.29, y: 0.29000002, z: 0.971}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5941200362851689574}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -22.5, y: 0, z: 0}
 --- !u!33 &7786788952248023785
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -499,7 +494,7 @@ Animator:
   m_GameObject: {fileID: 5963054201056097128}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ff83c813744869340a8d7e9c9c261cd1, type: 2}
+  m_Controller: {fileID: 9100000, guid: d42426e3f15e678429befc19c83ed196, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -510,3 +505,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5728974717569232021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5963054201056097128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17da12c94c44232418e0d709ee71c26a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pickupSytem: {fileID: 8994832783002109896}
