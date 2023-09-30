@@ -29,13 +29,26 @@ public class Pickable : MonoBehaviour
 
     private void Update()
     {
-        // Syncs the gravity use
-        _rigidbody.useGravity = !IsBeingCarried;
-        
-        // Disables collision with the player, when being picked up
-        if (IsBeingCarried) this.gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
-        else this.gameObject.layer = LayerMask.NameToLayer("Default");
-        
+        // When being picked up:
+        // - Disables collision with the player.
+        // - Sets a limit to its angular velocity so it doesn't go crazy under player's control 
+        // - Disables Gravity
+        if (IsBeingCarried)
+        {
+            gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
+            if (IsColliding)
+                _rigidbody.maxAngularVelocity = 3;
+            else
+                _rigidbody.maxAngularVelocity = 7;
+            _rigidbody.useGravity = false;
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Default");
+            _rigidbody.maxAngularVelocity = 7;
+            _rigidbody.useGravity = true;
+        }
+
         // Syncs the outline for both either being carried or hit by the camera's ray
         _outlineScript.enabled = IsBeingHitByPickUpRay || IsBeingCarried;
     }

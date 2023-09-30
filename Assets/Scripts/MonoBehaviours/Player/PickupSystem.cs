@@ -122,11 +122,10 @@ public class PickupSystem : MonoBehaviour
     
     private void UpdateObjectPosition(bool useRigidbodyMovement)
     {
-        // Get the Rigidbody component of the picked-up object, and sets it
+        // Get the Rigidbody component of the picked-up object, and sets it velocity to zero
+        // So it doesn't interferes with my custom systems/
         Rigidbody objRb = _pickedObject.GetComponent<Rigidbody>();
         objRb.velocity = Vector3.zero;
-        objRb.maxAngularVelocity = 3;
-        objRb.drag = 0;
         
         // checks if the object got stuck too far away from the camera and releases it if so
         Vector3 distanceFromCamera = transform.position - _pickedObject.transform.position;
