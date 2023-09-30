@@ -1,20 +1,26 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class HandAnimationStateSync : MonoBehaviour
 {
 
-    [SerializeField] private PickupSystem _pickupSytem;
     private Animator _animator;
+    private PickupSystem _pickupSystem;
+    private PlayerController _playerController;
 
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _pickupSystem = FindObjectOfType<PickupSystem>();
+        _playerController = FindObjectOfType<PlayerController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        _animator.SetBool("isPickingUp", _pickupSytem.IsPickingUp);
+        _animator.SetBool("isPickingUp", _pickupSystem.IsPickingUp);
+        _animator.SetBool("isWalking", _playerController.IsMoving);
     }
+    
 }

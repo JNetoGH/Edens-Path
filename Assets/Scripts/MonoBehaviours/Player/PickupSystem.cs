@@ -24,7 +24,7 @@ public class PickupSystem : MonoBehaviour
     private void Update()
     {
         TryOutlinePickablesInRangeOfTheCameraRay();
-
+        
         // Checks for Fire1 button press, Attempts to pick up an object
         if (Input.GetButtonDown("Fire1"))
             TryPickupObject();
