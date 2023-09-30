@@ -21,6 +21,7 @@ public class HandAnimationStateSync : MonoBehaviour
     {
         _animator.SetBool("isPickingUp", _pickupSystem.IsPickingUp);
         _animator.SetBool("isWalking", _playerController.IsMoving);
+        _animator.SetBool( "isJumping", _playerController.VerticalVelocity > 0);
     }
     
 }

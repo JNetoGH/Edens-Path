@@ -6,7 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     
     public static bool CanMove { get; set; } = true;
-    public bool IsMoving => ClampInput.magnitude > 0;
+    public bool IsMoving => (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && CanMove;
+    public float VerticalVelocity { get; private set; } = 0;
+    public const float GroundedDecrement = -0.5f;
     
     [Header("References")]
     [SerializeField] private Transform _camera;
@@ -26,8 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Range(1, 100)] private float _gravityForce = 30f;
     [SerializeField, Range(0.1f, 3f), Tooltip(MultTip)] private float _gravityMultiplier = 1;
     private const string MultTip = "How stong gravity feels like (1 is good)";
-    private float _verticalVelocity; 
     
+
     private void Awake()
     {
         CanMove = true;
@@ -38,7 +40,8 @@ public class PlayerController : MonoBehaviour
     {
         UpdateInputs();
         RotatePlayerAccordingToCamera();
-        if (CanMove) Move();
+        if (CanMove) 
+            Move();
     }
     
     private void UpdateInputs()
@@ -64,19 +67,20 @@ public class PlayerController : MonoBehaviour
         delta = delta * _moveSpeed * Time.deltaTime; 
         
         // Applies the jump force to the vertical velocity delta Time is not required, because its a instantaneous force.
-        if (_jumpInput) _verticalVelocity = _jumpForce;
+        if (_jumpInput) VerticalVelocity = _jumpForce;
             
         // Applies custom gravity, Delta Time is required because its a constant force
-        // Reset of vertical velocity when on the ground to prevent accumulation,
+        // Resets of vertical velocity when on the ground to prevent accumulation,
+        // with is a non-0 value to prevent character controller failures like the ground detector not working properly.
         // this is important to ensure that the character doesn't start floating after landing.
-        if (!_characterController.isGrounded) _verticalVelocity -= _gravityMultiplier * _gravityForce * Time.deltaTime;
-        else if (!_jumpInput) _verticalVelocity = -0.5f; 
+        if (!_characterController.isGrounded) VerticalVelocity -= _gravityMultiplier * _gravityForce * Time.deltaTime;
+        else if (!_jumpInput) VerticalVelocity = GroundedDecrement; 
         
         // Resets the jump input.
         _jumpInput = false; 
         
         // Applies the vertical velocity to the movement. Delta Time is required because its a constant force.
-        delta.y += _verticalVelocity * Time.deltaTime;
+        delta.y += VerticalVelocity * Time.deltaTime;
         
         // Moves the character
         _characterController.Move(delta);
