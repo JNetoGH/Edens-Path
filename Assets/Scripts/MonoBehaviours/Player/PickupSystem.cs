@@ -23,6 +23,10 @@ public class PickupSystem : MonoBehaviour
     
     private void Update()
     {
+        // Checking for player being able to move
+        if (!PlayerController.CanMove)
+            return;
+        
         TryOutlinePickablesInRangeOfTheCameraRay();
         
         // Checks for Fire1 button press, Attempts to pick up an object
@@ -30,8 +34,24 @@ public class PickupSystem : MonoBehaviour
             TryPickupObject();
         
         // Checks for Fire1 button release: releases the currently held object
-        if (Input.GetButtonUp("Fire1"))
+        // As long as the button is up it will be released.
+        // GetButtonUp it can lead to glitches like, going into a menu stop pressing the button but because it
+        // gets tru only on that frame, the release will get ignored, the objet will be stuck, and the player
+        // will need to press and release the button again.
+        if (!Input.GetButton("Fire1"))
             ReleaseObject();
+        
+        // Checks for Fire 2 button and adds the object to the inventory
+        if (Input.GetButtonUp("Fire2") && IsPickingUp && _pickedObject != null)
+        {
+            Inventory inventory = FindObjectOfType<Inventory>(includeInactive: true);
+            if (inventory == null) 
+                return;
+            inventory.Add(_pickedObject);
+            Destroy(_pickedObject.gameObject);
+            IsPickingUp = false;
+            _pickedObject = null;
+        }
     }
     
     private void FixedUpdate()
@@ -143,7 +163,7 @@ public class PickupSystem : MonoBehaviour
         // otherwise the object will just fall in a straight line when released.
         Vector3 newPosition = Vector3.Lerp(objRb.position, targetPosition, Time.fixedDeltaTime * _objMoveSpeed);
         _objLastVelocity = (newPosition - objRb.position) / Time.fixedDeltaTime;
-
+        
         if (useRigidbodyMovement)
         {
             objRb.velocity = _objLastVelocity;

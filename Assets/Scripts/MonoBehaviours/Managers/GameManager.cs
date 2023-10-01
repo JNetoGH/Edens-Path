@@ -7,9 +7,10 @@ public class GameManager : MonoBehaviour
 {
     
     [Header("References")]
-    [SerializeField] private CameraController _cameraController;
     [SerializeField] private GameObject _settingsMenu;
-    private bool IsInSettingsMenu { get; set; } = false; 
+    [SerializeField] private GameObject _inventoryContainer;
+    private bool IsInSettingsMenu { get; set; } = false;
+    private bool IsInInventory { get; set; } = false;
     
     private void Start()
     {
@@ -27,8 +28,20 @@ public class GameManager : MonoBehaviour
             ResetGame();
         
         // Menu Button Pressed
-        if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
+        if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null && !IsInInventory)
             SwitchMenuState();
+        
+        // Inventory Menus
+        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu)
+        {
+            _inventoryContainer.SetActive(true);
+            IsInInventory = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            _inventoryContainer.SetActive(false);
+            IsInInventory = false;
+        }
     }
     
     public void SwitchMenuState()

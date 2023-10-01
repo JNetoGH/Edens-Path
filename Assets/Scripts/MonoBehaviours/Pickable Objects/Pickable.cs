@@ -1,16 +1,21 @@
+using ScriptableObjects;
 using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody))]
 public class Pickable : MonoBehaviour
 {
-
+    
     public bool IsBeingCarried { get; set; } = false;
     public bool IsBeingHitByPickUpRay { get; set; } = false;
     public bool IsColliding { get; private set; } = false;
+ 
+    [Header("Data")]
+    public PickableObjectData pickableObjectData;
     
-    public Outline OutlineScript => _outlineScript;
+    [Header("Rendering")]
     [SerializeField] private Outline _outlineScript;
+    public Outline OutlineScript => _outlineScript;
     [SerializeField] private Renderer _renderer;
     
     private Material _originalMaterial;

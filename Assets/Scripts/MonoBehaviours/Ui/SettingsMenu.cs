@@ -16,13 +16,6 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _dropdownTargetFpsValueText;
     [SerializeField] private Slider _sliderMouseSensibility;
     
-    private CameraController _cameraController;
-    
-    private void Start()
-    {
-        _cameraController = FindObjectOfType<CameraController>();
-    }
-    
     private void OnEnable()
     {
         GameManager.ReleaseTheCursor();
