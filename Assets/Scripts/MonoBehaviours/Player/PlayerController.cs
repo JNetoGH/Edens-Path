@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour
     private CharacterController _characterController;
     
     [Header("Movement")]
-    [SerializeField] private float _moveSpeed = 3;
+    [SerializeField, Range(1, 10)] private float _forwardMoveSpeed = 3;
+    [SerializeField, Range(1, 10)] private float _backwardMoveSpeed = 1.75f;
     private Vector3 ClampInput => Vector3.ClampMagnitude(new Vector3(_vInput, 0, _hInput), 1);
     private float _vInput;
     private float _hInput;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateInputs();
         RotatePlayerAccordingToCamera();
+        // Calling the move in the update instead of fixed syncs better with the camera.
         if (CanMove) 
             Move();
     }
@@ -64,9 +66,17 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         // Moves the player towards the current rotation. Delta Time is required, because it's constant.
-        Vector3 delta = (transform.forward * ClampInput.x) + (transform.right * ClampInput.z);
-        delta = delta * _moveSpeed * Time.deltaTime; 
+        Vector3 delta = Vector3.zero;
+        delta = (transform.forward * ClampInput.x) + (transform.right * ClampInput.z);
         
+        // The player move faster when going forward and slower backwards.
+        // Checks if the player is moving forwards or backwards before appling the corresponding move speed.
+        if (_vInput > 0)
+            delta = delta * Time.deltaTime * _forwardMoveSpeed; 
+        else
+            delta = delta * Time.deltaTime * _backwardMoveSpeed;
+
+
         // Applies the jump force to the vertical velocity delta Time is not required, because it's an instantaneous force.
         if (_jumpInput) VerticalVelocity = _jumpForce;
             
