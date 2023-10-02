@@ -15,10 +15,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsInSettingsMenu = _settingsMenu.activeInHierarchy;
-        if (!IsInSettingsMenu)
-            LockTheCursor();
-        else
-            ReleaseTheCursor();   
+        IsInInventory = _inventoryContainer.activeInHierarchy;
+        
+        if (!IsInSettingsMenu || !IsInInventory) LockTheCursor();
+        else ReleaseTheCursor();   
     }
 
     private void Update()

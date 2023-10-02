@@ -63,14 +63,14 @@ public class PlayerController : MonoBehaviour
     
     private void Move()
     {
-        // Moves the player towards the current rotation. Delta Time is required, because its a constant force.
+        // Moves the player towards the current rotation. Delta Time is required, because it's constant.
         Vector3 delta = (transform.forward * ClampInput.x) + (transform.right * ClampInput.z);
         delta = delta * _moveSpeed * Time.deltaTime; 
         
-        // Applies the jump force to the vertical velocity delta Time is not required, because its a instantaneous force.
+        // Applies the jump force to the vertical velocity delta Time is not required, because it's an instantaneous force.
         if (_jumpInput) VerticalVelocity = _jumpForce;
             
-        // Applies custom gravity, Delta Time is required because its a constant force
+        // Applies custom gravity, Delta Time is required because it's a constant force
         // Resets of vertical velocity when on the ground to prevent accumulation,
         // with is a non-0 value to prevent character controller failures like the ground detector not working properly.
         // this is important to ensure that the character doesn't start floating after landing.
@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
         // Resets the jump input.
         _jumpInput = false; 
         
-        // Applies the vertical velocity to the movement. Delta Time is required because its a constant force.
+        // Applies the vertical velocity to the movement. Delta Time is required because it's constant.
         delta.y += VerticalVelocity * Time.deltaTime;
         
         // Moves the character by applying the movement delta to it.
