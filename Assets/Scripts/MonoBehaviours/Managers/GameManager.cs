@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Cursor = UnityEngine.Cursor;
 
 
@@ -8,14 +9,14 @@ public class GameManager : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private GameObject _settingsMenu;
-    [SerializeField] private GameObject _inventoryContainer;
+    [SerializeField] private GameObject _inventory;
     public bool IsInSettingsMenu { get; private set; } = false;
     public bool IsInInventory { get; private set; } = false;
     
     private void Start()
     {
         IsInSettingsMenu = _settingsMenu.activeInHierarchy;
-        IsInInventory = _inventoryContainer.activeInHierarchy;
+        IsInInventory = _inventory.activeInHierarchy;
         
         if (!IsInSettingsMenu || !IsInInventory) LockTheCursor();
         else ReleaseTheCursor();   
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
         // Inventory Button Pressed
         if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu)
         {
-            _inventoryContainer.SetActive(true);
+            _inventory.SetActive(true);
             IsInInventory = true;
         }
         else if (Input.GetKeyDown(KeyCode.O))
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
     // Also called by the Inventory's Return Button
     public void CloseInventory()
     {
-        _inventoryContainer.SetActive(false);
+        _inventory.SetActive(false);
         IsInInventory = false;
     }
     
