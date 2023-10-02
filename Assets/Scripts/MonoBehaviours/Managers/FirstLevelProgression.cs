@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
 public class FirstLevelProgression : MonoBehaviour
 {
-    [SerializeField] private List<LitableStick> _sticks;
+    private List<LitableStick> _sticks;
     [SerializeField] private GameObject _bridge;
     [SerializeField] private float _bridgeRisingSpeed = 2;
     [SerializeField] private float _bridgeAppearingSpeed = 3;
@@ -23,8 +24,14 @@ public class FirstLevelProgression : MonoBehaviour
         _bridge.SetActive(false);
     }
 
-    public void Validate(LevelProgressionHandler handler)
+    // Called by the _onLevelValidation at the LevelProgressionHandler
+    public void OnValidation(LevelProgressionHandler handler)
     {
+        // Updates the list of Litables Sticks to be verified every frame,
+        // because they can be instantiated from the inventory.
+        _sticks = FindObjectsOfType<LitableStick>().ToList<LitableStick>();
+
+        // Then checks if any of them is on fire.
         bool isThereFire = false;
         _sticks.ForEach(s =>
         {
