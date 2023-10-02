@@ -29,9 +29,19 @@ public class GameManager : MonoBehaviour
             ResetGame();
         
         // Menu Button Pressed
-        if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null && !IsInInventory)
+        if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
+        {
             SwitchMenuState();
-        
+            
+            // after switching the stet of the menu ig the player was in the inventory, it will be closed and the menu open.
+            if (IsInSettingsMenu && IsInInventory)
+            {
+                CloseInventory();
+                ReleaseTheCursor();
+                PlayerController.CanMove = false;
+            }
+        }
+
         // Inventory Button Pressed
         if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu)
         {
