@@ -15,3 +15,5 @@ MonoBehaviour:
   id: 1
   itemName: Stick
   icon: {fileID: 0}
+  correspondingPickablePrefab: {fileID: 6187030611262969618, guid: 63d0ac47eb28f80448d1841aaa25dbf6,
+    type: 3}

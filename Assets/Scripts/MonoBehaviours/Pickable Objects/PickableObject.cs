@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody))]
-public class Pickable : MonoBehaviour
+public class PickableObject : MonoBehaviour
 {
     
     public bool IsBeingCarried { get; set; } = false;
@@ -36,7 +36,8 @@ public class Pickable : MonoBehaviour
     {
         // When being picked up:
         // - Disables collision with the player.
-        // - Sets a limit to its angular velocity so it doesn't go crazy under player's control 
+        // - Sets a higher limit to its angular velocity if colliding so it doesn't get wierd under player's control
+        //   dragging it around over surfaces. 
         // - Disables Gravity
         if (IsBeingCarried)
         {

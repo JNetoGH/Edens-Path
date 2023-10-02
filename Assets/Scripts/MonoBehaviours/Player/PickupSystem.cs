@@ -17,8 +17,8 @@ public class PickupSystem : MonoBehaviour
     [SerializeField, Range(1, 40)] private float _outlineWidth = 10f;
     [SerializeField] private Material _beingPickedMaterial;
     
-    private Pickable _pickedObject; // Reference to the object being picked up
-    private Pickable _currentOutlinedObject; // Reference to the previously highlighted object
+    private PickableObject _pickedObject; // Reference to the object being picked up
+    private PickableObject _currentOutlinedObject; // Reference to the previously highlighted object
     private Vector3 _objLastVelocity = Vector3.zero; // used in order to keep the release force of the object.
     
     private void Update()
@@ -84,8 +84,8 @@ public class PickupSystem : MonoBehaviour
         }
 
         // Checks if it's a Pickable and turn their outlines on
-        Pickable pickableHit = hit.collider.gameObject.GetComponent<Pickable>();
-        bool hasHitPickable = pickableHit != null;
+        PickableObject pickableObjectHit = hit.collider.gameObject.GetComponent<PickableObject>();
+        bool hasHitPickable = pickableObjectHit != null;
         if (!hasHitPickable) // pointing to a non-pickable gameObj
         {
             TryRemoveOutline(_currentOutlinedObject);
@@ -94,16 +94,16 @@ public class PickupSystem : MonoBehaviour
         
         // If the currently highlighted object is not the same as the current object,
         // turn off the outline of the previously highlighted object
-        if (_currentOutlinedObject != pickableHit)
+        if (_currentOutlinedObject != pickableObjectHit)
         {
             if (_currentOutlinedObject != null)
                 _currentOutlinedObject.IsBeingHitByPickUpRay = false;
-            _currentOutlinedObject = pickableHit; // Updates the reference
+            _currentOutlinedObject = pickableObjectHit; // Updates the reference
             TryOutlinePickableObject(_currentOutlinedObject);
         }
     }
 
-    private void TryRemoveOutline(Pickable outlined)
+    private void TryRemoveOutline(PickableObject outlined)
     {
         if (outlined is null) 
             return;
@@ -111,7 +111,7 @@ public class PickupSystem : MonoBehaviour
         _currentOutlinedObject = null; // Clear the reference
     }
 
-    private void TryOutlinePickableObject(Pickable outlined)
+    private void TryOutlinePickableObject(PickableObject outlined)
     {
         if (outlined is null) 
             return;
@@ -129,7 +129,7 @@ public class PickupSystem : MonoBehaviour
         {
             // Gets the GameObject that was hit and check if its a pickable object
             // then changes its material to indicate that the object is being picked up, and set the control field.
-            _pickedObject = hit.collider.gameObject.GetComponent<Pickable>();
+            _pickedObject = hit.collider.gameObject.GetComponent<PickableObject>();
             if (_pickedObject == null)
                 return;
             _pickedObject.SetMaterial(_beingPickedMaterial);

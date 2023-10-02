@@ -2,14 +2,15 @@
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
 public class Inventory : MonoBehaviour
 {
     
-    [Header("Items list")]
-    public List<PickableObjectData> _pickableObjectsList = new List<PickableObjectData> ();
+    [FormerlySerializedAs("_pickableObjectsList")] [Header("Items list")]
+    public List<PickableObjectData> pickableObjectsList = new List<PickableObjectData> ();
     
     [Header("Instancing References")]
     [SerializeField] private Transform _inventoryItemsParent;
@@ -28,17 +29,17 @@ public class Inventory : MonoBehaviour
         PlayerController.CanMove = true;
     }
 
-    public void Add(Pickable pickableObject)
+    public void Add(PickableObject pickableObjectObject)
     {
-        _pickableObjectsList.Add(pickableObject.pickableObjectData);
+        pickableObjectsList.Add(pickableObjectObject.pickableObjectData);
     }
-
-    public void Remove(Pickable pickableObject)
+    
+    public void Remove(PickableObjectData pickableObjectData)
     {
-        _pickableObjectsList.Remove(pickableObject.pickableObjectData);
+        pickableObjectsList.Remove(pickableObjectData);
     }
-
-    private void BuildInventoryItemsBasedOnList()
+    
+    public void BuildInventoryItemsBasedOnList()
     {
         // Clears the InventoryItem already Instantiated, before rebuilding, so they don't get cloned.
         // Transform Component implements the IEnumerable interface, when in a foreach, it iterates over its children.
@@ -46,18 +47,27 @@ public class Inventory : MonoBehaviour
             Destroy(existingChild.gameObject);
         
         // Builds the InventoryItems bases on the ScriptableObjects list.
-        foreach (PickableObjectData data in _pickableObjectsList)
-            FromDataToInventoryItem(data);
+        for (int i = 0; i < pickableObjectsList.Count; i++)
+        {
+            PickableObjectData data = pickableObjectsList[i];
+            FromDataToInventoryItem(data, i);
+        }
     }
     
-    private void FromDataToInventoryItem(PickableObjectData data)
+    private void FromDataToInventoryItem(PickableObjectData data, int indexInInventory)
     {
+        // Creates a GameObject from the Inventory Item Prefab
         GameObject inventoryObj = Instantiate(_inventoryItemPrefab, _inventoryItemsParent);
+
+        // Sets its logical information via the InventoryItemController script
+        InventoryItemController inventoryItemController = inventoryObj.GetComponent<InventoryItemController>();
+        inventoryItemController.pickableObjectData = data;
+        inventoryItemController.indexInInventory = indexInInventory;
         
+        // Sets its style according to the PickableObjectData provided
         TextMeshProUGUI itemNameText = inventoryObj.GetComponentInChildren<TextMeshProUGUI>();
         Image itemImage = inventoryObj.transform.Find("ItemImage").GetComponentInChildren<Image>();
         itemNameText.text = data.itemName;
-       
         if (data.icon is not null) 
             itemImage.sprite = data.icon;
     }

@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject _settingsMenu;
     [SerializeField] private GameObject _inventoryContainer;
-    private bool IsInSettingsMenu { get; set; } = false;
-    private bool IsInInventory { get; set; } = false;
+    public bool IsInSettingsMenu { get; private set; } = false;
+    public bool IsInInventory { get; private set; } = false;
     
     private void Start()
     {
@@ -31,23 +31,28 @@ public class GameManager : MonoBehaviour
         if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null && !IsInInventory)
             SwitchMenuState();
         
-        // Inventory Menus
+        // Inventory Button Pressed
         if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu)
         {
             _inventoryContainer.SetActive(true);
             IsInInventory = true;
         }
         else if (Input.GetKeyDown(KeyCode.O))
-        {
-            _inventoryContainer.SetActive(false);
-            IsInInventory = false;
-        }
+            CloseInventory();
     }
     
+    // Also called by the Inventory's Resume Button
     public void SwitchMenuState()
     {
         IsInSettingsMenu = !IsInSettingsMenu;
         _settingsMenu.SetActive(IsInSettingsMenu);
+    }
+
+    // Also called by the Inventory's Return Button
+    public void CloseInventory()
+    {
+        _inventoryContainer.SetActive(false);
+        IsInInventory = false;
     }
     
     public static void LockTheCursor()
