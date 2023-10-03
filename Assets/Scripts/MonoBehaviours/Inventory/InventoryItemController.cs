@@ -10,11 +10,10 @@ public class InventoryItemController: MonoBehaviour
     [HideInInspector] public int indexInInventory;
     
     // Called by the button component on the Inventory Item Prefab
-    public void InstantiateCorrespondingPickableAndRemoveFromInventory()
+    public void InstantiateCorrespondingToPickableObjectDataAndRemoveFromInventory()
     {
         if (CheckForErrors()) 
             return;
-
         
         // Tries to find and set an Instantiation point using the PickableObjectInstantiationPoint taf
         GameObject instantiationPoint = GameObject.FindWithTag("PickableObjectInstantiationPoint");

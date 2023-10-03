@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -17,7 +18,7 @@ public class PickableObject : MonoBehaviour
     [Header("Rendering")]
     [SerializeField] private Outline _outlineScript;
     public Outline OutlineScript => _outlineScript;
-    [SerializeField] private List<Renderer> _renderes = new List<Renderer>();
+    [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
     
     private List<Material> _originalMaterials = new List<Material>();
     private Rigidbody _rigidbody;
@@ -30,10 +31,10 @@ public class PickableObject : MonoBehaviour
     private void Start()
     {
         IsBeingCarried = false;
-        if (_renderes.Count == 0)
+        if (_renderers.Count == 0)
             Debug.LogWarning($"tried to cache the default materials in PickableObject ({gameObject.name}), but there are no Renderes set");
         else 
-            _renderes.ForEach(r => _originalMaterials.Add(r.material));
+            _renderers.ForEach(r => _originalMaterials.Add(r.material));
     }
 
     private void Update()
@@ -62,24 +63,7 @@ public class PickableObject : MonoBehaviour
         // Syncs the outline for both either being carried or hit by the camera's ray
         _outlineScript.enabled = IsBeingHitByPickUpRay || IsBeingCarried;
     }
-
-    public void SetMaterial(Material material)
-    {
-        if (_renderes.Count == 0)
-            Debug.LogWarning($"tried to set materials in PickableObject {gameObject.name}, but there are no renderes set");
-        else
-            _renderes.ForEach(r => r.material = material);
-    }
     
-    public void ResetToOriginalMaterial()
-    {
-        if (_renderes.Count == 0)
-            Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there are no renderes set");
-        else
-            for (int i = 0; i < _renderes.Count; i++)
-                _renderes[i].material = _originalMaterials[i];
-    }
-
     private void OnCollisionStay(Collision other)
     {
         IsColliding = true;
@@ -88,6 +72,24 @@ public class PickableObject : MonoBehaviour
     private void OnCollisionExit(Collision other)
     {
         IsColliding = false;
+    }
+
+    
+    public void SetMaterial(Material material)
+    {
+        if (_renderers.Count == 0)
+            Debug.LogWarning($"tried to set materials in PickableObject {gameObject.name}, but there are no renderes set");
+        else
+            _renderers.ForEach(r => r.material = material);
+    }
+    
+    public void ResetToOriginalMaterial()
+    {
+        if (_renderers.Count == 0)
+            Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there are no renderes set");
+        else
+            for (int i = 0; i < _renderers.Count; i++)
+                _renderers[i].material = _originalMaterials[i];
     }
     
 }

@@ -375,7 +375,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -834910343712255387}
         m_TargetAssemblyTypeName: InventoryItemController, Assembly-CSharp
-        m_MethodName: InstantiateCorrespondingPickableAndRemoveFromInventory
+        m_MethodName: InstantiateCorrespondingToPickableObjectDataAndRemoveFromInventory
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

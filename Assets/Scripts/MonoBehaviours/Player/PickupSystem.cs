@@ -202,4 +202,3 @@ public class PickupSystem : MonoBehaviour
     }
     
 }
-
