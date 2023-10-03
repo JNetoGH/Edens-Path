@@ -29,7 +29,8 @@ public class PickableObject : MonoBehaviour
     private void Start()
     {
         IsBeingCarried = false;
-        _originalMaterial = _renderer.material;
+        if (_renderer != null) _originalMaterial = _renderer.material;
+        else Debug.LogWarning($"tried to cache the default material in PickableObject {gameObject.name}, but there is no renderer set");
     }
 
     private void Update()
@@ -61,12 +62,14 @@ public class PickableObject : MonoBehaviour
 
     public void SetMaterial(Material material)
     {
-        _renderer.material = material;
+        if (_renderer != null) _renderer.material = material;
+        else Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there is no renderer set");
     }
     
     public void ResetToOriginalMaterial()
     {
-        _renderer.material = _originalMaterial;
+        if (_renderer != null) _renderer.material = _originalMaterial;
+        else Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there is no renderer set");
     }
 
     private void OnCollisionStay(Collision other)
