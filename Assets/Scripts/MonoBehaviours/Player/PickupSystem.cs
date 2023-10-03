@@ -113,7 +113,10 @@ public class PickupSystem : MonoBehaviour
 
     private void TryOutlinePickableObject(PickableObject outlined)
     {
+        // checks if the object is valid and if the Pickable script is turned on
         if (outlined is null) 
+            return;
+        if (outlined.enabled == false)
             return;
         outlined.IsBeingHitByPickUpRay = true;
         outlined.OutlineScript.OutlineColor = _outlineColor;
@@ -127,10 +130,12 @@ public class PickupSystem : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, _pickupRange))
         {
-            // Gets the GameObject that was hit and check if its a pickable object
+            // Gets the GameObject that was hit and check if its a pickable object, and if the script is enabled
             // then changes its material to indicate that the object is being picked up, and set the control field.
             _pickedObject = hit.collider.gameObject.GetComponent<PickableObject>();
             if (_pickedObject == null)
+                return;
+            if (_pickedObject.enabled == false)
                 return;
             _pickedObject.SetMaterial(_beingPickedMaterial);
             IsPickingUp = true;
