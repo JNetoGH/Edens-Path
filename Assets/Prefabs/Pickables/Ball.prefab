@@ -50,8 +50,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickableObjectData: {fileID: 11400000, guid: e916f13e90d941441bfb3555a0c42f9a, type: 2}
+  _renderes:
+  - {fileID: 5674284480903748632}
   _outlineScript: {fileID: 8109614059201044010}
-  _renderer: {fileID: 5674284480903748632}
 --- !u!114 &8109614059201044010
 MonoBehaviour:
   m_ObjectHideFlags: 0

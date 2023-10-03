@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -16,9 +17,10 @@ public class PickableObject : MonoBehaviour
     [Header("Rendering")]
     [SerializeField] private Outline _outlineScript;
     public Outline OutlineScript => _outlineScript;
-    [SerializeField] private Renderer _renderer;
+    [SerializeField] private List<Renderer> _renderes = new List<Renderer>();
     
-    private Material _originalMaterial;
+    
+    private List<Material> _originalMaterials = new List<Material>();
     private Rigidbody _rigidbody;
 
     private void Awake()
@@ -29,8 +31,10 @@ public class PickableObject : MonoBehaviour
     private void Start()
     {
         IsBeingCarried = false;
-        if (_renderer != null) _originalMaterial = _renderer.material;
-        else Debug.LogWarning($"tried to cache the default material in PickableObject {gameObject.name}, but there is no renderer set");
+        if (_renderes.Count == 0)
+            Debug.LogWarning($"tried to cache the default materials in PickableObject ({gameObject.name}), but there are no Renderes set");
+        else 
+            _renderes.ForEach(r => _originalMaterials.Add(r.material));
     }
 
     private void Update()
@@ -62,14 +66,19 @@ public class PickableObject : MonoBehaviour
 
     public void SetMaterial(Material material)
     {
-        if (_renderer != null) _renderer.material = material;
-        else Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there is no renderer set");
+        if (_renderes.Count == 0)
+            Debug.LogWarning($"tried to set materials in PickableObject {gameObject.name}, but there are no renderes set");
+        else
+            _renderes.ForEach(r => r.material = material);
     }
     
     public void ResetToOriginalMaterial()
     {
-        if (_renderer != null) _renderer.material = _originalMaterial;
-        else Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there is no renderer set");
+        if (_renderes.Count == 0)
+            Debug.LogWarning($"tried to set material in PickableObject {gameObject.name}, but there are no renderes set");
+        else
+            for (int i = 0; i < _renderes.Count; i++)
+                _renderes[i].material = _originalMaterials[i];
     }
 
     private void OnCollisionStay(Collision other)

@@ -218,8 +218,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickableObjectData: {fileID: 11400000, guid: 3fe85ce34b01a6746bac4ae7a3a0a6a6, type: 2}
+  _renderes:
+  - {fileID: 5492154245912018480}
+  - {fileID: 488320213092331615}
+  - {fileID: 1632402111258009245}
+  - {fileID: 80872222660836782}
   _outlineScript: {fileID: -7378847569684979599}
-  _renderer: {fileID: 0}
 --- !u!114 &-7378847569684979599
 MonoBehaviour:
   m_ObjectHideFlags: 0
