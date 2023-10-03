@@ -9,11 +9,15 @@ public class FirstLevelProgression : MonoBehaviour
     [SerializeField] private GameObject _bridge;
     [SerializeField] private float _bridgeRisingSpeed = 2;
     [SerializeField] private float _bridgeAppearingSpeed = 3;
-
+    
+    // Burning tree cutscene
+    private bool _execBurningTreeCutscene = false;
+    
+    // Bridge cutScene
     private bool _execBridgeAppearingAnimation = false;
     private Renderer _bridgeRenderer;
     private Color _bridgeColor;
-
+    
     private void Start()
     {
         _bridgeRenderer = _bridge.GetComponent<Renderer>();
@@ -24,7 +28,12 @@ public class FirstLevelProgression : MonoBehaviour
         _bridge.SetActive(false);
     }
 
-    // Called by the _onLevelValidation at the LevelProgressionHandler
+    public void ExecBurningTreeCutscene()
+    {
+        _execBurningTreeCutscene = true;
+    }
+    
+    // Called by the _onLevelValidation UnityEvent at the LevelProgressionHandler
     public void OnValidation(LevelProgressionHandler handler)
     {
         // Updates the list of Litables Sticks to be verified every frame,
@@ -42,6 +51,7 @@ public class FirstLevelProgression : MonoBehaviour
             handler.HasProgressed = true;
     }
 
+    // Called by the _onLevelProgress UnityEvent the LevelProgressionHandler
     public void OnProgression()
     {
         Debug.Log("Level Succeed");
@@ -51,6 +61,13 @@ public class FirstLevelProgression : MonoBehaviour
 
     private void Update()
     {
+
+        if (_execBurningTreeCutscene)
+        {
+            FindObjectOfType<PickupSystem>().ReleaseCurrentObject();
+            _execBurningTreeCutscene = false;
+        }
+        
         if (_execBridgeAppearingAnimation)
         {
             // Moves the bridge towards the 
