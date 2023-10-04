@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 [RequireComponent(typeof(Rigidbody))]
@@ -59,7 +58,6 @@ public class PickableObject : MonoBehaviour
             _rigidbody.maxAngularVelocity = 7;
             _rigidbody.useGravity = true;
         }
-
         // Syncs the outline for both either being carried or hit by the camera's ray
         _outlineScript.enabled = IsBeingHitByPickUpRay || IsBeingCarried;
     }
@@ -73,7 +71,6 @@ public class PickableObject : MonoBehaviour
     {
         IsColliding = false;
     }
-
     
     public void SetMaterial(Material material)
     {

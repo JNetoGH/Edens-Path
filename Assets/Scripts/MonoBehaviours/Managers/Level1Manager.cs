@@ -1,12 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
 
 
-public class Level1Manager : MonoBehaviour, ILevelProgress
+public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 {
-    
+
+    // Singleton Pattern
+    public static Level1Manager Instance { get; private set; }
+
     [Header("Burning Tree Cutscene (will be passed to the state machine)")]
     [SerializeField] private GameObject _burningTreeContainer;
     [SerializeField] private GameObject _bird;
@@ -30,7 +34,12 @@ public class Level1Manager : MonoBehaviour, ILevelProgress
     private bool _execBridgeAppearingAnimation = false;
     private Renderer _bridgeRenderer;
     private Color _bridgeColor;
-    
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         _bridgeRenderer = _bridge.GetComponent<Renderer>();
@@ -38,6 +47,9 @@ public class Level1Manager : MonoBehaviour, ILevelProgress
         _bridgeColor.a = 0f; // Set initial alpha to 0 (fully transparent)
         _bridgeRenderer.material.color = _bridgeColor;
         _bridge.SetActive(false);
+        
+        // subscribes at the handler
+        CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressionHandler>());
     }
     
     public void OnValidation(LevelProgressionHandler handler)
@@ -63,7 +75,14 @@ public class Level1Manager : MonoBehaviour, ILevelProgress
         _bridge.SetActive(true);
         _execBridgeAppearingAnimation = true;
     }
-    
+
+    public void CallAtStartAndSubscribeToHandler(LevelProgressionHandler handler)
+    {
+        if (handler == null)
+            Debug.LogError($"Tried to subscribe a ILevelProgressValidator to a null LevelProgressionHandler");
+        handler.iLevelProgressValidator = this;
+    }
+
     public void TriggerBurningTreeCutscene()
     {
         // Called Once at method's call

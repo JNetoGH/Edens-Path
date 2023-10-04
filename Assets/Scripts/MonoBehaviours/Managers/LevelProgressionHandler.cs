@@ -1,22 +1,28 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class LevelProgressionHandler : MonoBehaviour
 {
+    
     /// <summary>
     /// Indicates whether the level has progressed.
     /// This property is manipulated by the validation event listeners.
     /// </summary>
     public bool HasProgressed { get; set; } = false;
-
     [SerializeField] private bool _overrideLevelCompletion = false;
-    [SerializeField] private UnityEvent<LevelProgressionHandler> _onLevelValidation;
-    [SerializeField] private UnityEvent _onLevelProgress;
+    
+    /// <summary>
+    /// A script used to implement the progress validation of this level
+    /// </summary>
+    public ILevelProgressValidator iLevelProgressValidator;
 
     private void Start()
     {
         // Initialize HasProgressed to false when the level starts.
         HasProgressed = false;
+        
+        // Check if the is a ILevelProgress assigned
+        if (iLevelProgressValidator == null) 
+            Debug.LogWarning($"LevelProgressionHandler at {gameObject.name} has no ILevelProgressValidator assigned");
     }
 
     private void Update()
@@ -26,7 +32,7 @@ public class LevelProgressionHandler : MonoBehaviour
         {
             HasProgressed = true;
             _overrideLevelCompletion = false;
-            _onLevelProgress.Invoke();
+            iLevelProgressValidator.OnProgression();
         }
 
         // If the level has already progressed, there's no need to check validation or invoke progress.
@@ -35,10 +41,10 @@ public class LevelProgressionHandler : MonoBehaviour
 
         // Validate the progression using the listeners by passing itself as an argument,
         // so they can change the HasProgressed property.
-        _onLevelValidation.Invoke(this);
+        iLevelProgressValidator.OnValidation(this);
 
         // If the validation has occurred, call the listeners of this event to signify progress.
         if (HasProgressed)
-            _onLevelProgress.Invoke();
+            iLevelProgressValidator.OnProgression();
     }
 }
