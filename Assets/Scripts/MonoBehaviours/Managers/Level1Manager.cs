@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 public class Level1Manager : MonoBehaviour, ILevelProgressValidator
@@ -10,14 +11,15 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     // Singleton Pattern
     public static Level1Manager Instance { get; private set; }
-
-    [Header("Burning Tree Cutscene (will be passed to the state machine)")]
-    [SerializeField] private GameObject _burningTreeContainer;
-    [SerializeField] private GameObject _bird;
-    [SerializeField] private GameObject _vinylDisc;
-    [SerializeField] private CinemachineVirtualCamera _burningTreeSeqCam1;
-    [SerializeField] private CinemachineVirtualCamera _burningTreeSeqCam2;
-    [SerializeField] private CinemachineVirtualCamera _burningTreeSeqCam3;
+    
+    [Header("Burning Tree Cutscene (will be passed to the state machine scripts via Singleton)")]
+    [SerializeField] public GameObject burningTreeContainer;
+    [SerializeField] public GameObject birdContainer;
+    [SerializeField] public GameObject vinylDisc;
+    [SerializeField] public GameObject cinemachineBrain;
+    [SerializeField] public GameObject burningTreeSeqCam1;
+    [SerializeField] public GameObject burningTreeSeqCam2;
+    [SerializeField] public GameObject burningTreeSeqCam3;
     
     [Header("Bridge Cutscene")]
     [SerializeField] private GameObject _bridge;
@@ -26,9 +28,6 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     // Shall be removed soon
     private List<LitableStick> _sticks;
-    
-    // Burning tree cutscene control variable
-    private bool _execBurningTreeCutscene = false;
     
     // Bridge cutScene fields
     private bool _execBridgeAppearingAnimation = false;
@@ -50,6 +49,20 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         
         // subscribes at the handler
         CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressionHandler>());
+    }
+    
+    private void Update()
+    {
+        if (_execBridgeAppearingAnimation)
+        {
+            // Moves the bridge towards the 
+            Vector3 curPos = _bridge.transform.localPosition;
+            _bridge.transform.localPosition = Vector3.MoveTowards(curPos, new Vector3(curPos.x, 0, curPos.z), _bridgeRisingSpeed * Time.deltaTime);
+
+            // Gradually increase the alpha value
+            _bridgeColor.a = Mathf.MoveTowards(_bridgeColor.a, 1f, _bridgeAppearingSpeed * Time.deltaTime);
+            _bridgeRenderer.material.color = _bridgeColor;
+        }
     }
     
     public void OnValidation(LevelProgressionHandler handler)
@@ -74,6 +87,7 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         Debug.Log("Level Succeed");
         _bridge.SetActive(true);
         _execBridgeAppearingAnimation = true;
+        TriggerBurningTreeCutscene();
     }
 
     public void CallAtStartAndSubscribeToHandler(LevelProgressionHandler handler)
@@ -85,29 +99,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     public void TriggerBurningTreeCutscene()
     {
-        // Called Once at method's call
-        _execBurningTreeCutscene = true;
         FindObjectOfType<PickupSystem>().ReleaseCurrentObject();
+        FindObjectOfType<Animator>().SetBool("Burning", true);
     }
-    
-    private void Update()
-    {
-        if (_execBurningTreeCutscene)
-        {
-            
-        }
-        
-        if (_execBridgeAppearingAnimation)
-        {
-            // Moves the bridge towards the 
-            Vector3 curPos = _bridge.transform.localPosition;
-            _bridge.transform.localPosition = Vector3.MoveTowards(curPos, new Vector3(curPos.x, 0, curPos.z), _bridgeRisingSpeed * Time.deltaTime);
-
-            // Gradually increase the alpha value
-            _bridgeColor.a = Mathf.MoveTowards(_bridgeColor.a, 1f, _bridgeAppearingSpeed * Time.deltaTime);
-            _bridgeRenderer.material.color = _bridgeColor;
-        }
-    }
-
     
 }
