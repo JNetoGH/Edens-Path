@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -86,6 +87,16 @@ public class GameManager : MonoBehaviour
     public static void ExitGame()
     {
         Application.Quit();
+    }
+
+    public static void ActivateScreenCross()
+    {
+        SuperTag.GetFirstObjectWithSuperTag("cross")?.SetActive(true);
+    }
+    
+    public static void DeactivateScreenCross()
+    {
+        SuperTag.GetFirstObjectWithSuperTag("cross")?.SetActive(false);
     }
     
 }

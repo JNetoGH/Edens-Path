@@ -13,10 +13,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     [Header("Burning Tree Cutscene (will be passed to other scripts via Singleton)")]
     [SerializeField] public GameObject burningTreeCutsceneContainer;
-    
     [SerializeField] public GameObject originalTreeModel;
     [SerializeField] public GameObject burntTreeModel;
-    
     [SerializeField] public GameObject birdContainer;
     [SerializeField] public GameObject bird;
     [SerializeField] public GameObject vinylDisc;
@@ -97,12 +95,9 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         handler.iLevelProgressValidator = this;
     }
 
-    public void TriggerBurningTreeCutscene()
+    private void TriggerBurningTreeCutscene()
     {
         burningTreeCutsceneContainer.GetComponent<Animator>().SetTrigger("StartSequence");
-
-        PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
-        pickupSystem.ReleaseCurrentObject();
     }
     
 }
