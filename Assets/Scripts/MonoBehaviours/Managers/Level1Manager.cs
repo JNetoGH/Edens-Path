@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 public class Level1Manager : MonoBehaviour, ILevelProgressValidator
@@ -12,14 +11,15 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     // Singleton Pattern
     public static Level1Manager Instance { get; private set; }
     
-    [Header("Burning Tree Cutscene (will be passed to the state machine scripts via Singleton)")]
-    [SerializeField] public GameObject burningTreeContainer;
+    [Header("Burning Tree Cutscene (will be passed to other scripts via Singleton)")]
+    [SerializeField] public GameObject burningTreeCutsceneContainer;
+    
+    [SerializeField] public GameObject originalTreeModel;
+    [SerializeField] public GameObject burntTreeModel;
+    
     [SerializeField] public GameObject birdContainer;
+    [SerializeField] public GameObject bird;
     [SerializeField] public GameObject vinylDisc;
-    [SerializeField] public GameObject cinemachineBrain;
-    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam1;
-    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam2;
-    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam3;
     
     [Header("Bridge Cutscene")]
     [SerializeField] private GameObject _bridge;
@@ -99,8 +99,10 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     public void TriggerBurningTreeCutscene()
     {
-        FindObjectOfType<Animator>().SetTrigger("StartSequence");
-        FindObjectOfType<PickupSystem>().ReleaseCurrentObject();
+        burningTreeCutsceneContainer.GetComponent<Animator>().SetTrigger("StartSequence");
+
+        PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
+        pickupSystem.ReleaseCurrentObject();
     }
     
 }
