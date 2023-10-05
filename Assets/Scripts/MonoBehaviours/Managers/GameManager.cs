@@ -11,11 +11,14 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private GameObject _settingsMenu;
     [SerializeField] private GameObject _inventory;
+    
+    public static bool CanOpenInventory { get; set; } = true;
     public bool IsInSettingsMenu { get; private set; } = false;
     public bool IsInInventory { get; private set; } = false;
     
     private void Start()
     {
+        CanOpenInventory = true;
         IsInSettingsMenu = _settingsMenu.activeInHierarchy;
         IsInInventory = _inventory.activeInHierarchy;
         
@@ -25,6 +28,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (IsInSettingsMenu)
+            PauseGame();
+        else
+            UnpauseGame();
+        
         // Reset Button Pressed
         if (Input.GetButtonDown("Reset"))
             ResetGame();
@@ -34,7 +43,8 @@ public class GameManager : MonoBehaviour
         {
             SwitchMenuState();
             
-            // after switching the stet of the menu ig the player was in the inventory, it will be closed and the menu open.
+            // after switching the state of the menu e.g. the player was in the inventory,
+            // the inventory it will be closed and the menu open.
             if (IsInSettingsMenu && IsInInventory)
             {
                 CloseInventory();
@@ -44,13 +54,8 @@ public class GameManager : MonoBehaviour
         }
 
         // Inventory Button Pressed
-        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu)
-        {
-            _inventory.SetActive(true);
-            IsInInventory = true;
-        }
-        else if (Input.GetKeyDown(KeyCode.O))
-            CloseInventory();
+        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu && CanOpenInventory)
+            SwitchInventoryState();
     }
     
     // Also called by the Inventory's Resume Button
@@ -60,6 +65,12 @@ public class GameManager : MonoBehaviour
         _settingsMenu.SetActive(IsInSettingsMenu);
     }
 
+    public void SwitchInventoryState()
+    {
+        IsInInventory = !IsInInventory;
+        _inventory.SetActive(IsInInventory);
+    }
+    
     // Also called by the Inventory's Return Button
     public void CloseInventory()
     {
@@ -77,6 +88,16 @@ public class GameManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+    
+    public static void UnpauseGame()
+    {
+        Time.timeScale = 1;
+    }
+
+    public static void PauseGame()
+    {
+        Time.timeScale = 0;
     }
     
     public static void ResetGame()

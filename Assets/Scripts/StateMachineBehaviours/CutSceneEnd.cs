@@ -18,5 +18,11 @@ public class CutSceneEnd : StateMachineBehaviour
 
         // Deactivates the CinemachineBrain object to disable camera overriding after the cutscene.
         FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(false);
+        
+        // Makes the player Movable
+        PlayerController.CanMove = true;
+        
+        // Enables the player to open inventory out of cutscenes
+        GameManager.CanOpenInventory = true;
     }
 }

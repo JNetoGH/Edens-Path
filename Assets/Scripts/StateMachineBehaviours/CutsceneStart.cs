@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class CutsceneStart : StateMachineBehaviour
 {
-
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         // Activate CinemachineBrain object to enable camera control during the cutscene.
@@ -21,5 +20,12 @@ public class CutsceneStart : StateMachineBehaviour
         PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
         pickupSystem.ReleaseCurrentObject();
         pickupSystem.enabled = false;
+        
+        // Makes the player Immovable
+        PlayerController.CanMove = false;
+        
+        // Disables the player unable to open the inventory during cutscenes
+        GameManager.CanOpenInventory = false;
     }
 }
+
