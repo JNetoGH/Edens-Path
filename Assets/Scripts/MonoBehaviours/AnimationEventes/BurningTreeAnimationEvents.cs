@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class BurningSceneAnimationEvents : MonoBehaviour
+public class BurningTreeAnimationEvents : MonoBehaviour
 {
   
     // Called by an animation event at the Burning tree sequence cutscene.
