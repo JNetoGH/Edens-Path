@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -103,6 +104,9 @@ public class GameManager : MonoBehaviour
     public static void ResetGame()
     {
         SceneManager.LoadScene(0);
+        
+        // needs to be reset if the game is reloaded, other wise it will keep track of old MonoBehaviour tha may have been destroyed.
+        SuperTag.AllSuperTags = new List<SuperTag>();
     }
 
     public static void ExitGame()

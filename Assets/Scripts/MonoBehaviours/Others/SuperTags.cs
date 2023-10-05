@@ -9,7 +9,7 @@ using UnityEngine;
 public class SuperTag : MonoBehaviour
 {
     /// <summary>List to store all instances of SuperTag in the scene.</summary>
-    private static readonly List<SuperTag> AllSuperTags = new List<SuperTag>();
+    public static List<SuperTag> AllSuperTags = new List<SuperTag>();
     
     /// <summary> The case-sensitive tag name associated with this SuperTag instance. </summary>
     public string TagName => _tagName;
