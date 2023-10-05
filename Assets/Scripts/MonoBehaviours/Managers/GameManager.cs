@@ -105,8 +105,9 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(0);
         
-        // needs to be reset if the game is reloaded, other wise it will keep track of old MonoBehaviour tha may have been destroyed.
-        SuperTag.AllSuperTags = new List<SuperTag>();
+        // Needs to be reset if the game is reloaded,
+        // Other wise it will keep track of old MonoBehaviour tha may have been destroyed.
+        SuperTag.ResetControlListReference();
     }
 
     public static void ExitGame()

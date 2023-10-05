@@ -438,7 +438,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 12.116667
+    m_StopTime: 11.65
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -1009,15 +1009,15 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 11.4
-    functionName: SetTreeToTheBurntModel
+  - time: 11.266666
+    functionName: DestroyBirdContainer
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 12.116667
-    functionName: DestroyBirdContainer
+  - time: 11.4
+    functionName: SetTreeToTheBurntModel
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
