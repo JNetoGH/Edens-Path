@@ -1034,7 +1034,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 12.25
+  - time: 12.116667
     functionName: DestroyBirdContainer
     data: 
     objectReferenceParameter: {fileID: 0}
