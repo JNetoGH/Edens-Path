@@ -17,9 +17,9 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     [SerializeField] public GameObject birdContainer;
     [SerializeField] public GameObject vinylDisc;
     [SerializeField] public GameObject cinemachineBrain;
-    [SerializeField] public GameObject burningTreeSeqCam1;
-    [SerializeField] public GameObject burningTreeSeqCam2;
-    [SerializeField] public GameObject burningTreeSeqCam3;
+    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam1;
+    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam2;
+    [SerializeField] public CinemachineVirtualCamera burningTreeSeqCam3;
     
     [Header("Bridge Cutscene")]
     [SerializeField] private GameObject _bridge;
@@ -47,7 +47,7 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         _bridgeRenderer.material.color = _bridgeColor;
         _bridge.SetActive(false);
         
-        // subscribes at the handler
+        // Subscribes at the handler
         CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressionHandler>());
     }
     
@@ -99,8 +99,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     public void TriggerBurningTreeCutscene()
     {
+        FindObjectOfType<Animator>().SetTrigger("StartSequence");
         FindObjectOfType<PickupSystem>().ReleaseCurrentObject();
-        FindObjectOfType<Animator>().SetBool("Burning", true);
     }
     
 }
