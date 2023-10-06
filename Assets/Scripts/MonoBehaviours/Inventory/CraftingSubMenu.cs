@@ -16,16 +16,9 @@ public class CraftingSubMenu : MonoBehaviour
     public bool isRightCraftHolderFree => craftHolderRight.transform.childCount == 0;
     public bool anyHolderAvaliable => (!CraftingSubMenu.Instance.isLeftCraftHolderFree || !CraftingSubMenu.Instance.isRightCraftHolderFree);
 
-
     private void Awake()
     {
         Instance = this;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void OnDisable()
@@ -40,6 +33,5 @@ public class CraftingSubMenu : MonoBehaviour
         if (!isRightCraftHolderFree)
             craftHolderRight.transform.GetChild(0).SetParent(Inventory.Instance.inventoryContent.transform);
     }
-
 
 }

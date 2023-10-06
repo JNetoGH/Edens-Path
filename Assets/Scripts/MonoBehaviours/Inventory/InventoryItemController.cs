@@ -13,14 +13,13 @@ public class InventoryItemController: MonoBehaviour
     [HideInInspector] public int indexInInventory;
     
     private RectTransform _rectTransform;
-    private bool _isMousePressed;
-    private bool _hasBeenReleased;
+    private bool _isMousePressed = false;
+    private bool _hasBeenReleased = false;
     private bool _isOnHitbox = false;
     private bool _isinHolder = false;
     
     void Start()
     {
-        _hasBeenReleased = false;
         _rectTransform = GetComponent<RectTransform>();
     }
 
@@ -32,12 +31,12 @@ public class InventoryItemController: MonoBehaviour
             _rectTransform.position = mousePosition;
             if (!_isOnHitbox)
             {
-                Debug.Log("On Free Space");
+                // Debug.Log("On Free Space");
             }
         }
-        
+
         // Case Dropped at free space: it's instantiated and removed from inventory.
-        if (_hasBeenReleased && !_isOnHitbox)
+        if (_hasBeenReleased && !_isOnHitbox && !_isinHolder)
         {
             InstantiateCorrespondingToPickableObjectData();
             RemoveFromInventory();
@@ -46,49 +45,47 @@ public class InventoryItemController: MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D other)
     {
+        // Checks for a Hitbox overlap 
         if (_isMousePressed)
         {
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
             {
-                Debug.Log("On Inventory");
+                // Debug.Log("On Inventory");
                 _isOnHitbox = true;
             }
             else if (other.gameObject == CraftingSubMenu.Instance.craftHitbox)
             {
-                Debug.Log("On Crafting");
+                // Debug.Log("On Crafting");
                 _isOnHitbox = true;
             }
         }
         
         if (_hasBeenReleased)
         {
-             // Released on top of the inventory content
+            // Released on top of the inventory content
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
                 _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
             
-            // Released on top of a vague craftHolder
-            else if (other.gameObject == CraftingSubMenu.Instance.craftHitbox)
-            {
-                
-                // In case both holders are occupied, sends back to inventory.
-                bool anyHolderVague = CraftingSubMenu.Instance.anyHolderAvaliable;
-                if (!_isinHolder && anyHolderVague)
-                {
-                    _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-                }
-                
+            // Released on top of the crafting sub menu Hitbox
+            else if (!_isinHolder && other.gameObject == CraftingSubMenu.Instance.craftHitbox)
+            {  
                 // Case there is one vague.
-                if (CraftingSubMenu.Instance.isLeftCraftHolderFree && !_isinHolder)
+                if (CraftingSubMenu.Instance.isLeftCraftHolderFree)
                 {
-                   _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderLeft.transform);
+                    _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderLeft.transform);
                     _isinHolder = true;
                 }
-                else if (CraftingSubMenu.Instance.isRightCraftHolderFree && !_isinHolder)
+                else if (CraftingSubMenu.Instance.isRightCraftHolderFree)
                 {
                     _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderRight.transform);
                     _isinHolder = true;
                 }
-                
+
+                // In case both holders are occupied, sends back to inventory.
+                if (!_isinHolder) 
+                        _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
+
+                _hasBeenReleased = false;
             }
         }
     }
