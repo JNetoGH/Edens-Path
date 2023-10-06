@@ -4,12 +4,12 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     
-    
     [Header("Data")]
     [SerializeField] private GameSettingsData _gameSettingsData;
     
     [Header("Rotation")]
-    [SerializeField, Range(1, 99)] private float _rotationXRange = 80f;
+    [SerializeField, Range(1, 90)] private float _rotationXRangeUpperLimit = 80f;
+    [SerializeField, Range(1, 90)] private float _rotationXRangeLowerLimit = 60f;
     private float _rotationX;
     private float _rotationY;
     
@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
         _rotationX -= _mouseY * mouseSensitivity;
 
         // Keeps the X axis within range 
-        _rotationX = Mathf.Clamp(_rotationX, -_rotationXRange, _rotationXRange);
+        _rotationX = Mathf.Clamp(_rotationX, -_rotationXRangeUpperLimit, _rotationXRangeLowerLimit);
 
         // Applies the rotations
         transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
