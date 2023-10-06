@@ -8,6 +8,7 @@ TagManager:
   - SettingsMenu
   - PickableObjectInstantiationPoint
   - ScreenCross
+  - CraftHolder
   layers:
   - Default
   - TransparentFX

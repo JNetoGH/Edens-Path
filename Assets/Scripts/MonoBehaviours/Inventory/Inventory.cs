@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,20 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     
+    // Singleton Pattern
+    public static Inventory Instance { get; private set; }
+    
+    [Header("Singleton: Inventory References")]
+    public GameObject inventoryHitbox;
+    public GameObject inventoryContent;
+    
+    [Header("Singleton: Crafting Sub Menu References")]
+    public GameObject craftHitbox;
+    public GameObject craftHolderLeft;
+    public GameObject craftHolderRight;
+    public bool isLeftCraftholderFree => craftHolderLeft.transform.childCount == 0;
+    public bool isRightCraftholderFree => craftHolderRight.transform.childCount == 0;
+    
     [FormerlySerializedAs("_pickableObjectsList")] [Header("Items list")]
     public List<PickableObjectData> pickableObjectsList = new List<PickableObjectData> ();
     
@@ -16,6 +31,11 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform _inventoryItemsParent;
     [SerializeField] private GameObject _inventoryItemPrefab;
     
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void OnEnable()
     {
         GameManager.ReleaseTheCursor();
