@@ -53,7 +53,7 @@ public class InventoryItemController: MonoBehaviour
                 Debug.Log("On Inventory");
                 _isOnHitbox = true;
             }
-            else if (other.gameObject == Inventory.Instance.craftHitbox)
+            else if (other.gameObject == CraftingSubMenu.Instance.craftHitbox)
             {
                 Debug.Log("On Crafting");
                 _isOnHitbox = true;
@@ -67,25 +67,25 @@ public class InventoryItemController: MonoBehaviour
                 _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
             
             // Released on top of a vague craftHolder
-            else if (other.gameObject == Inventory.Instance.craftHitbox)
+            else if (other.gameObject == CraftingSubMenu.Instance.craftHitbox)
             {
                 
                 // In case both holders are occupied, sends back to inventory.
-                bool anyHolderVague = (!Inventory.Instance.isLeftCraftholderFree && !Inventory.Instance.isRightCraftholderFree);
+                bool anyHolderVague = CraftingSubMenu.Instance.anyHolderAvaliable;
                 if (!_isinHolder && anyHolderVague)
                 {
                     _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
                 }
                 
                 // Case there is one vague.
-                if (Inventory.Instance.isLeftCraftholderFree && !_isinHolder)
+                if (CraftingSubMenu.Instance.isLeftCraftHolderFree && !_isinHolder)
                 {
-                    _rectTransform.SetParent(Inventory.Instance.craftHolderLeft.transform);
+                   _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderLeft.transform);
                     _isinHolder = true;
                 }
-                else if (Inventory.Instance.isRightCraftholderFree && !_isinHolder)
+                else if (CraftingSubMenu.Instance.isRightCraftHolderFree && !_isinHolder)
                 {
-                    _rectTransform.SetParent(Inventory.Instance.craftHolderRight.transform);
+                    _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderRight.transform);
                     _isinHolder = true;
                 }
                 
