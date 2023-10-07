@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     
     [Header("Rotation")]
     [SerializeField, Range(1, 90)] private float _rotationXRangeUpperLimit = 80f;
-    [SerializeField, Range(1, 90)] private float _rotationXRangeLowerLimit = 60f;
+    [SerializeField, Range(1, 90)] private float _rotationXRangeLowerLimit = 80f;
     private float _rotationX;
     private float _rotationY;
     

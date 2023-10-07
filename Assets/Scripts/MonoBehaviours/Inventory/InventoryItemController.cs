@@ -82,6 +82,7 @@ public class InventoryItemController: MonoBehaviour
                 // In case both item holders are occupied, sends back to inventory.
                 if (!_isinHolder) 
                         _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
+                
                 _hasBeenReleased = false;
             }
         }
