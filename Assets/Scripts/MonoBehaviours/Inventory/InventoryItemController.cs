@@ -30,9 +30,7 @@ public class InventoryItemController: MonoBehaviour
             Vector2 mousePosition = Input.mousePosition;
             _rectTransform.position = mousePosition;
             if (!_isOnHitbox)
-            {
-                // Debug.Log("On Free Space");
-            }
+                Debug.Log($"{gameObject.name} dragged on Free Space");
         }
 
         // Case Dropped at free space: it's instantiated and removed from inventory.
@@ -50,41 +48,40 @@ public class InventoryItemController: MonoBehaviour
         {
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
             {
-                // Debug.Log("On Inventory");
+                Debug.Log($"{gameObject.name} dragged on Inventory");
                 _isOnHitbox = true;
             }
-            else if (other.gameObject == CraftingSubMenu.Instance.craftHitbox)
+            else if (other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
             {
-                // Debug.Log("On Crafting");
+                Debug.Log($"{gameObject.name} dragged on Combining submenu");
                 _isOnHitbox = true;
             }
         }
         
         if (_hasBeenReleased)
         {
-            // Released on top of the inventory content
+            // Released on top of the inventory content hitbox
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
                 _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
             
-            // Released on top of the crafting sub menu Hitbox
-            else if (!_isinHolder && other.gameObject == CraftingSubMenu.Instance.craftHitbox)
+            // Released on top of the combining submenu hitbox
+            else if (!_isinHolder && other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
             {  
                 // Case there is one vague.
-                if (CraftingSubMenu.Instance.isLeftCraftHolderFree)
+                if (CombiningSubMenu.Instance.isLeftItemHolderFree)
                 {
-                    _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderLeft.transform);
+                    _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderLeft.transform);
                     _isinHolder = true;
                 }
-                else if (CraftingSubMenu.Instance.isRightCraftHolderFree)
+                else if (CombiningSubMenu.Instance.isRightItemHolderFree)
                 {
-                    _rectTransform.SetParent(CraftingSubMenu.Instance.craftHolderRight.transform);
+                    _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderRight.transform);
                     _isinHolder = true;
                 }
 
-                // In case both holders are occupied, sends back to inventory.
+                // In case both item holders are occupied, sends back to inventory.
                 if (!_isinHolder) 
                         _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-
                 _hasBeenReleased = false;
             }
         }
