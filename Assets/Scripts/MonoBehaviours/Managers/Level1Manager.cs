@@ -65,6 +65,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     public void OnValidation(LevelProgressionHandler handler)
     {
+
+      
         // Updates the list of Litables Sticks to be verified every frame,
         // because they can be instantiated from the inventory.
         _sticks = FindObjectsOfType<LitableStick>().ToList<LitableStick>();
@@ -78,6 +80,7 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         });
         if (isThereFire)
             handler.HasProgressed = true;
+ 
     }
     
     public void OnProgression()

@@ -40,7 +40,7 @@ public class InventoryItemController: MonoBehaviour
         if (_hasBeenReleased && !_isOnHitbox && !_isInHolder)
         {
             InstantiateCorrespondingToPickableObjectData();
-            RemoveFromInventory();
+            DestoryInventoryItem();
         }
     }
     
@@ -154,7 +154,7 @@ public class InventoryItemController: MonoBehaviour
         obj.transform.position = instantiationPoint.transform.position;
     }
 
-    private void RemoveFromInventory()
+    public void DestoryInventoryItem()
     {
         // Destroys Itself
         Destroy(this.gameObject);

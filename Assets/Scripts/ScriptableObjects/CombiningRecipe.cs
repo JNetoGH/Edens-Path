@@ -2,8 +2,9 @@
 
 namespace ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Combining Recipe", menuName = "Scriptable Objects/Combining Recipe", order = 0)]
-    public class CombiningRecipe : ScriptableObject
+
+    [CreateAssetMenu(fileName = "CombiningRecipeData", menuName = "Scriptable Objects/Combining Recipe Data", order = 0)]
+    public class CombiningRecipeData : ScriptableObject
     {
         public PickableObjectData obj1;
         public PickableObjectData obj2;

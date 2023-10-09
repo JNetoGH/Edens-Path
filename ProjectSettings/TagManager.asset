@@ -9,6 +9,7 @@ TagManager:
   - PickableObjectInstantiationPoint
   - ScreenCross
   - CraftHolder
+  - InventoryContent
   layers:
   - Default
   - TransparentFX
