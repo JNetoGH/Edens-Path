@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryContent;
     
     
-    [FormerlySerializedAs("_pickableObjectsList")] [Header("Items list")]
+    [Header("Items list")]
     public List<PickableObjectData> pickableObjectsList = new List<PickableObjectData> ();
     
     [Header("Instancing References")]
@@ -52,7 +52,13 @@ public class Inventory : MonoBehaviour
     {
         pickableObjectsList.Remove(pickableObjectData);
     }
-    
+
+    public void Add(PickableObjectData pickableObjectData)
+    {
+        pickableObjectsList.Add(pickableObjectData);
+    }
+
+
     public void BuildInventoryItemsBasedOnList()
     {
         // Clears the InventoryItem already Instantiated, before rebuilding, so they don't get cloned.

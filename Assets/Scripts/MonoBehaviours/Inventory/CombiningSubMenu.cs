@@ -1,3 +1,4 @@
+using ScriptableObjects;
 using UnityEngine;
 
 
@@ -22,15 +23,15 @@ public class CombiningSubMenu : MonoBehaviour
 
     private void OnDisable()
     {
-        SendDockedItemsBackToInventory();
+        if (!isLeftItemHolderFree)  SendDockedItemsBackToInventory(itemHolderLeft.transform.GetChild(0).GetComponent<InventoryItemController>());
+        if (!isRightItemHolderFree) SendDockedItemsBackToInventory(itemHolderRight.transform.GetChild(0).GetComponent<InventoryItemController>());
     }
 
-    private void SendDockedItemsBackToInventory()
+    private void SendDockedItemsBackToInventory(InventoryItemController dockedItem)
     {
-        if (!isLeftItemHolderFree)
-            itemHolderLeft.transform.GetChild(0).SetParent(Inventory.Instance.inventoryContent.transform);
-        if (!isRightItemHolderFree)
-            itemHolderRight.transform.GetChild(0).SetParent(Inventory.Instance.inventoryContent.transform);
+        Inventory.Instance.Add(dockedItem.pickableObjectData);
+        dockedItem.transform.SetParent(Inventory.Instance.inventoryContent.transform);
+        dockedItem.isChildOfInventoryParent = true;
     }
 
 }

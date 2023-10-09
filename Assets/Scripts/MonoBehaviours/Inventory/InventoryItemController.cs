@@ -15,26 +15,29 @@ public class InventoryItemController: MonoBehaviour
     private RectTransform _rectTransform;
     private bool _isMousePressed = false;
     private bool _hasBeenReleased = false;
+    public bool isChildOfInventoryParent;
     private bool _isOnHitbox = false;
-    private bool _isinHolder = false;
+    private bool _isInHolder = false;
     
     void Start()
     {
+
+        if (transform.parent.tag.Equals("InventoryContent"))
+            isChildOfInventoryParent = true;
         _rectTransform = GetComponent<RectTransform>();
     }
 
     void Update()
     {
+
+        // Debug.Log($"{gameObject.name} is in a Holder: {_isInHolder}");
+        // Debug.Log($"{gameObject.name} has been Released: {_hasBeenReleased}");
+
         if (_isMousePressed)
-        {
-            Vector2 mousePosition = Input.mousePosition;
-            _rectTransform.position = mousePosition;
-            if (!_isOnHitbox)
-                Debug.Log($"{gameObject.name} dragged on Free Space");
-        }
+            MoveToMousePosition();
 
         // Case Dropped at free space: it's instantiated and removed from inventory.
-        if (_hasBeenReleased && !_isOnHitbox && !_isinHolder)
+        if (_hasBeenReleased && !_isOnHitbox && !_isInHolder)
         {
             InstantiateCorrespondingToPickableObjectData();
             RemoveFromInventory();
@@ -48,46 +51,66 @@ public class InventoryItemController: MonoBehaviour
         {
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
             {
-                Debug.Log($"{gameObject.name} dragged on Inventory");
+                // Debug.Log($"{gameObject.name} dragged on Inventory");
                 _isOnHitbox = true;
             }
             else if (other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
             {
-                Debug.Log($"{gameObject.name} dragged on Combining submenu");
+                // Debug.Log($"{gameObject.name} dragged on Combining submenu");
                 _isOnHitbox = true;
             }
         }
         
         if (_hasBeenReleased)
         {
+
             // Released on top of the inventory content hitbox
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
+            {
                 _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-            
+                Debug.Log($"{gameObject.name} has been released on the inventory");
+                // Adds the data back to inventory list
+                Inventory.Instance.Add(pickableObjectData);
+                if (transform.parent.tag.Equals("InventoryContent"))
+                    isChildOfInventoryParent = true;
+            }
+
             // Released on top of the combining submenu hitbox
-            else if (!_isinHolder && other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
+            else if (!_isInHolder && other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
             {  
                 // Case there is one vague.
                 if (CombiningSubMenu.Instance.isLeftItemHolderFree)
                 {
+                    Debug.Log($"{gameObject.name} has been released on left item holder");
                     _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderLeft.transform);
-                    _isinHolder = true;
+                    _isInHolder = true;
+                    isChildOfInventoryParent = false;
                 }
                 else if (CombiningSubMenu.Instance.isRightItemHolderFree)
                 {
+                    Debug.Log($"{gameObject.name} has been released on right item holder");
                     _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderRight.transform);
-                    _isinHolder = true;
+                    _isInHolder = true;
+                    isChildOfInventoryParent = false;
                 }
 
                 // In case both item holders are occupied, sends back to inventory.
-                if (!_isinHolder) 
-                        _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-                
-                _hasBeenReleased = false;
+                if (!_isInHolder)
+                {
+                    Debug.Log($"{gameObject.name} has been released on a item holder but both are occupied, it has been sent back to inventory");
+                    _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
+                    // Adds the data back to inventory list
+                    Inventory.Instance.Add(pickableObjectData);
+                    if (transform.parent.tag.Equals("InventoryContent"))
+                        isChildOfInventoryParent = true;
+                }
             }
+
+            _hasBeenReleased = false;
+
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D other)
     {
         _isOnHitbox = false;
@@ -96,9 +119,10 @@ public class InventoryItemController: MonoBehaviour
     // Called by the event trigger
     public void OnPointerDown()
     {
+        if (isChildOfInventoryParent) Inventory.Instance.Remove(pickableObjectData); // removes from the data list
         _isMousePressed = true;
         _hasBeenReleased = false;
-        _isinHolder = false;
+        _isInHolder = false;
         _rectTransform.SetParent(FindObjectOfType<Inventory>().GetComponent<RectTransform>());
         _rectTransform.SetAsLastSibling();
     }
@@ -132,15 +156,18 @@ public class InventoryItemController: MonoBehaviour
 
     private void RemoveFromInventory()
     {
-        // Removes itself from the inventory list
-        Inventory inventory = FindObjectOfType<Inventory>();
-        inventory.pickableObjectsList.RemoveAt(indexInInventory);
-        
-        // Rebuilds the inventory
-        inventory.BuildInventoryItemsBasedOnList();
-        
         // Destroys Itself
         Destroy(this.gameObject);
+
+        // Rebuilds the inventory
+        Inventory.Instance.BuildInventoryItemsBasedOnList();
+    }
+
+    private void MoveToMousePosition()
+    {
+        Vector2 mousePosition = Input.mousePosition;
+        _rectTransform.position = mousePosition;
+        // if (!_isOnHitbox) Debug.Log($"{gameObject.name} dragged on Free Space");
     }
 
     private bool CheckForErrors()
