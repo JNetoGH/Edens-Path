@@ -10,6 +10,7 @@ TagManager:
   - ScreenCross
   - CraftHolder
   - InventoryContent
+  - Torch
   layers:
   - Default
   - TransparentFX

@@ -154,7 +154,7 @@ public class InventoryItemController: MonoBehaviour
         obj.transform.position = instantiationPoint.transform.position;
     }
 
-    public void DestoryInventoryItem()
+    private void DestoryInventoryItem()
     {
         // Destroys Itself
         Destroy(this.gameObject);

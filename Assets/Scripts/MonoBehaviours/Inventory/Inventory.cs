@@ -58,7 +58,6 @@ public class Inventory : MonoBehaviour
         pickableObjectsList.Add(pickableObjectData);
     }
 
-
     public void BuildInventoryItemsBasedOnList()
     {
         // Clears the InventoryItem already Instantiated, before rebuilding, so they don't get cloned.

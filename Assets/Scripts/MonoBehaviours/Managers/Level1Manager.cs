@@ -98,7 +98,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         handler.iLevelProgressValidator = this;
     }
 
-    private void TriggerBurningTreeCutscene()
+    // Called by the BurningTreeColision via Singleton
+    public void TriggerBurningTreeCutscene()
     {
         burningTreeCutsceneContainer.GetComponent<Animator>().SetTrigger("StartSequence");
     }
