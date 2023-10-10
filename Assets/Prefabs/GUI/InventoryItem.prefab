@@ -294,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickableObjectData: {fileID: 0}
   indexInInventory: 0
+  isChildOfInventoryParent: 0
 --- !u!114 &4700625425892121259
 MonoBehaviour:
   m_ObjectHideFlags: 0

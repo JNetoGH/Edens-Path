@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 
@@ -22,7 +20,7 @@ public class Inventory : MonoBehaviour
     
     [Header("Instancing References")]
     [SerializeField] private Transform _inventoryItemsParent;
-    [SerializeField] private GameObject _inventoryItemPrefab;
+    [SerializeField] public GameObject inventoryItemPrefab;
     
     private void Awake()
     {
@@ -75,7 +73,7 @@ public class Inventory : MonoBehaviour
     private void FromDataToInventoryItem(PickableObjectData data, int indexInInventory)
     {
         // Creates a GameObject from the Inventory Item Prefab
-        GameObject inventoryObj = Instantiate(_inventoryItemPrefab, _inventoryItemsParent);
+        GameObject inventoryObj = Instantiate(inventoryItemPrefab, _inventoryItemsParent);
 
         // Sets its logical information via the InventoryItemController script
         InventoryItemController inventoryItemController = inventoryObj.GetComponent<InventoryItemController>();
