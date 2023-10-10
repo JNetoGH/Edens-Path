@@ -13,7 +13,7 @@ public class CombiningSubMenu : MonoBehaviour
     // Singleton Pattern
     public static CombiningSubMenu Instance { get; private set; }
 
-    [FormerlySerializedAs("recipesData")] [FormerlySerializedAs("recipes")] public List<CombiningRecipeData> combiningRecipes = new List<CombiningRecipeData>(); 
+    public List<CombiningRecipeData> combiningRecipes = new List<CombiningRecipeData>(); 
 
     [Header("Singleton: Combining Submenu References")]
     public GameObject combiningSubmenuHitbox;
@@ -24,8 +24,6 @@ public class CombiningSubMenu : MonoBehaviour
     public bool isRightItemHolderFree => itemHolderRight.transform.childCount == 0;
     public bool anyItemHolderAvaliable => (Instance.isLeftItemHolderFree || Instance.isRightItemHolderFree);
     public bool isResultPreviewFree => resultPreview.transform.childCount == 0;
-
-    
     
     private void Awake()
     {
@@ -34,7 +32,11 @@ public class CombiningSubMenu : MonoBehaviour
 
     private void Update()
     {
-        
+        UpdateCombiningPreview();
+    }
+
+    private void UpdateCombiningPreview()
+    {
         bool areBothHolderOccupied = !isRightItemHolderFree && !isLeftItemHolderFree;
         if (!areBothHolderOccupied)
         {
@@ -44,20 +46,22 @@ public class CombiningSubMenu : MonoBehaviour
                 GameObject objPrev = resultPreview.transform.GetChild(0).gameObject;
                 Destroy(objPrev);
             }
+
             return;
         }
-        
+
         // can't child another obj to preview if there is already one, they will stack.
         if (!isResultPreviewFree)
             return;
-        
+
         InventoryItemController item1 = itemHolderLeft.transform.GetChild(0).GetComponent<InventoryItemController>();
         InventoryItemController item2 = itemHolderRight.transform.GetChild(0).GetComponent<InventoryItemController>();
-        CombiningRecipeData recipe = FindFirstRecipeCorrespondingToItems(item1.pickableObjectData, item2.pickableObjectData);
+        CombiningRecipeData recipe =
+            FindFirstRecipeCorrespondingToItems(item1.pickableObjectData, item2.pickableObjectData);
         bool foundARecipe = recipe != null;
         if (!foundARecipe || item1 == null || item2 == null)
             return;
-        
+
         // Creates a GameObject from the Inventory Item Prefab to serve as preview and sets as child to the preview.
         GameObject previewObj = Instantiate(Inventory.Instance.inventoryItemPrefab);
         previewObj.transform.SetParent(resultPreview.transform);
@@ -65,18 +69,18 @@ public class CombiningSubMenu : MonoBehaviour
         // Sets its logical information via the InventoryItemController script
         InventoryItemController previewScript = previewObj.GetComponent<InventoryItemController>();
         previewScript.pickableObjectData = recipe.result;
-        
+
         // Sets its style according to the PickableObjectData provided
         TextMeshProUGUI itemNameText = previewObj.GetComponentInChildren<TextMeshProUGUI>();
         Image itemImage = previewObj.transform.Find("ItemImage").GetComponentInChildren<Image>();
-        
+
         // Gives a little black-ish accent to the image of the preview
         itemImage.color = Color.gray;
-        
+
         itemNameText.text = recipe.result.itemName;
-        if (recipe.result.icon is not null) 
+        if (recipe.result.icon is not null)
             itemImage.sprite = recipe.result.icon;
-        
+
         // Sets it to be non interactable,
         // so it can't be attached to the inventory as a regular Inventory Item, or dragged around.
         previewObj.GetComponent<EventTrigger>().enabled = false;
