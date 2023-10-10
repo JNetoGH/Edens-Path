@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d2cc2d558b4e718f6f0d413fa08388, type: 3}
   m_Name: TorchRecipe
   m_EditorClassIdentifier: 
-  obj1: {fileID: 11400000, guid: 950f8ffd8d3508e468b13c01d72937d7, type: 2}
+  obj1: {fileID: 11400000, guid: 7e28a5df317a9914ab360f00e16e3ec2, type: 2}
   obj2: {fileID: 11400000, guid: 3fe85ce34b01a6746bac4ae7a3a0a6a6, type: 2}
   result: {fileID: 11400000, guid: 6516148600c8c3348aaa98e022b3ca53, type: 2}

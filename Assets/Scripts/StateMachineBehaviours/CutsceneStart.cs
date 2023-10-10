@@ -18,7 +18,7 @@ public class CutsceneStart : StateMachineBehaviour
 
         // Release the current object held by the PickupSystem and disable the PickupSystem.
         PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
-        pickupSystem.ReleaseCurrentObject();
+        pickupSystem.ReleaseCurrentObject(false);
         pickupSystem.enabled = false;
         
         // Makes the player Immovable

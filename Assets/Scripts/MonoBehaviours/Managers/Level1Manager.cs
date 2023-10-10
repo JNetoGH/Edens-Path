@@ -24,9 +24,6 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     [SerializeField] private float _bridgeRisingSpeed = 2;
     [SerializeField] private float _bridgeAppearingSpeed = 3;
     
-    // Shall be removed soon
-    private List<LitableStick> _sticks;
-    
     // Bridge cutScene fields
     private bool _execBridgeAppearingAnimation = false;
     private Renderer _bridgeRenderer;
@@ -65,21 +62,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     public void OnValidation(LevelProgressionHandler handler)
     {
-
-      
-        // Updates the list of Litables Sticks to be verified every frame,
-        // because they can be instantiated from the inventory.
-        _sticks = FindObjectsOfType<LitableStick>().ToList<LitableStick>();
-
-        // Then checks if any of them is on fire.
-        bool isThereFire = false;
-        _sticks.ForEach(s =>
-        {
-            if (s.isLit)
-                isThereFire = true;
-        });
-        if (isThereFire)
-            handler.HasProgressed = true;
+        
+        // handler.HasProgressed = true;
  
     }
     
@@ -88,7 +72,6 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
         Debug.Log("Level Succeed");
         _bridge.SetActive(true);
         _execBridgeAppearingAnimation = true;
-        TriggerBurningTreeCutscene();
     }
 
     public void CallAtStartAndSubscribeToHandler(LevelProgressionHandler handler)

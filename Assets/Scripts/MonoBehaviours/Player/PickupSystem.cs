@@ -39,7 +39,7 @@ public class PickupSystem : MonoBehaviour
         // gets tru only on that frame, the release will get ignored, the objet will be stuck, and the player
         // will need to press and release the button again.
         if (!Input.GetButton("Fire1"))
-            ReleaseCurrentObject();
+            ReleaseCurrentObject(true);
         
         // Checks for Fire 2 button and adds the object to the inventory
         if (Input.GetButtonUp("Fire2") && IsPickingUp && _pickedObject != null)
@@ -156,7 +156,7 @@ public class PickupSystem : MonoBehaviour
         Vector3 distanceFromCamera = transform.position - _pickedObject.transform.position;
         if (distanceFromCamera.magnitude > _objMaxDisFromCamera)
         {
-            ReleaseCurrentObject();
+            ReleaseCurrentObject(true);
             return;
         }
 
@@ -181,12 +181,12 @@ public class PickupSystem : MonoBehaviour
         }
     }
 
-    public void ReleaseCurrentObject()
+    public void ReleaseCurrentObject(bool useReleaseForce)
     {
         if (IsPickingUp && _pickedObject != null)
         {
             // applies the release force on the released object
-            _pickedObject.GetComponent<Rigidbody>().velocity = _objLastVelocity;
+            if (useReleaseForce) _pickedObject.GetComponent<Rigidbody>().velocity = _objLastVelocity;
             // Restores the original material of the object
             _pickedObject.ResetToOriginalMaterial();
             // Resets the flag and reference to indicate that we are not picking up an object anymore
