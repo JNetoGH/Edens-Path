@@ -17,7 +17,6 @@ public class Inventory : MonoBehaviour
     public GameObject inventoryHitbox;
     public GameObject inventoryContent;
     
-    
     [Header("Items list")]
     public List<PickableObjectData> pickableObjectsList = new List<PickableObjectData> ();
     
