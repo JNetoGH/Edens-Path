@@ -10,6 +10,9 @@ public class CutsceneStart : StateMachineBehaviour
 {
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+        GameManager.IsInCutscene = true;
+
         // Activate CinemachineBrain object to enable camera control during the cutscene.
         FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(true);
         

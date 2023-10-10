@@ -15,8 +15,16 @@ public class GameManager : MonoBehaviour
     
     public static bool CanOpenInventory { get; set; } = true;
     public bool IsInSettingsMenu { get; private set; } = false;
-    public bool IsInInventory { get; private set; } = false;
-    
+    public bool IsInInventory { get; set; } = false;
+
+    public static bool IsInCutscene { get; set; } = false;
+
+
+    private void Awake()
+    {
+        IsInCutscene = false;
+    }
+
     private void Start()
     {
         CanOpenInventory = true;
@@ -46,7 +54,7 @@ public class GameManager : MonoBehaviour
             
             // after switching the state of the menu e.g. the player was in the inventory,
             // the inventory it will be closed and the menu open.
-            if (IsInSettingsMenu && IsInInventory)
+            if (IsInSettingsMenu && IsInInventory && !IsInCutscene)
             {
                 CloseInventory();
                 ReleaseTheCursor();

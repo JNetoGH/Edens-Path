@@ -10,6 +10,10 @@ public class CutSceneEnd : StateMachineBehaviour
 {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+
+        GameManager.IsInCutscene = false;
+
         // Activate screen cross.
         GameManager.ActivateScreenCross();
         

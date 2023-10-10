@@ -11,6 +11,8 @@ public class CutsceneStartNoCinemachine : StateMachineBehaviour
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
 
+        GameManager.IsInCutscene = true;
+
         // Deactivate screen cross.
         GameManager.DeactivateScreenCross();
 
