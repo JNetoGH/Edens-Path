@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 137be4b719774e78a98022ea692de888, type: 3}
   m_Name: Ball
   m_EditorClassIdentifier: 
-  id: 0
   itemName: Ball
   icon: {fileID: 21300000, guid: 0208c395050c721468a3b5c4624b3552, type: 3}
+  throwForce: 10
   correspondingPickablePrefab: {fileID: 8078614770046949706, guid: 7dc81f784f78a3d42af834e6297026e0,
     type: 3}

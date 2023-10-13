@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Vinyl Disc
   icon: {fileID: 21300000, guid: e477f043b2053bf499f4db0465dcc074, type: 3}
+  throwForce: 2
   correspondingPickablePrefab: {fileID: 9070300615869644458, guid: c340c85c15870e54bb573c5d84478997,
     type: 3}

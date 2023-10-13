@@ -17,9 +17,10 @@ public class PickupSystem : MonoBehaviour
     [SerializeField, Range(1, 40)] private float _outlineWidth = 10f;
     [SerializeField] private Material _beingPickedMaterial;
     
+    public PickableObject PickedObject => _pickedObject;
     private PickableObject _pickedObject; // Reference to the object being picked up
-    private PickableObject _currentOutlinedObject; // Reference to the previously highlighted object
-    private Vector3 _objLastVelocity = Vector3.zero; // used in order to keep the release force of the object.
+    private PickableObject _outlinedObject; // Reference to the previously highlighted object
+    private Vector3 _objLastVelocity = Vector3.zero; // Used in order to keep the release force of the object.
     
     private void Update()
     {
@@ -79,7 +80,7 @@ public class PickupSystem : MonoBehaviour
         bool hasHitSomething = Physics.Raycast(ray, out RaycastHit hit, _pickupRange);
         if (!hasHitSomething) // pointing to void
         {
-            TryRemoveOutline(_currentOutlinedObject);
+            TryRemoveOutline(_outlinedObject);
             return;
         }
 
@@ -88,18 +89,18 @@ public class PickupSystem : MonoBehaviour
         bool hasHitPickable = pickableObjectHit != null;
         if (!hasHitPickable) // pointing to a non-pickable gameObj
         {
-            TryRemoveOutline(_currentOutlinedObject);
+            TryRemoveOutline(_outlinedObject);
             return;
         }
         
         // If the currently highlighted object is not the same as the current object,
         // turn off the outline of the previously highlighted object
-        if (_currentOutlinedObject != pickableObjectHit)
+        if (_outlinedObject != pickableObjectHit)
         {
-            if (_currentOutlinedObject != null)
-                _currentOutlinedObject.IsBeingHitByPickUpRay = false;
-            _currentOutlinedObject = pickableObjectHit; // Updates the reference
-            TryOutlinePickableObject(_currentOutlinedObject);
+            if (_outlinedObject != null)
+                _outlinedObject.IsBeingHitByPickUpRay = false;
+            _outlinedObject = pickableObjectHit; // Updates the reference
+            TryOutlinePickableObject(_outlinedObject);
         }
     }
 
@@ -108,7 +109,7 @@ public class PickupSystem : MonoBehaviour
         if (outlined is null) 
             return;
         outlined.IsBeingHitByPickUpRay = false;
-        _currentOutlinedObject = null; // Clear the reference
+        _outlinedObject = null; // Clear the reference
     }
 
     private void TryOutlinePickableObject(PickableObject outlined)

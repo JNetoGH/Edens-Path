@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Stick
   icon: {fileID: 21300000, guid: 14f105a7664dcb947bc47711a04f5bbf, type: 3}
+  throwForce: 2
   correspondingPickablePrefab: {fileID: 6187030611262969618, guid: e40630ac7a88a1d4484ceb563e5227b9,
     type: 3}

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Key
   icon: {fileID: 21300000, guid: c1b72ce450b3de0478877a312635a16d, type: 3}
+  throwForce: 6
   correspondingPickablePrefab: {fileID: 8183426624469739149, guid: c99f736b244bca74e91609dd0d49da93,
     type: 3}

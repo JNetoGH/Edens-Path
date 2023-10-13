@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Chest
   icon: {fileID: 21300000, guid: 45fe8ba579b7f394dbbbe02dc9e94c5c, type: 3}
+  throwForce: 2
   correspondingPickablePrefab: {fileID: 6352899810754258526, guid: eb57d8a15ef277f438fd50ad138d9d52,
     type: 3}

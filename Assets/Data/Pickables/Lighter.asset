@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Lighter
   icon: {fileID: 21300000, guid: bb427f1848c1f51409e30ef292579851, type: 3}
+  throwForce: 2
   correspondingPickablePrefab: {fileID: 6219515235239761683, guid: 1742c5257d9c20f41a2025dd8ed94a51,
     type: 3}
