@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -25,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [Header("Jump")]
     [SerializeField, Range(1, 100)] private float _jumpForce = 10f;
     private bool _jumpInput;
+    private GroundDetector _groundDetector;
     
     [Header("Custom Gravity")]
     [SerializeField, Range(1, 100)] private float _gravityForce = 30f;
@@ -37,7 +37,14 @@ public class PlayerController : MonoBehaviour
         CanMove = true;
         _characterController = GetComponent<CharacterController>();
     }
-    
+
+    private void Start()
+    {
+        _groundDetector = GetComponentInChildren<GroundDetector>();
+        if (_groundDetector == null)
+            Debug.LogWarning("Player's GroundDetector.cs not found.");
+    }
+
     private void Update()
     {
         UpdateInputs();
@@ -54,7 +61,7 @@ public class PlayerController : MonoBehaviour
         _hInput = Input.GetAxis("Horizontal");
         
         // Jump
-        if (Input.GetButtonDown("Jump") && _characterController.isGrounded)
+        if (Input.GetButtonDown("Jump") && _groundDetector.IsGrounded)
             _jumpInput = true;
     }
     
