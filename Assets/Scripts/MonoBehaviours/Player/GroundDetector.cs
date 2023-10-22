@@ -9,7 +9,8 @@ public class GroundDetector : MonoBehaviour
     public bool IsGrounded { get; private set; } = false;
     
     [Header("Settings")]
-    [SerializeField] private LayerMask _groundLayers;
+    [SerializeField] private LayerMask _considerLayers;
+    [SerializeField] private LayerMask _ignoreLayers;
     [SerializeField] private float _yLimitSpeedSafetyMargin = 0.4f;
     
     [Header("Visualization")]
@@ -40,14 +41,16 @@ public class GroundDetector : MonoBehaviour
         // checks if the player is stopped in Y
         //if (Mathf.Abs(_playerController.VerticalVelocity) > _yLimitSpeedSafetyMargin)
             //IsGrounded = false;
-        if (LayerMaskContainsLayer(_groundLayers, other.gameObject.layer))
+        if (LayerMaskContainsLayer(_considerLayers, other.gameObject.layer) && 
+            !LayerMaskContainsLayer(_ignoreLayers, other.gameObject.layer))
             if (other.gameObject.GetComponent<PlayerController>() == null)
                 IsGrounded = true;
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (LayerMaskContainsLayer(_groundLayers, other.gameObject.layer))
+        if (LayerMaskContainsLayer(_considerLayers, other.gameObject.layer) && 
+            !LayerMaskContainsLayer(_ignoreLayers, other.gameObject.layer))
             if (other.gameObject.GetComponent<PlayerController>() == null)
                 IsGrounded = false;
     }
@@ -56,7 +59,6 @@ public class GroundDetector : MonoBehaviour
     {
         if (_printDebugStatus)
             Debug.Log($"Is Grounded {IsGrounded}");
-
         SyncVisualizationColor();
     }
 

@@ -10,8 +10,8 @@ public class ThrowSystem : MonoBehaviour
     
     [Header("System Settings")]
     [SerializeField] private Transform _pickupPosition;
-    [SerializeField, Range(2f, 10f)] private float _throwForceIncrement = 2f;
-    [SerializeField, Range(0.5f, 20f)] private float _maxThrowForce = 10f;
+    [SerializeField, Range(2f, 20f)] private float _throwForceIncrement = 2f;
+    [SerializeField, Range(0.5f, 30f)] private float _maxThrowForce = 10f;
     
     private float _throwForce = 0;
     private GameObject _curObject = null;

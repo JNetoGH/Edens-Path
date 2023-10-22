@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TFF_Wooden_Swing_01A_Idle
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -19,7 +19,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 0, z: -0.5}
+        value: {x: 0, y: 0, z: -15}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -28,7 +28,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 2
-        value: {x: 0, y: 0, z: 7.879}
+        value: {x: 0, y: 0, z: 20}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -37,7 +37,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 4
-        value: {x: 0, y: 0, z: -0.5}
+        value: {x: 0, y: 0, z: -15}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -66,6 +66,8 @@ AnimationClip:
       typeID: 4
       customType: 4
       isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     pptrCurveMapping: []
   m_AnimationClipSettings:
     serializedVersion: 2
@@ -88,7 +90,8 @@ AnimationClip:
     m_HeightFromFeet: 0
     m_Mirror: 0
   m_EditorCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -125,7 +128,9 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -162,12 +167,14 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.5
+        value: -15
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -176,7 +183,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 2
-        value: 7.879
+        value: 20
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -185,7 +192,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 4
-        value: -0.5
+        value: -15
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -199,8 +206,10 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
+    flags: 16
   m_EulerEditorCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
@@ -210,7 +219,9 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
@@ -220,7 +231,9 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 0
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
@@ -230,6 +243,7 @@ AnimationClip:
     path: TFF_Wooden_Swing_Seat_01A
     classID: 4
     script: {fileID: 0}
+    flags: 0
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events: []
