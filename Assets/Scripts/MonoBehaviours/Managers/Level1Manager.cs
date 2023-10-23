@@ -22,14 +22,13 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     [SerializeField] public GameObject vinylDisc;
     
     [Header("Bridge Cutscene")]
-    [SerializeField] private GameObject _bridge;
+    [SerializeField] private GameObject _bridgeContainer;
+    [SerializeField] private List<GameObject> _bridges;
     [SerializeField] private float _bridgeRisingSpeed = 2;
     [SerializeField] private float _bridgeAppearingSpeed = 3;
     
     // Bridge cutScene fields
     private bool _execBridgeAppearingAnimation = false;
-    private Renderer _bridgeRenderer;
-    private Color _bridgeColor;
 
     private void Awake()
     {
@@ -38,11 +37,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     private void Start()
     {
-        _bridgeRenderer = _bridge.GetComponent<Renderer>();
-        _bridgeColor = _bridgeRenderer.material.color;
-        _bridgeColor.a = 0f; // Set initial alpha to 0 (fully transparent)
-        _bridgeRenderer.material.color = _bridgeColor;
-        _bridge.SetActive(false);
+        // Deactivates the bridge
+        _bridgeContainer.SetActive(false);
         
         // Subscribes at the handler
         CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressionHandler>());
@@ -50,33 +46,29 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     private void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.P))
             TriggerTalkWithDevilCutscene();
 
         if (_execBridgeAppearingAnimation)
         {
-            // Moves the bridge towards the 
-            Vector3 curPos = _bridge.transform.localPosition;
-            _bridge.transform.localPosition = Vector3.MoveTowards(curPos, new Vector3(curPos.x, 0, curPos.z), _bridgeRisingSpeed * Time.deltaTime);
-
-            // Gradually increase the alpha value
-            _bridgeColor.a = Mathf.MoveTowards(_bridgeColor.a, 1f, _bridgeAppearingSpeed * Time.deltaTime);
-            _bridgeRenderer.material.color = _bridgeColor;
+            // Moves the bridge container towards the 
+            Vector3 curPos = _bridgeContainer.transform.localPosition;
+            _bridgeContainer.transform.localPosition = Vector3.MoveTowards(
+                curPos, 
+                new Vector3(curPos.x, -0.1f, curPos.z), 
+                _bridgeRisingSpeed * Time.deltaTime);
         }
     }
     
     public void OnValidation(LevelProgressionHandler handler)
     {
-        
         // handler.HasProgressed = true;
- 
     }
     
     public void OnProgression()
     {
         Debug.Log("Level Succeed");
-        _bridge.SetActive(true);
+        _bridgeContainer.SetActive(true);
         _execBridgeAppearingAnimation = true;
     }
 
