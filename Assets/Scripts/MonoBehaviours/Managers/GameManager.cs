@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         IsInSettingsMenu = _settingsMenu.activeInHierarchy;
         IsInInventory = _inventory.activeInHierarchy;
         if (!IsInSettingsMenu || !IsInInventory) LockTheCursor();
-        else ReleaseTheCursor();   
+        else ReleaseTheCursor();
     }
 
     private void Update()

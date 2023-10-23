@@ -31,7 +31,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 90
+        time: 90.666664
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -70,7 +70,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 90
+    m_StopTime: 90.666664
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -100,7 +100,7 @@ AnimationClip:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 90
+        time: 90.666664
         value: 0
         inSlope: Infinity
         outSlope: Infinity
@@ -162,7 +162,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 32.966667
+  - time: 33.683334
     functionName: DeactivateDevilTalkingAnimation
     data: 
     objectReferenceParameter: {fileID: 0}
@@ -206,6 +206,27 @@ AnimationClip:
     messageOptions: 0
   - time: 87
     functionName: DeactivateDevilTalkingAnimation
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 87.3
+    functionName: PlayLastLine
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 87.55
+    functionName: VanishEffectOnDevil
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 89.11667
+    functionName: DisableDevil
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

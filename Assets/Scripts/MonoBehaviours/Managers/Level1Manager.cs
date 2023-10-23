@@ -10,10 +10,8 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
 
     // Singleton Pattern
     public static Level1Manager Instance { get; private set; }
-
-    [SerializeField] public GameObject talkwithDevilCutsceneContainer;
-
-    [Header("Burning Tree Cutscene (will be passed to other scripts via Singleton)")]
+    
+    [Header("Burning Tree Cutscene (passed as Singleton to Machine State Behaviours")]
     [SerializeField] public GameObject burningTreeCutsceneContainer;
     [SerializeField] public GameObject originalTreeModel;
     [SerializeField] public GameObject burntTreeModel;
@@ -46,9 +44,6 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
     
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-            TriggerTalkWithDevilCutscene();
-
         if (_execBridgeAppearingAnimation)
         {
             // Moves the bridge container towards the 
@@ -78,12 +73,7 @@ public class Level1Manager : MonoBehaviour, ILevelProgressValidator
             Debug.LogError($"Tried to subscribe a ILevelProgressValidator to a null LevelProgressionHandler");
         handler.iLevelProgressValidator = this;
     }
-
-    public void TriggerTalkWithDevilCutscene()
-    {
-        talkwithDevilCutsceneContainer.GetComponent<Animator>().SetTrigger("StartSequence");
-    }
-
+    
     // Called by the BurningTreeColision via Singleton
     public void TriggerBurningTreeCutscene()
     {
