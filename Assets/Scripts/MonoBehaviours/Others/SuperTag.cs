@@ -33,7 +33,7 @@ public class SuperTag : MonoBehaviour
         // Checks if there is another SuperTag with the same tag name attached to this GameObject.
         // If not repeated, add this SuperTag to the list of all SuperTags.
         _tagName = _tagName.ToUpper();
-        bool isRepeatedToThisGmObj = FindObjectsWithSuperTag(TagName).Any(gObj => gObj == this.gameObject);
+        bool isRepeatedToThisGmObj = GetObjectsWithSuperTag(TagName).Any(gObj => gObj == this.gameObject);
         if (!isRepeatedToThisGmObj) _allSuperTags.Add(this);
         else Debug.LogWarning($"{gameObject.name} has tried to have more than 1 SuperTag named ({TagName}), this action was denied");
     }
@@ -41,7 +41,7 @@ public class SuperTag : MonoBehaviour
     /// <summary>Finds all GameObjects with the specified case-insensitive SuperTag name.</summary>
     /// <param name="superTagNameCaseInsensitive">The case-insensitive SuperTag name to search for.</param>
     /// <returns>An IEnumerable of GameObjects with the specified SuperTag name.</returns>
-    public static IEnumerable<GameObject> FindObjectsWithSuperTag(string superTagNameCaseInsensitive)
+    public static IEnumerable<GameObject> GetObjectsWithSuperTag(string superTagNameCaseInsensitive)
     {
         foreach (SuperTag superTag in _allSuperTags)
             if (superTag.TagName.ToUpper().Equals(superTagNameCaseInsensitive.ToUpper()))

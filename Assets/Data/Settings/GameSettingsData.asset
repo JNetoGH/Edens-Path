@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mouseSensitivity: 1.5
   targetFps: 60
-  useVSync: 1
-  unlockFps: 0
+  useVSync: 0
+  unlockFps: 1

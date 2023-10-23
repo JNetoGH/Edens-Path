@@ -16,15 +16,8 @@ public class GameManager : MonoBehaviour
     public static bool CanOpenInventory { get; set; } = true;
     public bool IsInSettingsMenu { get; private set; } = false;
     public bool IsInInventory { get; set; } = false;
-
     public static bool IsInCutscene { get; set; } = false;
-
-
-    private void Awake()
-    {
-        IsInCutscene = false;
-    }
-
+    
     private void Start()
     {
         CanOpenInventory = true;

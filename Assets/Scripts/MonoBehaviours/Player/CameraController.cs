@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -17,7 +18,15 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform _cameraPosition;
     private float _mouseX;
     private float _mouseY;
-    
+
+    private void Awake()
+    {
+        float initialRotationX = transform.rotation.eulerAngles.x;
+        float initialRotationY = transform.rotation.eulerAngles.y;
+        _rotationX = initialRotationX;
+        _rotationY = initialRotationY;
+    }
+
     private void Update()
     {
         if (!PlayerController.CanMove)
