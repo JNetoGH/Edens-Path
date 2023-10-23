@@ -30,6 +30,7 @@ public class CameraController : MonoBehaviour
     {
         if (!GameManager.CanRotateCamera)
             return;
+      
         UpdateInputs();
         RotateFreely();
     }

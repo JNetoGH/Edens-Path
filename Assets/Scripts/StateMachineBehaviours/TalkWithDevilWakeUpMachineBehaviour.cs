@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class FirstTalkWithDevilMachineBehaviour : StateMachineBehaviour
+public class TalkWithDevilWakeUpMachineBehaviour : StateMachineBehaviour
 {
     
     [SerializeField] private float _cameraXInitialRotation = 50f;
@@ -11,6 +11,7 @@ public class FirstTalkWithDevilMachineBehaviour : StateMachineBehaviour
     private float _lookUpTimer = 0;
     private GameObject _playerCamera;
     private GameObject _devil;
+    private Vector3 _animatedRotation;
     
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -48,34 +49,26 @@ public class FirstTalkWithDevilMachineBehaviour : StateMachineBehaviour
             return;
         }
 
+        const float xTarget = 0;
         _lookUpTimer += Time.deltaTime;
         _canLookUp = _lookUpTimer >= _delayToLookUpInSeconds;
-        Vector3 animatedRotation = _playerCamera.transform.rotation.eulerAngles;
-        float xTarget = 0;
-        bool hasFinishedLookingUp = _playerCamera.transform.rotation.eulerAngles.x == xTarget;
+        _animatedRotation = _playerCamera.transform.rotation.eulerAngles;
         
         if (_canLookUp)
         {
             // updates the animation of looking upwards.
-            animatedRotation.x -= _cameraRotationSpeed * Time.deltaTime;
-            if (animatedRotation.x <=  xTarget)
+            _animatedRotation.x -= _cameraRotationSpeed * Time.deltaTime;
+            if (_animatedRotation.x <=  xTarget)
             {
-                animatedRotation.x =  xTarget;
+                _animatedRotation.x = xTarget;
                 _canLookUp = false;
             }
-            _playerCamera.transform.rotation = Quaternion.Euler(animatedRotation);
-        }
-
-        // Allows the player to look around when he finishes looking up.
-        if (hasFinishedLookingUp)
-        {
-            GameManager.CanRotateCamera = true;
-            _playerCamera.GetComponent<CameraController>().OverrideRotationCache(animatedRotation.x, animatedRotation.y);
+            _playerCamera.transform.rotation = Quaternion.Euler(_animatedRotation);
         }
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-  
+        _playerCamera.GetComponent<CameraController>().OverrideRotationCache(_animatedRotation.x, _animatedRotation.y);
     }
 }

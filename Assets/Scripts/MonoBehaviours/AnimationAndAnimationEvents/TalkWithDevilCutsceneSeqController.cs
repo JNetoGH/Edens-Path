@@ -7,6 +7,10 @@ public class TalkWithDevilCutsceneSeqController : MonoBehaviour
     [SerializeField] private Animator _eyesEffect;
     [SerializeField] private bool _overrideCutSceneStart = false;
     
+    // Devil
+    private GameObject _devil;
+    private Animator _devilAnimator;
+    
     // Animator
     private Animator _animator;
     private static readonly int StartSequence = Animator.StringToHash("StartSequence");
@@ -14,11 +18,16 @@ public class TalkWithDevilCutsceneSeqController : MonoBehaviour
     // Audio
     private AudioSource _audioSource;
     
-    
     private void Awake()
     {
         _animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
+    }
+
+    private void Start()
+    {
+        _devil = SuperTag.GetFirstObjectWithSuperTag("Devil");
+        _devilAnimator = _devil.GetComponent<Animator>();
     }
 
     private void Update()
@@ -42,6 +51,16 @@ public class TalkWithDevilCutsceneSeqController : MonoBehaviour
         _eyesEffect.SetTrigger("SlowOpenEyes");
     }
 
+    private void ActivateDevilTalkingAnimation()
+    {
+        _devilAnimator.SetBool("Talk", true);
+    }
+
+    private void DeactivateDevilTalkingAnimation()
+    {
+        _devilAnimator.SetBool("Talk", false);
+    }
+    
     #endregion
 
     
