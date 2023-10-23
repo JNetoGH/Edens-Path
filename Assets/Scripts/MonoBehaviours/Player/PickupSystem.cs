@@ -25,7 +25,7 @@ public class PickupSystem : MonoBehaviour
     private void Update()
     {
         // Checking for player being able to move
-        if (!PlayerController.CanMove)
+        if (!GameManager.CanMovePlayer)
             return;
         
         TryOutlinePickablesInRangeOfTheCameraRay();

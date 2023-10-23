@@ -8,27 +8,25 @@ using UnityEngine;
 /// </summary>
 public class CutsceneStart : StateMachineBehaviour
 {
+
+    [SerializeField] private bool _useCinemachine = true;
+    
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        // Locks many systems
+        GameManager.EnterCutsceneMode();
 
-        GameManager.IsInCutscene = true;
-
-        // Activate CinemachineBrain object to enable camera control during the cutscene.
-        FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(true);
+        if (_useCinemachine)
+        {
+            // Activate CinemachineBrain object to enable camera control during the cutscene.
+            FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(true);
+        }
         
-        // Deactivate screen cross.
-        GameManager.DeactivateScreenCross();
-
         // Release the current object held by the PickupSystem and disable the PickupSystem.
         PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
         pickupSystem.ReleaseCurrentObject(false);
         pickupSystem.enabled = false;
         
-        // Makes the player Immovable
-        PlayerController.CanMove = false;
-        
-        // Disables the player unable to open the inventory during cutscenes
-        GameManager.CanOpenInventory = false;
     }
 }
 

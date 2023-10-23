@@ -32,7 +32,6 @@ public class FirstTalkWithDevilMachineBehaviour : StateMachineBehaviour
             Debug.LogWarning("FirstTalkWithDevilMachineBehaviour could not find devil using the SuperTag system");
             return;
         }
-
         _playerCamera.transform.LookAt(_devil.transform);    
         
         // Looks to the ground to set the animation.
@@ -51,18 +50,32 @@ public class FirstTalkWithDevilMachineBehaviour : StateMachineBehaviour
 
         _lookUpTimer += Time.deltaTime;
         _canLookUp = _lookUpTimer >= _delayToLookUpInSeconds;
-        if (!_canLookUp)
-            return;
+        Vector3 animatedRotation = _playerCamera.transform.rotation.eulerAngles;
+        float xTarget = 0;
+        bool hasFinishedLookingUp = _playerCamera.transform.rotation.eulerAngles.x == xTarget;
         
-        // updates the animation of looking upwards.
-        Vector3 currentRotation = _playerCamera.transform.rotation.eulerAngles;
-        currentRotation.x -= _cameraRotationSpeed * Time.deltaTime;
-        if (currentRotation.x <= 0)
+        if (_canLookUp)
         {
-            currentRotation.x = 0;
-            _canLookUp = false;
+            // updates the animation of looking upwards.
+            animatedRotation.x -= _cameraRotationSpeed * Time.deltaTime;
+            if (animatedRotation.x <=  xTarget)
+            {
+                animatedRotation.x =  xTarget;
+                _canLookUp = false;
+            }
+            _playerCamera.transform.rotation = Quaternion.Euler(animatedRotation);
         }
-        _playerCamera.transform.rotation = Quaternion.Euler(currentRotation);
+
+        // Allows the player to look around when he finishes looking up.
+        if (hasFinishedLookingUp)
+        {
+            GameManager.CanRotateCamera = true;
+            _playerCamera.GetComponent<CameraController>().OverrideRotationCache(animatedRotation.x, animatedRotation.y);
+        }
     }
 
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    {
+  
+    }
 }

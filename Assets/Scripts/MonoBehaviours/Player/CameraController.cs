@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 
@@ -18,7 +17,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform _cameraPosition;
     private float _mouseX;
     private float _mouseY;
-
+    
     private void Awake()
     {
         float initialRotationX = transform.rotation.eulerAngles.x;
@@ -29,10 +28,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        if (!PlayerController.CanMove)
+        if (!GameManager.CanRotateCamera)
             return;
         UpdateInputs();
-        Rotate();
+        RotateFreely();
     }
 
     private void LateUpdate()
@@ -46,7 +45,7 @@ public class CameraController : MonoBehaviour
         _mouseY = Input.GetAxisRaw("Mouse Y");
     }
     
-    private void Rotate()
+    private void RotateFreely()
     {
         float mouseSensitivity = _gameSettingsData.MouseSensitivity; 
         _rotationY += _mouseX * mouseSensitivity;
@@ -58,10 +57,16 @@ public class CameraController : MonoBehaviour
         // Applies the rotations
         transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
     }
-
+    
     private void MoveToTargetPosition()
     {
         transform.position = _cameraPosition.position;
+    }
+
+    public void OverrideRotationCache(float rotationX, float rotationY)
+    {
+        _rotationX = rotationX;
+        _rotationY = rotationY;
     }
     
 }

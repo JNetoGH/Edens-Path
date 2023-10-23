@@ -18,15 +18,11 @@ public class SettingsMenu : MonoBehaviour
     
     private void OnEnable()
     {
-        GameManager.ReleaseTheCursor();
-        PlayerController.CanMove = false;
         SyncMenuWithGameData();
     }
 
     private void OnDisable()
     {
-        GameManager.LockTheCursor();
-        PlayerController.CanMove = true;
         SyncGameDataWithMenu();
     }
     

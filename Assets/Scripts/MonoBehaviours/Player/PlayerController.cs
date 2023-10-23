@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     
-    public static bool CanMove { get; set; } = true;
-    public bool IsMoving => (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && CanMove;
+    public bool IsMoving => (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && GameManager.CanMovePlayer;
     public float VerticalVelocity { get; private set; } = 0;
     public const float GroundedDecrement = -0.5f;
     
@@ -34,7 +33,6 @@ public class PlayerController : MonoBehaviour
     
     private void Awake()
     {
-        CanMove = true;
         _characterController = GetComponent<CharacterController>();
     }
 
@@ -50,7 +48,7 @@ public class PlayerController : MonoBehaviour
         UpdateInputs();
         RotatePlayerAccordingToCamera();
         // Calling the move in the update instead of fixed syncs better with the camera.
-        if (CanMove) 
+        if (GameManager.CanMovePlayer) 
             Move();
     }
     

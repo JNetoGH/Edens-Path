@@ -29,17 +29,9 @@ public class Inventory : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.ReleaseTheCursor();
-        PlayerController.CanMove = false;
         BuildInventoryItemsBasedOnList();
     }
-
-    private void OnDisable()
-    {
-        GameManager.LockTheCursor();
-        PlayerController.CanMove = true;
-    }
-
+    
     public void Add(PickableObject pickableObjectObject)
     {
         pickableObjectsList.Add(pickableObjectObject.pickableObjectData);
