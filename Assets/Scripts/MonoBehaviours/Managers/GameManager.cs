@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
         }
 
         // Called by the Settings Menu Resume Button
+        // Called by the Inventory's Return Button
         public void SwitchInventoryState()
         {
             IsInInventory = !IsInInventory;
@@ -88,8 +89,7 @@ public class GameManager : MonoBehaviour
             else EnterGameplayMode();
         }
         
-        // Called by the Inventory's Return Button
-        public void CloseInventory()
+        private void CloseInventory()
         {
             _inventory.SetActive(false);
             IsInInventory = false;
