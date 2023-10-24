@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 
-public class TalkWithDevilAnimationEvents : MonoBehaviour
+public class TalkWithDevilCutsceneController : MonoBehaviour
 {
     
     [Header("Overriding")]
@@ -13,13 +13,13 @@ public class TalkWithDevilAnimationEvents : MonoBehaviour
     
     [Header("References")]
     [SerializeField] private GameObject _devil;
-    private Animator _devilAnimator;
-    
-    [Header("Settings")]
     [SerializeField] private Animator _eyesEffect;
     [SerializeField] private AudioClip _lastLine;
     [SerializeField] private GameObject _vanishEffect;
     [SerializeField] private Transform _playerPositionOnCutscene;
+    
+    // Devil
+    private Animator _devilAnimator;
     
     // Player
     private GameObject _player;
@@ -66,44 +66,45 @@ public class TalkWithDevilAnimationEvents : MonoBehaviour
         _vanishEffect.SetActive(false);
     }
     
-    #region Called By The Animation Events
-
-    public void PlayDialog()
-    {
-        _audioSource.Play();
-    }
-
-    public void PlayEyesOpeningEffect()
-    {
-        _eyesEffect.SetTrigger("SlowOpenEyes");
-    }
-
-    public void PlayLastLine()
-    {
-        _audioSource.clip = _lastLine;
-        _audioSource.Play();
-    }
-
-    public void VanishEffectOnDevil()
-    {
-        _vanishEffect.SetActive(true);
-    }
     
-    public void DisableDevil()
-    {
-        _devil.SetActive(false);
-        _vanishEffect.SetActive(false);
-    }
-    
-    private void ActivateDevilTalkingAnimation()
-    {
-        _devilAnimator.SetBool("Talk", true);
-    }
+    #region Called By Animation Events
 
-    private void DeactivateDevilTalkingAnimation()
-    {
-        _devilAnimator.SetBool("Talk", false);
-    }
+        private void PlayDialog()
+        {
+            _audioSource.Play();
+        }
+
+        private void PlayEyesOpeningEffect()
+        {
+            _eyesEffect.SetTrigger("SlowOpenEyes");
+        }
+
+        private void PlayLastLine()
+        {
+            _audioSource.clip = _lastLine;
+            _audioSource.Play();
+        }
+
+        private void VanishEffectOnDevil()
+        {
+            _vanishEffect.SetActive(true);
+        }
+        
+        private void DisableDevil()
+        {
+            _devil.SetActive(false);
+            _vanishEffect.SetActive(false);
+        }
+        
+        private void ActivateDevilTalkingAnimation()
+        {
+            _devilAnimator.SetBool("Talk", true);
+        }
+
+        private void DeactivateDevilTalkingAnimation()
+        {
+            _devilAnimator.SetBool("Talk", false);
+        }
     
     #endregion
 

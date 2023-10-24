@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BurningTreeColision : MonoBehaviour
+public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 {
 
     private bool _hasTriggeredAlready;
@@ -19,7 +19,7 @@ public class BurningTreeColision : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("Torch"))
         {
-            Level1Manager.Instance.TriggerBurningTreeCutscene();
+            FindObjectOfType<BurningTreeCutsceneController>().TriggerBurningTreeCutscene();
             _hasTriggeredAlready = true;
         }
     }

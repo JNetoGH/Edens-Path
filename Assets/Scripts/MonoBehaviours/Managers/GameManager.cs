@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using Cursor = UnityEngine.Cursor;
 
 
@@ -39,7 +35,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-
         if (IsInSettingsMenu)
             PauseGame();
         else
@@ -51,8 +46,26 @@ public class GameManager : MonoBehaviour
         
         // Menu Button Pressed
         if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
-        {
             SwitchSettingsMenuState();
+        
+        // Makes sure the inventory is close during cutscenes.
+        if (IsInCutscene)
+            CloseInventory();
+        
+        // Inventory Button Pressed, can't open the menu while in cutscenes.
+        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu && CanOpenOrCloseInventory && !IsInCutscene)
+            SwitchInventoryState();
+        
+    }
+    
+    
+    #region Called By Button Eventes
+    
+        // Called by the Inventory's Resume Button
+        public void SwitchSettingsMenuState()
+        {
+            IsInSettingsMenu = !IsInSettingsMenu;
+            _settingsMenu.SetActive(IsInSettingsMenu);
             if (IsInSettingsMenu)
             {
                 EnterSettingsMenuMode();
@@ -66,30 +79,13 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Inventory Button Pressed, can't open the menu while in cutscenes.
-        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu && CanOpenOrCloseInventory && !IsInCutscene)
-        {
-            SwitchInventoryState();
-            if (IsInInventory) EnterInventoryMenuMode();
-            else EnterGameplayMode();
-        }
-    }
-
-    
-    #region Called By Button Eventes
-    
-        // Called by the Inventory's Resume Button
-        public void SwitchSettingsMenuState()
-        {
-            IsInSettingsMenu = !IsInSettingsMenu;
-            _settingsMenu.SetActive(IsInSettingsMenu);
-        }
-
         // Called by the Settings Menu Resume Button
         public void SwitchInventoryState()
         {
             IsInInventory = !IsInInventory;
             _inventory.SetActive(IsInInventory);
+            if (IsInInventory) EnterInventoryMenuMode();
+            else EnterGameplayMode();
         }
         
         // Called by the Inventory's Return Button
@@ -135,7 +131,7 @@ public class GameManager : MonoBehaviour
         
             // Makes Camera Immovable.
             GameManager.CanRotateCamera = false;
-        
+            
             // Disables the player unable to open the inventory during cutscenes.
             GameManager.CanOpenOrCloseInventory = false;
             
