@@ -23,4 +23,16 @@ public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
             _hasTriggeredAlready = true;
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (_hasTriggeredAlready)
+            return;
+
+        if (other.gameObject.tag.Equals("Torch"))
+        {
+            FindObjectOfType<BurningTreeCutsceneController>().TriggerBurningTreeCutscene();
+            _hasTriggeredAlready = true;
+        }
+    }
 }
