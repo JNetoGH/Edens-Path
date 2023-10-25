@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cursor = UnityEngine.Cursor;
@@ -10,13 +11,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _settingsMenu;
     [SerializeField] private GameObject _inventory;
     
+    // Public control properties
     public static bool CanMovePlayer { get; set; } = true;
     public static bool CanRotateCamera { get; set; } = true;
     public static bool CanOpenOrCloseInventory { get; set; } = true;
-    public static bool IsInCutscene { get; set; } = false;
     
-    public bool IsInSettingsMenu { get; private set; } = false;
-    public bool IsInInventory { get; set; } = false;
+    // Private control fields.
+    private static bool _isInCutscene = false;
+    private static bool _isInSettingsMenu  = false;
+    private static bool _isInInventory = false;
+    
+    // Used by the pausing method, in order to not play what is not supposed to be replayed when the game is unpaused.
+    private static List<AudioSource> _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
 
     private void Awake()
     {
@@ -27,15 +33,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        IsInSettingsMenu = _settingsMenu.activeInHierarchy;
-        IsInInventory = _inventory.activeInHierarchy;
-        if (!IsInSettingsMenu || !IsInInventory) LockTheCursor();
+        _isInSettingsMenu = _settingsMenu.activeInHierarchy;
+        _isInInventory = _inventory.activeInHierarchy;
+        if (!_isInSettingsMenu || !_isInInventory) LockTheCursor();
         else ReleaseTheCursor();
     }
 
     private void Update()
     {
-        if (IsInSettingsMenu)
+        if (_isInSettingsMenu)
             PauseGame();
         else
             UnpauseGame();
@@ -49,11 +55,11 @@ public class GameManager : MonoBehaviour
             SwitchSettingsMenuState();
         
         // Makes sure the inventory is close during cutscenes.
-        if (IsInCutscene)
+        if (_isInCutscene)
             CloseInventory();
         
         // Inventory Button Pressed, can't open the menu while in cutscenes.
-        if (Input.GetKeyDown(KeyCode.I) && !IsInSettingsMenu && CanOpenOrCloseInventory && !IsInCutscene)
+        if (Input.GetKeyDown(KeyCode.I) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
             SwitchInventoryState();
         
     }
@@ -64,17 +70,17 @@ public class GameManager : MonoBehaviour
         // Called by the Inventory's Resume Button
         public void SwitchSettingsMenuState()
         {
-            IsInSettingsMenu = !IsInSettingsMenu;
-            _settingsMenu.SetActive(IsInSettingsMenu);
-            if (IsInSettingsMenu)
+            _isInSettingsMenu = !_isInSettingsMenu;
+            _settingsMenu.SetActive(_isInSettingsMenu);
+            if (_isInSettingsMenu)
             {
                 EnterSettingsMenuMode();
                 // after switching the state of the menu, if the player was in the inventory, it will be closed.
-                if (IsInInventory) CloseInventory();
+                if (_isInInventory) CloseInventory();
             }
             else
             {
-                if (IsInCutscene) EnterCutsceneMode();
+                if (_isInCutscene) EnterCutsceneMode();
                 else EnterGameplayMode();
             }
         }
@@ -83,16 +89,16 @@ public class GameManager : MonoBehaviour
         // Called by the Inventory's Return Button
         public void SwitchInventoryState()
         {
-            IsInInventory = !IsInInventory;
-            _inventory.SetActive(IsInInventory);
-            if (IsInInventory) EnterInventoryMenuMode();
+            _isInInventory = !_isInInventory;
+            _inventory.SetActive(_isInInventory);
+            if (_isInInventory) EnterInventoryMenuMode();
             else EnterGameplayMode();
         }
         
         private void CloseInventory()
         {
             _inventory.SetActive(false);
-            IsInInventory = false;
+            _isInInventory = false;
         }
         
     #endregion
@@ -103,7 +109,7 @@ public class GameManager : MonoBehaviour
         public static void EnterGameplayMode()
         {
             // Tells the game manager a cutscene is not happening.
-            GameManager.IsInCutscene = false;
+            GameManager._isInCutscene = false;
         
             // Makes the player movable.
             GameManager.CanMovePlayer = true;
@@ -124,7 +130,7 @@ public class GameManager : MonoBehaviour
         public static void EnterCutsceneMode()
         {
             // Tells the game manager a cutscene is happening.
-            GameManager.IsInCutscene = true;
+            GameManager._isInCutscene = true;
         
             // Makes the player Immovable.
             GameManager.CanMovePlayer = false;
@@ -201,11 +207,28 @@ public class GameManager : MonoBehaviour
         public static void UnpauseGame()
         {
             Time.timeScale = 1;
+            
+            // Unpause te audio source
+            foreach (AudioSource audioSource in _audioSourcesPausedOnPausedEvent)
+                audioSource.UnPause();
+            // Clears the list.
+            _audioSourcesPausedOnPausedEvent.Clear();
         }
 
         public static void PauseGame()
         {
             Time.timeScale = 0;
+            
+            // Pauses every audio source as well, otherwise they keep playing.
+            AudioSource[] activeAudioSources = FindObjectsOfType<AudioSource>();
+            foreach (AudioSource audioSource in activeAudioSources)
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Pause();
+                    _audioSourcesPausedOnPausedEvent.Add(audioSource);
+                }
+            }
         }
         
         public static void ResetGame()
