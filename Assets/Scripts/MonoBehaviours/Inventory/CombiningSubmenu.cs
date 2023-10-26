@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using ScriptableObjects;
 using TMPro;
 using UnityEngine;
@@ -7,24 +8,43 @@ using UnityEngine.UI;
 using UnityEngine.Serialization;
 
 
-public class CombiningSubMenu : MonoBehaviour
+
+/// <summary>
+/// Manages the combining submenu functionality.
+/// </summary>
+public class CombiningSubmenu : MonoBehaviour
 {
 
     // Singleton Pattern
-    public static CombiningSubMenu Instance { get; private set; }
-
-    public List<CombiningRecipeData> combiningRecipes = new List<CombiningRecipeData>(); 
-
-    [Header("Singleton: Combining Submenu References")]
-    public GameObject combiningSubmenuHitbox;
-    public GameObject itemHolderLeft;
-    public GameObject itemHolderRight;
-    public GameObject resultPreview;
-    public bool isLeftItemHolderFree => itemHolderLeft.transform.childCount == 0;
-    public bool isRightItemHolderFree => itemHolderRight.transform.childCount == 0;
-    public bool anyItemHolderAvaliable => (Instance.isLeftItemHolderFree || Instance.isRightItemHolderFree);
-    public bool isResultPreviewFree => resultPreview.transform.childCount == 0;
+    public static CombiningSubmenu Instance { get; private set; }
     
+    [HorizontalLine]
+    [BoxGroup("COMBINING RECIPES DATA BASE")]
+    [InfoBox("This list represents the data base of possible combining recipes (ScriptableObjects)")]
+    [SerializeField] private List<CombiningRecipeData> _combiningRecipes = new List<CombiningRecipeData>(); 
+
+    [Header("REQUIRED REFERENCES (may be passed as singleton)"), HorizontalLine] 
+    [BoxGroup, Required] public GameObject combiningSubmenuHitbox;
+    [BoxGroup, Required] public GameObject itemHolderLeft;
+    [BoxGroup, Required] public GameObject itemHolderRight;
+    [BoxGroup, Required] public GameObject resultPreview;
+    
+    // Auto-Implemented Get-Only Communication Properties.
+    // Used to other classes to understand the current state od the Combining Submenu.
+    public bool IsLeftItemHolderFree => itemHolderLeft.transform.childCount == 0;
+    public bool IsRightItemHolderFree => itemHolderRight.transform.childCount == 0;
+    public bool IsResultPreviewFree => resultPreview.transform.childCount == 0;
+    public bool AnyItemHolderAvailable => (IsLeftItemHolderFree || IsRightItemHolderFree);
+    
+    // EDITOR-ONLY:
+    // Debugging Information ReadOnly Fields Wrapper.
+    // Properties are not very customizable and hard to update with Naughty Attributes, this workaround it's needed.
+    private const string G2 = "DEBUG INFO WRAPPER";
+    [HorizontalLine]
+    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isLeftItemHolderFree = true;
+    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isRightItemHolderFree = true;
+    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isResultPreviewFree = true;
+
     private void Awake()
     {
         Instance = this;
@@ -32,16 +52,30 @@ public class CombiningSubMenu : MonoBehaviour
 
     private void Update()
     {
+        UpdateDebugEditorInfo();
         UpdateCombiningPreview();
     }
 
+    /// <summary>
+    /// Updates the Debugging Information ReadOnly Fields Wrapper.
+    /// </summary>
+    private void UpdateDebugEditorInfo()
+    {
+        _isLeftItemHolderFree = IsLeftItemHolderFree;
+        _isRightItemHolderFree = IsRightItemHolderFree;
+        _isResultPreviewFree = IsResultPreviewFree;
+    }
+    
+    /// <summary>
+    /// Updates the preview of the combining process based on the items in the item holders.
+    /// </summary>
     private void UpdateCombiningPreview()
     {
-        bool areBothHolderOccupied = !isRightItemHolderFree && !isLeftItemHolderFree;
+        bool areBothHolderOccupied = !IsRightItemHolderFree && !IsLeftItemHolderFree;
         if (!areBothHolderOccupied)
         {
             // Clears previous preview item in case any of the holders has been changed.
-            if (!isResultPreviewFree)
+            if (!IsResultPreviewFree)
             {
                 GameObject objPrev = resultPreview.transform.GetChild(0).gameObject;
                 Destroy(objPrev);
@@ -51,7 +85,7 @@ public class CombiningSubMenu : MonoBehaviour
         }
 
         // can't child another obj to preview if there is already one, they will stack.
-        if (!isResultPreviewFree)
+        if (!IsResultPreviewFree)
             return;
 
         InventoryItemController item1 = itemHolderLeft.transform.GetChild(0).GetComponent<InventoryItemController>();
@@ -92,15 +126,18 @@ public class CombiningSubMenu : MonoBehaviour
     private void OnDisable()
     {
         // Sends both item back to inventory when the combining submenu is disabled.
-        if (!isLeftItemHolderFree)  SendDockedItemsBackToInventory(itemHolderLeft.transform.GetChild(0).GetComponent<InventoryItemController>());
-        if (!isRightItemHolderFree) SendDockedItemsBackToInventory(itemHolderRight.transform.GetChild(0).GetComponent<InventoryItemController>());
+        if (!IsLeftItemHolderFree)  SendDockedItemsBackToInventory(itemHolderLeft.transform.GetChild(0).GetComponent<InventoryItemController>());
+        if (!IsRightItemHolderFree) SendDockedItemsBackToInventory(itemHolderRight.transform.GetChild(0).GetComponent<InventoryItemController>());
     }
 
-    // Called by the button on the Combining submenu.
+    /// <summary>
+    /// Called by the button on the Combining submenu.
+    /// Attempts to combine items in the item holders based on available recipes.
+    /// </summary>
     public void TryCombine()
     {
         // Checks before if both holder have a Inventory Item as child.
-        if (anyItemHolderAvaliable)
+        if (AnyItemHolderAvailable)
         {
             Debug.Log("Combining Failed: one or more item holders are empty");
             return;
@@ -135,14 +172,24 @@ public class CombiningSubMenu : MonoBehaviour
         Inventory.Instance.BuildInventoryItemsBasedOnList();
     }
 
+    /// <summary>
+    /// Finds the first combining recipe corresponding to the provided pickable object data.
+    /// </summary>
+    /// <param name="data1">The first pickable object data.</param>
+    /// <param name="data2">The second pickable object data.</param>
+    /// <returns>The combining recipe data if found, null otherwise.</returns>
     private CombiningRecipeData FindFirstRecipeCorrespondingToItems(PickableObjectData data1, PickableObjectData data2)
     {
-        foreach (CombiningRecipeData recipe in combiningRecipes)
+        foreach (CombiningRecipeData recipe in _combiningRecipes)
             if ((data1 == recipe.obj1 && data2 == recipe.obj2) || (data1 == recipe.obj2 && data2 == recipe.obj1))
                 return recipe;
         return null;
     }
     
+    /// <summary>
+    /// Sends the docked item back to the inventory, detaching it from the current parent.
+    /// </summary>
+    /// <param name="dockedItem">The docked inventory item controller.</param>
     private void SendDockedItemsBackToInventory(InventoryItemController dockedItem)
     {
         Inventory.Instance.Add(dockedItem.pickableObjectData);

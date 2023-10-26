@@ -1,9 +1,11 @@
-﻿using System;
-using ScriptableObjects;
+﻿using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 
+/// <summary>
+/// Represents a controller for inventory items, managing their behavior and interactions.
+/// </summary>
 [RequireComponent(typeof(BoxCollider)), RequireComponent(typeof(EventTrigger)), RequireComponent(typeof(Rigidbody2D))]
 public class InventoryItemController: MonoBehaviour
 {
@@ -12,16 +14,17 @@ public class InventoryItemController: MonoBehaviour
     [HideInInspector] public PickableObjectData pickableObjectData;
     [HideInInspector] public int indexInInventory;
     
-    private RectTransform _rectTransform;
+    // Controlling
+    [HideInInspector] public bool isChildOfInventoryParent; // Changed by the CombiningSubmenu.cs
     private bool _isMousePressed = false;
     private bool _hasBeenReleased = false;
-    public bool isChildOfInventoryParent;
     private bool _isOnHitbox = false;
     private bool _isInHolder = false;
     
+    private RectTransform _rectTransform;
+    
     void Start()
     {
-
         if (transform.parent.tag.Equals("InventoryContent"))
             isChildOfInventoryParent = true;
         _rectTransform = GetComponent<RectTransform>();
@@ -29,10 +32,9 @@ public class InventoryItemController: MonoBehaviour
 
     void Update()
     {
-
         // Debug.Log($"{gameObject.name} is in a Holder: {_isInHolder}");
         // Debug.Log($"{gameObject.name} has been Released: {_hasBeenReleased}");
-
+        
         if (_isMousePressed)
             MoveToMousePosition();
 
@@ -40,13 +42,13 @@ public class InventoryItemController: MonoBehaviour
         if (_hasBeenReleased && !_isOnHitbox && !_isInHolder)
         {
             InstantiateCorrespondingToPickableObjectData();
-            DestoryInventoryItem();
+            DestroyInventoryItem();
         }
     }
     
     private void OnTriggerStay2D(Collider2D other)
     {
-        // Checks for a Hitbox overlap 
+        // Checks for a Hitbox overlaps.
         if (_isMousePressed)
         {
             if (other.gameObject == Inventory.Instance.inventoryHitbox)
@@ -54,7 +56,7 @@ public class InventoryItemController: MonoBehaviour
                 // Debug.Log($"{gameObject.name} dragged on Inventory");
                 _isOnHitbox = true;
             }
-            else if (other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
+            else if (other.gameObject == CombiningSubmenu.Instance.combiningSubmenuHitbox)
             {
                 // Debug.Log($"{gameObject.name} dragged on Combining submenu");
                 _isOnHitbox = true;
@@ -63,60 +65,19 @@ public class InventoryItemController: MonoBehaviour
         
         if (_hasBeenReleased)
         {
-
-            // Released on top of the inventory content hitbox
-            if (other.gameObject == Inventory.Instance.inventoryHitbox)
-            {
-                _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-                Debug.Log($"{gameObject.name} has been released on the inventory");
-                // Adds the data back to inventory list
-                Inventory.Instance.Add(pickableObjectData);
-                if (transform.parent.tag.Equals("InventoryContent"))
-                    isChildOfInventoryParent = true;
-            }
-
-            // Released on top of the combining submenu hitbox
-            else if (!_isInHolder && other.gameObject == CombiningSubMenu.Instance.combiningSubmenuHitbox)
-            {  
-                // Case there is one vague.
-                if (CombiningSubMenu.Instance.isLeftItemHolderFree)
-                {
-                    Debug.Log($"{gameObject.name} has been released on left item holder");
-                    _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderLeft.transform);
-                    _isInHolder = true;
-                    isChildOfInventoryParent = false;
-                }
-                else if (CombiningSubMenu.Instance.isRightItemHolderFree)
-                {
-                    Debug.Log($"{gameObject.name} has been released on right item holder");
-                    _rectTransform.SetParent(CombiningSubMenu.Instance.itemHolderRight.transform);
-                    _isInHolder = true;
-                    isChildOfInventoryParent = false;
-                }
-
-                // In case both item holders are occupied, sends back to inventory.
-                if (!_isInHolder)
-                {
-                    Debug.Log($"{gameObject.name} has been released on a item holder but both are occupied, it has been sent back to inventory");
-                    _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
-                    // Adds the data back to inventory list
-                    Inventory.Instance.Add(pickableObjectData);
-                    if (transform.parent.tag.Equals("InventoryContent"))
-                        isChildOfInventoryParent = true;
-                }
-            }
-
+            ManageRelease(other);
             _hasBeenReleased = false;
-
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D other)
     {
         _isOnHitbox = false;
     }
-
-    // Called by the event trigger
+    
+    /// <summary>
+    /// Called when the pointer is pressed on the inventory item via Event Trigger Component.
+    /// </summary>
     public void OnPointerDown()
     {
         if (isChildOfInventoryParent) Inventory.Instance.Remove(pickableObjectData); // removes from the data list
@@ -127,13 +88,68 @@ public class InventoryItemController: MonoBehaviour
         _rectTransform.SetAsLastSibling();
     }
 
-    // Called by the event trigger
+    /// <summary>
+    /// Called when the pointer is released from the inventory item via Event Trigger Component.
+    /// </summary>
     public void OnPointerUp()
     {
         _isMousePressed = false;
         _hasBeenReleased = true;
     }
     
+    /// <summary>
+    /// Manages the release behavior of the inventory item based on the specified collider.
+    /// </summary>
+    /// <param name="other">The collider with which the inventory item interacts.</param>
+    private void ManageRelease(Collider2D other)
+    {
+        // Released on top of the inventory content hitbox.
+        if (other.gameObject == Inventory.Instance.inventoryHitbox)
+        {
+            _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
+            Debug.Log($"{gameObject.name} has been released on the inventory");
+            // Adds the data back to inventory list
+            Inventory.Instance.Add(pickableObjectData);
+            if (transform.parent.tag.Equals("InventoryContent"))
+                isChildOfInventoryParent = true;
+        }
+
+        // Released on top of the combining submenu hitbox.
+        else if (!_isInHolder && other.gameObject == CombiningSubmenu.Instance.combiningSubmenuHitbox)
+        {
+            // Case there is one vague.
+            if (CombiningSubmenu.Instance.IsLeftItemHolderFree)
+            {
+                Debug.Log($"{gameObject.name} has been released on left item holder");
+                _rectTransform.SetParent(CombiningSubmenu.Instance.itemHolderLeft.transform);
+                _isInHolder = true;
+                isChildOfInventoryParent = false;
+            }
+            else if (CombiningSubmenu.Instance.IsRightItemHolderFree)
+            {
+                Debug.Log($"{gameObject.name} has been released on right item holder");
+                _rectTransform.SetParent(CombiningSubmenu.Instance.itemHolderRight.transform);
+                _isInHolder = true;
+                isChildOfInventoryParent = false;
+            }
+
+            // In case both item holders are occupied, sends back to inventory.
+            if (!_isInHolder)
+            {
+                Debug.Log(
+                    $"{gameObject.name} has been released on a item holder but both are occupied, it has been sent back to inventory");
+                _rectTransform.SetParent(Inventory.Instance.inventoryContent.transform);
+                // Adds the data back to inventory list
+                Inventory.Instance.Add(pickableObjectData);
+                if (transform.parent.tag.Equals("InventoryContent"))
+                    isChildOfInventoryParent = true;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Instantiates a corresponding PickableObject based on the inventory item's data.
+    /// </summary>
     private void InstantiateCorrespondingToPickableObjectData()
     {
         if (CheckForErrors()) 
@@ -154,7 +170,10 @@ public class InventoryItemController: MonoBehaviour
         obj.transform.position = instantiationPoint.transform.position;
     }
 
-    private void DestoryInventoryItem()
+    /// <summary>
+    /// Destroys the inventory item and rebuilds the inventory.
+    /// </summary>
+    private void DestroyInventoryItem()
     {
         // Destroys Itself
         Destroy(this.gameObject);
@@ -163,6 +182,9 @@ public class InventoryItemController: MonoBehaviour
         Inventory.Instance.BuildInventoryItemsBasedOnList();
     }
 
+    /// <summary>
+    /// Moves the inventory item to the current mouse position.
+    /// </summary>
     private void MoveToMousePosition()
     {
         Vector2 mousePosition = Input.mousePosition;
@@ -170,6 +192,10 @@ public class InventoryItemController: MonoBehaviour
         // if (!_isOnHitbox) Debug.Log($"{gameObject.name} dragged on Free Space");
     }
 
+    /// <summary>
+    /// Checks for errors in the inventory item data.
+    /// </summary>
+    /// <returns>True if any error is found, false otherwise.</returns>
     private bool CheckForErrors()
     {
         if (pickableObjectData is null)

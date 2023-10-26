@@ -8,6 +8,12 @@ using UnityEngine;
 public abstract class ACutsceneController : MonoBehaviour
 {
     /// <summary>
+    /// Indicates whether this cutscene has already been seen or not.
+    /// </summary>
+    [HorizontalLine]
+    [BoxGroup("CONTROLLING"), SerializeField] protected bool hasAlreadySeenThisCutscene = false;
+    
+    /// <summary>
     /// A button that appears automatically in the editor to force the cutscene to play.
     /// </summary>
     [Button]

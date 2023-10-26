@@ -15,7 +15,7 @@ public class PlayerSpawnPointsManager : MonoBehaviour
     [Header("Spawn Points Settings")]
     [SerializeField] private int _indexActiveSpawnPoint;
     [SerializeField] private List<Transform> _spawnPoints;
-    private bool IsIndexValid => _indexActiveSpawnPoint < _spawnPoints.Count && _indexActiveSpawnPoint > 0;
+    private bool IsIndexValid => _indexActiveSpawnPoint < _spawnPoints.Count && _indexActiveSpawnPoint >= 0;
     
     private void Start()
     {

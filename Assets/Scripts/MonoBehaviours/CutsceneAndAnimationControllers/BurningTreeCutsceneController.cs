@@ -8,7 +8,7 @@ using UnityEngine;
 public class BurningTreeCutsceneController : ACutsceneController
 {
     
-    [Header("Required References"), HorizontalLine]
+    [Header("REQUIRED REFERENCES"), HorizontalLine]
     [BoxGroup, Required, SerializeField] private GameObject _originalTree;
     [BoxGroup, Required, SerializeField] private GameObject _burntTree;
     [BoxGroup, Required, SerializeField] private GameObject _birdContainer;
@@ -64,6 +64,5 @@ public class BurningTreeCutsceneController : ACutsceneController
         }
     
     #endregion
-    
     
 }

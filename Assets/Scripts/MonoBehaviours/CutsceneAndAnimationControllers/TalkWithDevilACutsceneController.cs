@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This script controls the burning tree cutscene sequence.
@@ -8,10 +9,7 @@ using UnityEngine;
 public class TalkWithDevilACutsceneController : ACutsceneController
 {
     
-    [Header("Controlling")] 
-    [SerializeField] private bool _hasAlreadySeenTheFirstCutscene = false;
-    
-    [Header("Required References"), HorizontalLine]
+    [Header("REQUIRED REFERENCES"), HorizontalLine]
     [BoxGroup, Required, SerializeField] private GameObject _devil;
     [BoxGroup, Required, SerializeField] private Animator _eyesEffect;
     [BoxGroup, Required, SerializeField] private AudioClip _lastLine;
@@ -38,10 +36,10 @@ public class TalkWithDevilACutsceneController : ACutsceneController
         _devilAnimator = _devil.GetComponent<Animator>();
         _player = FindObjectOfType<PlayerController>().gameObject;
         
-        if (!_hasAlreadySeenTheFirstCutscene)
+        if (!hasAlreadySeenThisCutscene)
             PlayCutscene();
         
-        if (_hasAlreadySeenTheFirstCutscene)
+        if (hasAlreadySeenThisCutscene)
             DisableDevil();
     }
     
