@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cursor = UnityEngine.Cursor;
@@ -7,25 +8,27 @@ using Cursor = UnityEngine.Cursor;
 public class GameManager : MonoBehaviour
 {
     
-    [Header("References")]
-    [SerializeField] private GameObject _settingsMenu;
-    [SerializeField] private GameObject _inventory;
+    [Header("Required References"), HorizontalLine]
+    [BoxGroup, Required, SerializeField] private GameObject _settingsMenu;
+    [BoxGroup, Required, SerializeField] private GameObject _inventory;
     
     // Public control properties
-    public static bool CanMovePlayer { get; set; } = true;
-    public static bool CanRotateCamera { get; set; } = true;
-    public static bool CanOpenOrCloseInventory { get; set; } = true;
+    [ShowNativeProperty] public static bool CanMovePlayer { get; set; } = true;
+    [ShowNativeProperty] public static bool CanRotateCamera { get; set; } = true;
+    [ShowNativeProperty] public static bool CanOpenOrCloseInventory { get; set; } = true;
     
     // Private control fields.
-    private static bool _isInCutscene = false;
-    private static bool _isInSettingsMenu  = false;
-    private static bool _isInInventory = false;
+    [ShowNonSerializedField] private static bool _isInCutscene = false;
+    [ShowNonSerializedField] private static bool _isInSettingsMenu  = false;
+    [ShowNonSerializedField] private static bool _isInInventory = false;
     
-    // Used by the pausing method, in order to not play what is not supposed to be replayed when the game is unpaused.
-    private static List<AudioSource> _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
+    // Used by the pausing method,
+    // in order to not play what is not supposed to be replayed when the game is unpaused.
+    private static List<AudioSource> _audioSourcesPausedOnPausedEvent;
 
     private void Awake()
     {
+        _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
         CanMovePlayer = true;
         CanRotateCamera = true;
         CanOpenOrCloseInventory = true;
@@ -46,10 +49,6 @@ public class GameManager : MonoBehaviour
         else
             UnpauseGame();
         
-        // Reset Button Pressed
-        if (Input.GetButtonDown("Reset"))
-            ResetGame();
-        
         // Menu Button Pressed
         if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
             SwitchSettingsMenuState();
@@ -61,7 +60,6 @@ public class GameManager : MonoBehaviour
         // Inventory Button Pressed, can't open the menu while in cutscenes.
         if (Input.GetKeyDown(KeyCode.I) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
             SwitchInventoryState();
-        
     }
     
     

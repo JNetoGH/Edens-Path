@@ -1,10 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script represents a collision trigger for a burning tree cutscene.
+/// It triggers the cutscene when the object with the specified tag ("Torch") collides or enters its trigger zone.
+/// </summary>
 public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 {
-
+    
+    // A flag to ensure the cutscene is triggered only once
     private bool _hasTriggeredAlready;
 
     private void Start()
@@ -19,7 +22,7 @@ public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("Torch"))
         {
-            FindObjectOfType<BurningTreeCutsceneController>().TriggerBurningTreeCutscene();
+            FindObjectOfType<BurningTreeACutsceneController>().PlayCutscene();
             _hasTriggeredAlready = true;
         }
     }
@@ -31,7 +34,7 @@ public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 
         if (other.gameObject.tag.Equals("Torch"))
         {
-            FindObjectOfType<BurningTreeCutsceneController>().TriggerBurningTreeCutscene();
+            FindObjectOfType<BurningTreeACutsceneController>().PlayCutscene();
             _hasTriggeredAlready = true;
         }
     }

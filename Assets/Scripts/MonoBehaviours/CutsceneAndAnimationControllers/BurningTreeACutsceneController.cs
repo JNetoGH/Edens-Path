@@ -1,42 +1,30 @@
-﻿using UnityEngine;
-using UnityEngine.Serialization;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
-
-public class BurningTreeCutsceneController : MonoBehaviour
+/// <summary>
+/// This script controls the burning tree cutscene sequence.
+/// It handles the cutscene and its to animation events.
+/// </summary>
+public class BurningTreeACutsceneController : ACutsceneController
 {
     
-    [Header("Overriding")]
-    [SerializeField] private bool _overrideBurningTreeCutscenePlay = false;
-    
-    [Header("References")]
-    [SerializeField] private GameObject _originalTree;
-    [SerializeField] private GameObject _burntTree;
-    [SerializeField] private GameObject _birdContainer;
-    [SerializeField] private GameObject _bird;
-    [SerializeField] private GameObject _vinylDisc;
-
-    // Animator
-    private Animator _animator;
-
-    private void Awake()
-    {
-        _animator = GetComponent<Animator>();
-    }
-
-    private void Update()
-    {
-        if (!_overrideBurningTreeCutscenePlay)
-            return;
-        TriggerBurningTreeCutscene();
-        _overrideBurningTreeCutscenePlay = false;
-    }
+    [Header("Required References"), HorizontalLine]
+    [BoxGroup, Required, SerializeField] private GameObject _originalTree;
+    [BoxGroup, Required, SerializeField] private GameObject _burntTree;
+    [BoxGroup, Required, SerializeField] private GameObject _birdContainer;
+    [BoxGroup, Required, SerializeField] private GameObject _bird;
+    [BoxGroup, Required, SerializeField] private GameObject _vinylDisc;
     
     // Called by the BurningTreeCollisionTrigger
-    public void TriggerBurningTreeCutscene()
+    public  override void PlayCutscene()
     {
-        _animator.SetTrigger("StartSequence");
+        animator.SetTrigger("StartSequence");
     }
     
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     
     #region Called By Animation Events
     

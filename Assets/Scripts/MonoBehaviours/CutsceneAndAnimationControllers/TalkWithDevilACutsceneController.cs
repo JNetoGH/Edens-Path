@@ -1,22 +1,22 @@
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-
-public class TalkWithDevilCutsceneController : MonoBehaviour
+/// <summary>
+/// This script controls the burning tree cutscene sequence.
+/// It handles the cutscene and its to animation events.
+/// </summary>
+public class TalkWithDevilACutsceneController : ACutsceneController
 {
     
-    [Header("Overriding")]
-    [SerializeField] private bool _overrideTalkWithDevilCutscenePlay = false;
-
     [Header("Controlling")] 
     [SerializeField] private bool _hasAlreadySeenTheFirstCutscene = false;
     
-    [Header("References")]
-    [SerializeField] private GameObject _devil;
-    [SerializeField] private Animator _eyesEffect;
-    [SerializeField] private AudioClip _lastLine;
-    [SerializeField] private GameObject _vanishEffect;
-    [SerializeField] private Transform _playerPositionOnCutscene;
+    [Header("Required References"), HorizontalLine]
+    [BoxGroup, Required, SerializeField] private GameObject _devil;
+    [BoxGroup, Required, SerializeField] private Animator _eyesEffect;
+    [BoxGroup, Required, SerializeField] private AudioClip _lastLine;
+    [BoxGroup, Required, SerializeField] private GameObject _vanishEffect;
+    [BoxGroup, Required, SerializeField] private Transform _playerPositionOnCutscene;
     
     // Devil
     private Animator _devilAnimator;
@@ -24,16 +24,12 @@ public class TalkWithDevilCutsceneController : MonoBehaviour
     // Player
     private GameObject _player;
     
-    // Animator
-    private Animator _animator;
-    private static readonly int StartSequence = Animator.StringToHash("StartSequence");
-
     // Audio
     private AudioSource _audioSource;
     
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -43,29 +39,19 @@ public class TalkWithDevilCutsceneController : MonoBehaviour
         _player = FindObjectOfType<PlayerController>().gameObject;
         
         if (!_hasAlreadySeenTheFirstCutscene)
-            StartCutscene();
+            PlayCutscene();
         
         if (_hasAlreadySeenTheFirstCutscene)
             DisableDevil();
     }
-
-    private void Update()
-    {
-        if (_overrideTalkWithDevilCutscenePlay)
-        {
-            StartCutscene();
-            _overrideTalkWithDevilCutscenePlay = false;
-        }
-    }
-
-    public void StartCutscene()
+    
+    public override void PlayCutscene()
     {
         _player.transform.position = _playerPositionOnCutscene.position;
-        _animator.SetTrigger(StartSequence);
+        animator.SetTrigger("StartSequence");
         _devil.SetActive(true);
         _vanishEffect.SetActive(false);
     }
-    
     
     #region Called By Animation Events
 

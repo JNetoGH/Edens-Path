@@ -1,17 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This script rotates the GameObject around its y-axis at a specified speed.
+/// </summary>
 public class PlaygroundSpinningToyAnimation : MonoBehaviour
 {
 
-    [SerializeField] private float rotationSpeed = 1.2f;
-
-    // Update is called once per frame
+    [SerializeField] private float _rotationSpeed = 10f;
+    
     void Update()
     {
         Vector3 currentRotation = transform.rotation.eulerAngles;
-        currentRotation.y -= rotationSpeed * Time.deltaTime;
+        currentRotation.y -= _rotationSpeed * Time.deltaTime;
         transform.rotation = Quaternion.Euler(currentRotation);
     }
 }
