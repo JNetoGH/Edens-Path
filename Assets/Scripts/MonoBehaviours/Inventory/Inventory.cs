@@ -15,13 +15,13 @@ public class Inventory : MonoBehaviour
     // Singleton Pattern
     public static Inventory Instance { get; private set; }
     
-    [Header("Required References (may be passed via Singleton)"), HorizontalLine] 
+    [Header("REQUIRED REFERENCES (may be passed via Singleton)"), HorizontalLine] 
     [BoxGroup, Required, SerializeField] private Transform _inventoryItemsParent;
     [BoxGroup, Required] public GameObject inventoryHitbox;
     [BoxGroup, Required] public GameObject inventoryContent;
     [BoxGroup, Required] public GameObject inventoryItemPrefab;
     
-    [Header("Items list")]
+    [Header("ITEMS LIST")]
     [SerializeField] private List<PickableObjectData> _pickableObjectsList = new List<PickableObjectData> ();
     
     private void Awake()

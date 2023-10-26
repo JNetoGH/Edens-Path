@@ -8,18 +8,18 @@ using Cursor = UnityEngine.Cursor;
 public class GameManager : MonoBehaviour
 {
     
-    [Header("Required References"), HorizontalLine]
+    [Header("REQUIRED REFERENCES"), HorizontalLine]
     [BoxGroup, Required, SerializeField] private GameObject _settingsMenu;
     [BoxGroup, Required, SerializeField] private GameObject _inventory;
     
-    // Public control properties
+    // Public control properties (can be called by other scripts to control the game state).
     [ShowNativeProperty] public static bool CanMovePlayer { get; set; } = true;
     [ShowNativeProperty] public static bool CanRotateCamera { get; set; } = true;
     [ShowNativeProperty] public static bool CanOpenOrCloseInventory { get; set; } = true;
     
     // Private control fields.
     [ShowNonSerializedField] private static bool _isInCutscene = false;
-    [ShowNonSerializedField] private static bool _isInSettingsMenu  = false;
+    [ShowNonSerializedField] private static bool _isInSettingsMenu = false;
     [ShowNonSerializedField] private static bool _isInInventory = false;
     
     // Used by the pausing method,
