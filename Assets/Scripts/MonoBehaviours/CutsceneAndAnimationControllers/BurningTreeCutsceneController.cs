@@ -5,7 +5,7 @@ using UnityEngine;
 /// This script controls the burning tree cutscene sequence.
 /// It handles the cutscene and its to animation events.
 /// </summary>
-public class BurningTreeACutsceneController : ACutsceneController
+public class BurningTreeCutsceneController : ACutsceneController
 {
     
     [Header("Required References"), HorizontalLine]

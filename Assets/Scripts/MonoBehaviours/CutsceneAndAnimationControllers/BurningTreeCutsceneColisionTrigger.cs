@@ -22,7 +22,7 @@ public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 
         if (collision.gameObject.tag.Equals("Torch"))
         {
-            FindObjectOfType<BurningTreeACutsceneController>().PlayCutscene();
+            FindObjectOfType<BurningTreeCutsceneController>().PlayCutscene();
             _hasTriggeredAlready = true;
         }
     }
@@ -34,7 +34,7 @@ public class BurningTreeCutsceneColisionTrigger : MonoBehaviour
 
         if (other.gameObject.tag.Equals("Torch"))
         {
-            FindObjectOfType<BurningTreeACutsceneController>().PlayCutscene();
+            FindObjectOfType<BurningTreeCutsceneController>().PlayCutscene();
             _hasTriggeredAlready = true;
         }
     }
