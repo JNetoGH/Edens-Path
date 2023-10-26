@@ -6,7 +6,7 @@ using UnityEngine;
 /// State machine behaviour to handle the end of a cutscene.
 /// Activates necessary game objects and enables the PickupSystem after the cutscenes.
 /// </summary>
-public class CutSceneEnd : StateMachineBehaviour
+public class CutsceneEnd : StateMachineBehaviour
 {
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

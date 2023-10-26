@@ -1,12 +1,10 @@
-using System;
 using UnityEngine;
-using Vector3 = System.Numerics.Vector3;
 
-public class BirdDodge : MonoBehaviour
+public class BirdDodgeTrigger : MonoBehaviour
 {
 
     // Singleton to be accessed by the state machine behaviour.
-    public static BirdDodge Instance { get; private set; }
+    public static BirdDodgeTrigger Instance { get; private set; }
     public bool hasFinishedPreviousDodge;
     
     [SerializeField] private float _distanceFromPlayerToDodge = 1f;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LevelProgressionHandler : MonoBehaviour
+public class LevelProgressHandler : MonoBehaviour
 {
     
     /// <summary>

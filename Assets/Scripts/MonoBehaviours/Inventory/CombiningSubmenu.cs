@@ -78,7 +78,6 @@ public class CombiningSubmenu : MonoBehaviour
                 GameObject objPrev = resultPreview.transform.GetChild(0).gameObject;
                 Destroy(objPrev);
             }
-
             return;
         }
 

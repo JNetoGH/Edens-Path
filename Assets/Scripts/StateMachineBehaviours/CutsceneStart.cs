@@ -18,7 +18,7 @@ public class CutsceneStart : StateMachineBehaviour
 
         if (_useCinemachine)
         {
-            // Activate CinemachineBrain object to enable camera control during the cutscene.
+            // Activate CinemachineBrain object to enable virtual camera control during the cutscene.
             FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(true);
         }
         
