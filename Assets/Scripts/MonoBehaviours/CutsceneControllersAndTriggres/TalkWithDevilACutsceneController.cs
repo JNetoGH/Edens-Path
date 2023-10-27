@@ -36,10 +36,10 @@ public class TalkWithDevilACutsceneController : ACutsceneController
         _devilAnimator = _devil.GetComponent<Animator>();
         _player = FindObjectOfType<PlayerController>().gameObject;
         
-        if (!hasAlreadySeenThisCutscene)
+        // In case the cutscene has been already watched,simply won't play the cutscene.
+        if (!hasBeenAlreadyWatched)
             PlayCutscene();
-        
-        if (hasAlreadySeenThisCutscene)
+        if (hasBeenAlreadyWatched)
             DisableDevil();
     }
     
@@ -74,10 +74,12 @@ public class TalkWithDevilACutsceneController : ACutsceneController
             _vanishEffect.SetActive(true);
         }
         
+        // last event called, changes the hasBeenAlreadyWatched to true.
         private void DisableDevil()
         {
             _devil.SetActive(false);
             _vanishEffect.SetActive(false);
+            hasBeenAlreadyWatched = true;
         }
         
         private void ActivateDevilTalkingAnimation()

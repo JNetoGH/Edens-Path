@@ -30,8 +30,9 @@ public class FirstLevelBridgeAnimationController : ACutsceneController
     {
         // Deactivates the bridge
         _bridgeContainer.SetActive(false);
-
-        if (hasAlreadySeenThisCutscene)
+        
+        // In case the cutscene has been already watched,the bridge will be teleported to the target.
+        if (hasBeenAlreadyWatched)
         {
             _bridgeContainer.SetActive(true);
             Vector3 curPos = _bridgeContainer.transform.localPosition;
@@ -42,7 +43,7 @@ public class FirstLevelBridgeAnimationController : ACutsceneController
     
     private void Update()
     {
-        if (_triggerCutscene && !hasAlreadySeenThisCutscene)
+        if (_triggerCutscene && !hasBeenAlreadyWatched)
             StartCoroutine(UpdateCutscene());
     }
     
@@ -78,7 +79,7 @@ public class FirstLevelBridgeAnimationController : ACutsceneController
         FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(false);
         _virtualCamera.enabled = false;
         _triggerCutscene = false;
-        
+        hasBeenAlreadyWatched = true;
         StopAllCoroutines();
     }
     

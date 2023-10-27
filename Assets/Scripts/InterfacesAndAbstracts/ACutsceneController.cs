@@ -1,6 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
+
 /// <summary>
 /// An abstract class representing a generic cutscene controller.
 /// Provides functionality for playing a cutscene through an Animator component.
@@ -11,7 +12,7 @@ public abstract class ACutsceneController : MonoBehaviour
     /// Indicates whether this cutscene has already been seen or not.
     /// </summary>
     [HorizontalLine]
-    [BoxGroup("CONTROLLING"), SerializeField] protected bool hasAlreadySeenThisCutscene = false;
+    [BoxGroup("CONTROLLING"), SerializeField] protected bool hasBeenAlreadyWatched = false;
     
     /// <summary>
     /// A button that appears automatically in the editor to force the cutscene to play.
