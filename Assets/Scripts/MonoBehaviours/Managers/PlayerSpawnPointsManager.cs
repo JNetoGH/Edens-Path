@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 /// <summary>
@@ -9,13 +11,15 @@ using UnityEngine;
 public class PlayerSpawnPointsManager : MonoBehaviour
 {
 
-    [Header("Player Settings")]
-    [SerializeField] private GameObject _player;
-    
-    [Header("Spawn Points Settings")]
-    [SerializeField] private int _indexActiveSpawnPoint;
-    [SerializeField] private List<Transform> _spawnPoints;
-    private bool IsIndexValid => _indexActiveSpawnPoint < _spawnPoints.Count && _indexActiveSpawnPoint >= 0;
+    private const string G1 = "PLAYER REFERENCE";
+    [HorizontalLine]
+    [Required, BoxGroup(G1), SerializeField] private GameObject _player;
+
+    private const string G2 = "SPAWN POINTS SETTINGS";
+    private const string DpName = nameof(_spawnPoints);
+    [HorizontalLine]
+    [BoxGroup(G2), Dropdown(DpName), SerializeField] private Transform _selectedSpawnPoint;
+    [BoxGroup(G2), SerializeField] private Transform[] _spawnPoints = {};
     
     private void Start()
     {
@@ -27,8 +31,8 @@ public class PlayerSpawnPointsManager : MonoBehaviour
     {
         if (_player is not null)
         {
-            // Checks if the index is valid. If it is, teleports the player to it.
-            if (IsIndexValid) _player.transform.position = _spawnPoints[_indexActiveSpawnPoint].position;
+            // Checks if the selected spawn point is valid. If it is, teleports the player to it.
+            if (_selectedSpawnPoint is not null) _player.transform.position = _selectedSpawnPoint.position;
             else Debug.LogWarning("Spawn point index set to PlayerSpawnPointManager is invalid.");
         }
         else
