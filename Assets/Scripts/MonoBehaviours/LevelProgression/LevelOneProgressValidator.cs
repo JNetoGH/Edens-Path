@@ -22,8 +22,18 @@ public class LevelOneProgressValidator : MonoBehaviour, ILevelProgressValidator
     // Comes From the Interface.
     public void OnProgression()
     {   
-        FindObjectOfType<FirstLevelBridgeAnimationController>().PlayCutscene();
-        Debug.Log("Level Succeed");
+        ACutsceneController cutscene = FindObjectOfType<FirstLevelBridgeAnimationController>();
+        
+        // In case the cutscene has been already watched, it will give only a msg.
+        if (cutscene.HasBeenAlreadyWatched)
+        {
+            Debug.Log("Level 1 progression cutscene won't be played because it has been already watched");
+        }
+        else
+        {
+            cutscene.PlayCutscene();
+            Debug.Log("Level Succeed");
+        }
     }
 
     // Comes From the Interface.

@@ -9,11 +9,14 @@ using UnityEngine;
 public abstract class ACutsceneController : MonoBehaviour
 {
     /// <summary>
-    /// Indicates whether this cutscene has already been seen or not.
+    /// Indicates whether this cutscene has already been watched or not.
+    /// It's used mainly to force the cutscenes to load at their completion state,
+    /// and not be able to be triggered anymore.
     /// </summary>
     [HorizontalLine]
     [BoxGroup("CONTROLLING"), SerializeField] protected bool hasBeenAlreadyWatched = false;
-    
+    public bool HasBeenAlreadyWatched => hasBeenAlreadyWatched;
+
     /// <summary>
     /// A button that appears automatically in the editor to force the cutscene to play.
     /// </summary>

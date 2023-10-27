@@ -31,7 +31,7 @@ public class FirstLevelBridgeAnimationController : ACutsceneController
         // Deactivates the bridge
         _bridgeContainer.SetActive(false);
         
-        // In case the cutscene has been already watched,the bridge will be teleported to the target.
+        // In case the cutscene has been already watched, the bridge will be teleported to the target.
         if (hasBeenAlreadyWatched)
         {
             _bridgeContainer.SetActive(true);

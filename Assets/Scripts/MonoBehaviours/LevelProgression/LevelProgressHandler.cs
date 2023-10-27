@@ -8,6 +8,8 @@ public class LevelProgressHandler : MonoBehaviour
     /// This property is manipulated by the validation event listeners.
     /// </summary>
     public bool HasProgressed { get; set; } = false;
+    
+    // Used for debugging.
     [SerializeField] private bool _overrideLevelCompletion = false;
     
     /// <summary>
