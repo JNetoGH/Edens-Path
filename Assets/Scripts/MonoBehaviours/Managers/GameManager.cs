@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using Cursor = UnityEngine.Cursor;
 
 
@@ -11,7 +12,9 @@ public class GameManager : MonoBehaviour
     [Header("REQUIRED REFERENCES"), HorizontalLine]
     [BoxGroup, Required, SerializeField] private GameObject _settingsMenu;
     [BoxGroup, Required, SerializeField] private GameObject _inventory;
-    
+    [BoxGroup, Required, SerializeField] private PhysicMaterial _slipperyMaterial; 
+    public static PhysicMaterial SlipperyMaterial { get; private set; } // passed to pickable objects.
+
     // Public control properties (can be called by other scripts to control the game state).
     [ShowNativeProperty] public static bool CanMovePlayer { get; set; } = true;
     [ShowNativeProperty] public static bool CanRotateCamera { get; set; } = true;
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        SlipperyMaterial = _slipperyMaterial;
         _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
         CanMovePlayer = true;
         CanRotateCamera = true;

@@ -43,6 +43,7 @@ public class PickableObject : MonoBehaviour
         // - Sets a higher limit to its angular velocity if colliding so it doesn't get wierd under player's control
         //   dragging it around over surfaces. 
         // - Disables Gravity
+        // - Applies a slippery PhysicMaterial
         if (IsBeingCarried)
         {
             gameObject.layer = LayerMask.NameToLayer("DontCollideWithPlayer");
@@ -51,12 +52,18 @@ public class PickableObject : MonoBehaviour
             else
                 _rigidbody.maxAngularVelocity = 7;
             _rigidbody.useGravity = false;
+            
+            foreach (Collider component in _rigidbody.GetComponents<Collider>())
+                component.material = GameManager.SlipperyMaterial;
         }
         else
         {
             gameObject.layer = LayerMask.NameToLayer("Default");
             _rigidbody.maxAngularVelocity = 7;
             _rigidbody.useGravity = true;
+            
+            foreach (Collider component in _rigidbody.GetComponents<Collider>())
+                component.material = null;
         }
         // Syncs the outline for both either being carried or hit by the camera's ray
         _outlineScript.enabled = IsBeingHitByPickUpRay || IsBeingCarried;

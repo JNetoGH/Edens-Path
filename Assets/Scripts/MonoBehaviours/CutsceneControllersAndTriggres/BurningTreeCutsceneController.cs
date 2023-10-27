@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,8 @@ public class BurningTreeCutsceneController : ACutsceneController
     [BoxGroup, Required, SerializeField] private GameObject _birdContainer;
     [BoxGroup, Required, SerializeField] private GameObject _bird;
     [BoxGroup, Required, SerializeField] private GameObject _vinylDisc;
+    [BoxGroup, Required, SerializeField] private Transform _birdDroppingTarget; // used only in case of HasBeenAlreadyWatched.
+    
     
     // Called by the BurningTreeCollisionTrigger
     public  override void PlayCutscene()
@@ -25,7 +28,20 @@ public class BurningTreeCutsceneController : ACutsceneController
     {
         animator = GetComponent<Animator>();
     }
-    
+
+    private void Start()
+    {
+        // In case the cutscene has been already watched:
+        // The trigger won't trigger it and it will be set as it would be in its complete state.
+        if (HasBeenAlreadyWatched)
+        {
+            SetDiscToBeInteractive();
+            _vinylDisc.transform.position = _birdDroppingTarget.position;
+            SetTreeToTheBurntModel();
+            DestroyBirdContainer();
+        }
+    }
+
     #region Called By Animation Events
     
         // Called by an animation event at the Burning tree sequence cutscene.
