@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -9,21 +10,28 @@ using Cursor = UnityEngine.Cursor;
 public class GameManager : MonoBehaviour
 {
     
-    [Header("REQUIRED REFERENCES"), HorizontalLine]
-    [BoxGroup, Required, SerializeField] private GameObject _settingsMenu;
-    [BoxGroup, Required, SerializeField] private GameObject _inventory;
-    [BoxGroup, Required, SerializeField] private PhysicMaterial _slipperyMaterial; 
+    
+    private const string G1 = "REQUIRED REFENCES";
+    [HorizontalLine]
+    [BoxGroup(G1), Required, SerializeField] private GameObject _settingsMenu;
+    [BoxGroup(G1), Required, SerializeField] private GameObject _inventory;
+    
+    private const string G2 = "CACHING FOR OTHER SCRIPTS";
+    [HorizontalLine]
+    [BoxGroup(G2), Required, SerializeField] private TextMeshProUGUI _npcInteractableAnimationMsg; 
+    [BoxGroup(G2), Required, SerializeField] private PhysicMaterial _slipperyMaterial; 
     public static PhysicMaterial SlipperyMaterial { get; private set; } // passed to pickable objects.
+    public static TextMeshProUGUI NpcInteractableAnimationMsg { get; private set; } // passed to NpcInteractableAnimations.
 
     // Public control properties (can be called by other scripts to control the game state).
-    [ShowNativeProperty] public static bool CanMovePlayer { get; set; } = true;
-    [ShowNativeProperty] public static bool CanRotateCamera { get; set; } = true;
-    [ShowNativeProperty] public static bool CanOpenOrCloseInventory { get; set; } = true;
+    public static bool CanMovePlayer { get; set; } = true;
+    public static bool CanRotateCamera { get; set; } = true;
+    public static bool CanOpenOrCloseInventory { get; set; } = true;
     
-    // Private control fields.
-    [ShowNonSerializedField] private static bool _isInCutscene = false;
-    [ShowNonSerializedField] private static bool _isInSettingsMenu = false;
-    [ShowNonSerializedField] private static bool _isInInventory = false;
+    // Private control fields, are displayed on the editor in read-only mode, meant for debugging only.
+    private static bool _isInCutscene = false;
+    private static bool _isInSettingsMenu = false;
+    private static bool _isInInventory = false;
     
     // Used by the pausing method,
     // in order to not play what is not supposed to be replayed when the game is unpaused.
@@ -32,6 +40,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SlipperyMaterial = _slipperyMaterial;
+        NpcInteractableAnimationMsg = _npcInteractableAnimationMsg;
+        
         _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
         CanMovePlayer = true;
         CanRotateCamera = true;

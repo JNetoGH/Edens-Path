@@ -15,10 +15,10 @@
     public abstract void OnProgression();
 
     /// <summary>
-    /// Subscribes a ILevelProgressValidator to a SubscribeAtHandler
+    /// Subscribes a ILevelProgressValidator to a SubscribeAtHandler.
     /// </summary>
     /// <param name="handler">
-    /// The LevelProgressionHandler to be subscribed at
+    /// The LevelProgressionHandler to be subscribed at.
     /// </param>
     public abstract void CallAtStartAndSubscribeToHandler(LevelProgressHandler handler);
 }
