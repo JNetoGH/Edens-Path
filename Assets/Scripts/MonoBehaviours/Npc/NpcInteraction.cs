@@ -3,19 +3,17 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 /// <summary>
-/// This class is part of the NPC Interaction System.
-/// It contemplates events that will be called:
-///     1) When the player enters the presence trigger.
-///     2) When the player exits the presence trigger.
-///     3) When the player presses the interaction key when the player is inside the presence trigger,
-///        and looking to the look collider.
+/// This class is the main class of the NPC Interaction System.
+///
+/// It contemplates events that will be called, when the player presses the interaction key,
+/// while the player is in range for the interaction, and looking at the look collider.
 /// 
-/// This class requires:
-///     - A presence collider that needs to be a trigger, which ensures the player is in range.
-///     - A Look collider, which ensures the player is facing the npc while inside the presence collider.
+/// This class requires a Look collider, which ensures the player is facing the npc while inside the presence collider.
+/// It prevents the player to talk with NPCs not looking to them.
+/// This functionality is outsourced to NpcInteractionLookColliderFinder.cs
 /// </summary>
-[RequireComponent(typeof(Collider))]
 public class NpcInteraction : MonoBehaviour
 {
     
@@ -32,13 +30,26 @@ public class NpcInteraction : MonoBehaviour
     public bool IsPlayerLookingAtLookCollider { get; set; }
     
     /// <summary>
-    /// This property encapsulates the system to be used in other scripts.
+    /// This property encapsulates the system and can be used in other scripts.
     /// It's used in NpcLookAtPlayerWhileInPresenceTrigger.cs to rotate the npc towards the player.
     /// </summary>
-    public bool IsPlayerInsidePresenceTrigger { get; private set; }
+    public bool IsPlayerInRange 
+    {
+        get
+        {
+            if (_player is null)
+                return false;
+            
+            float distanceToPlayer = (_player.transform.position - transform.position).magnitude;
+            bool isPlayerInRange = (distanceToPlayer <= _interactionRange);
+            return isPlayerInRange;
+        }
+    }
     
-    private const string G1 = "REQUIRED REFERENCES";
-    [SerializeField, BoxGroup(G1)] private Collider _interactionLookCollider;
+    private const string G1 = "INTERACTION SYSTEM SETTINGS";
+    [HorizontalLine]
+    [BoxGroup(G1), SerializeField] private Collider _interactionLookCollider;
+    [BoxGroup(G1), Range(1, 30), SerializeField] private float _interactionRange = 5;
     
     private const string G2 = "INTERACTION MENSAGE";
     [HorizontalLine]
@@ -47,58 +58,55 @@ public class NpcInteraction : MonoBehaviour
     
     private const string G3 = "EVENTS";
     [HorizontalLine] 
-    [BoxGroup(G3), SerializeField] private UnityEvent _onPlayerInteraction;
-    [BoxGroup(G3), SerializeField] private UnityEvent _onPlayerEnterTrigger;
-    [BoxGroup(G3), SerializeField] private UnityEvent _onPlayerExitTrigger;
+    [BoxGroup(G3), SerializeField] private UnityEvent _onPlayerInteract;
+    
+    private GameObject _player;
     
     private void Start()
     {
         _uiMsg = GameManager.NpcInteractableAnimationMsg;
-        if (!GetComponent<Collider>().isTrigger)
-            Debug.LogWarning($"NpcInteraction.cs in {gameObject.name} found a non-trigger Collider.");
+        _player = FindObjectOfType<PlayerController>().gameObject;
+        if (_player is null)
+            Debug.LogWarning($"NpcInteraction.cs at {gameObject.name} could no find Player");
     }
     
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (other.gameObject.GetComponent<PlayerController>() is null)
-            return;
-
-        IsPlayerInsidePresenceTrigger = true;
-        
-        if (IsPlayerLookingAtLookCollider)
-        {
-            _uiMsg.text = $"press E to talk with {_name}";
-            _uiMsg.transform.parent.gameObject.SetActive(true);
-            if (Input.GetKey(KeyCode.E))
-            {
-                _onPlayerInteraction.Invoke();
-                Debug.Log($"player interacted with {gameObject.name} NpcInteraction.cs Trigger");
-            }
-        }
-        else
-        {
-            _uiMsg.transform.parent.gameObject.SetActive(false);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() is null)
-            return;
-        
-        Debug.Log($"player entered inside {gameObject.name} NpcInteraction.cs Trigger");
-        _onPlayerEnterTrigger.Invoke();
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.GetComponent<PlayerController>() is null)
-            return;
-
-        Debug.Log($"player exited inside {gameObject.name} NpcInteraction.cs Trigger");
-        IsPlayerInsidePresenceTrigger = false;
-        _onPlayerExitTrigger.Invoke();
+        // Disables the uiMsg.
         _uiMsg.transform.parent.gameObject.SetActive(false);
+        
+        if (!IsPlayerInRange)
+            return;
+        
+        if (!IsPlayerLookingAtLookCollider)
+            return;
+        
+        // Player is in range and looking at the LookCollider
+        _uiMsg.text = $"press E to talk with {_name}";
+        _uiMsg.transform.parent.gameObject.SetActive(true);
+        
+        if (!Input.GetKeyDown(KeyCode.E))
+            return;
+
+        Debug.Log($"player interacted with {gameObject.name} NpcInteraction.cs Trigger");
+        _onPlayerInteract.Invoke();
+    }
+    
+    
+    /// <summary>
+    /// Draw a wire sphere representing the interaction range in the Scene view
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        // Draws a wire sphere representing the interaction range in the Scene view
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, _interactionRange);
+
+        Vector3 dotPosition = transform.position + Vector3.up * _interactionRange;
+
+        // Draws a solid cyan dot on top of the wire sphere to represent a point
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawSphere(dotPosition, 0.25f); // 0.25f is the radius of the solid sphere
     }
     
 }

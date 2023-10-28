@@ -3,6 +3,8 @@ using UnityEngine;
 
 
 /// <summary>
+/// This class is a critical part of the NPC Interaction System.
+/// 
 /// This class casts a ray from the player's camera trying to find a valid look collider.
 /// It manipulates the IsPlayerLookingAtLookCollider property.
 /// It prevents the player to talk with NPCs not looking to them.

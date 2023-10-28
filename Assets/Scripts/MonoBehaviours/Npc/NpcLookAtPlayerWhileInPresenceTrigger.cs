@@ -5,7 +5,8 @@ using UnityEngine;
 
 
 /// <summary>
-/// This class makes the NPC look at player while he is inside the presence trigger.
+/// This class is an optional part of the NPC Interaction System.
+/// It makes the NPC look at player while he is inside the presence trigger.
 /// </summary>
 public class NpcLookAtPlayerWhileInPresenceTrigger : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class NpcLookAtPlayerWhileInPresenceTrigger : MonoBehaviour
         if (_player is null)
             return;
         
-        if (_relatedNpcInteraction.IsPlayerInsidePresenceTrigger)
+        if (_relatedNpcInteraction.IsPlayerInRange)
         {
             // Rotates towards player using Slerp.
             Vector3 distanceToPlayer = _player.transform.position - transform.position;
