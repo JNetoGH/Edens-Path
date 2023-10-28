@@ -4,9 +4,16 @@ using UnityEngine;
 using UnityEngine.Events;
 
 /// <summary>
-/// This system requires:
-/// - A presence collider that needs to be a trigger, which ensures the player is in range.
-/// - A Look collider, which ensures the player is facing the npc while inside the presence collider.
+/// This class is part of the NPC Interaction System.
+/// It contemplates events that will be called:
+///     1) When the player enters the presence trigger.
+///     2) When the player exits the presence trigger.
+///     3) When the player presses the interaction key when the player is inside the presence trigger,
+///        and looking to the look collider.
+/// 
+/// This class requires:
+///     - A presence collider that needs to be a trigger, which ensures the player is in range.
+///     - A Look collider, which ensures the player is facing the npc while inside the presence collider.
 /// </summary>
 [RequireComponent(typeof(Collider))]
 public class NpcInteraction : MonoBehaviour
