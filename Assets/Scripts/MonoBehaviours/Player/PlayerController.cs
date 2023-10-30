@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 
@@ -59,7 +60,11 @@ public class PlayerController : MonoBehaviour
         _hInput = Input.GetAxis("Horizontal");
         
         // Jump
-        if (Input.GetButtonDown("Jump") && _groundDetector.IsGrounded)
+        // vertical velocity in this custom gravity is never stopped in 0,
+        // always have at least one GroundedDecrement being applied.
+        const float tolerance = 0.1f;
+        bool isStoppedInVerticalVelocity = Math.Abs(Mathf.Abs(VerticalVelocity) - (-GroundedDecrement)) < tolerance;
+        if (Input.GetButtonDown("Jump") && _groundDetector.IsGrounded && isStoppedInVerticalVelocity)
             _jumpInput = true;
     }
     
