@@ -10,11 +10,11 @@ public class TalkWithDevilACutsceneController : ACutsceneController
 {
     
     [Header("REQUIRED REFERENCES"), HorizontalLine]
-    [BoxGroup, Required, SerializeField] private GameObject _devil;
-    [BoxGroup, Required, SerializeField] private Animator _eyesEffect;
-    [BoxGroup, Required, SerializeField] private AudioClip _lastLine;
-    [BoxGroup, Required, SerializeField] private GameObject _vanishEffect;
-    [BoxGroup, Required, SerializeField] private Transform _playerPositionOnCutscene;
+    [SerializeField, Required, BoxGroup] private GameObject _devil;
+    [SerializeField, Required, BoxGroup] private Animator _eyesEffect;
+    [SerializeField, Required, BoxGroup] private AudioClip _lastLine;
+    [SerializeField, Required, BoxGroup] private GameObject _vanishEffect;
+    [SerializeField, Required, BoxGroup] private Transform _playerPositionOnCutscene;
     
     // Devil
     private Animator _devilAnimator;

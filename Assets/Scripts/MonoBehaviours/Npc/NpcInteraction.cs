@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -46,19 +45,16 @@ public class NpcInteraction : MonoBehaviour
         }
     }
     
-    private const string G1 = "INTERACTION SYSTEM SETTINGS";
-    [HorizontalLine]
-    [BoxGroup(G1), SerializeField] private Collider _interactionLookCollider;
-    [BoxGroup(G1), Range(1, 30), SerializeField] private float _interactionRange = 5;
+    [Header("Interaction System Settings")]
+    [SerializeField] private Collider _interactionLookCollider;
+    [SerializeField, Range(1, 30)] private float _interactionRange = 5;
     
-    private const string G2 = "INTERACTION MENSAGE";
-    [HorizontalLine]
-    [BoxGroup(G2), SerializeField] private string _name = "None";
+    [Header("Interaction Message")]
+    [SerializeField] private string _name = "None";
     private TextMeshProUGUI _uiMsg;
     
-    private const string G3 = "EVENTS";
-    [HorizontalLine] 
-    [BoxGroup(G3), SerializeField] private UnityEvent _onPlayerInteract;
+    [Header("Events")]
+    [SerializeField] private UnityEvent _onPlayerInteract;
     
     private GameObject _player;
     

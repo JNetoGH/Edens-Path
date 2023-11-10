@@ -16,16 +16,21 @@ public class CombiningSubmenu : MonoBehaviour
     // Singleton Pattern
     public static CombiningSubmenu Instance { get; private set; }
     
-    [HorizontalLine]
-    [BoxGroup("COMBINING RECIPES DATA BASE")]
-    [InfoBox("This list represents the data base of possible combining recipes (ScriptableObjects)")]
+    [InfoBox("Holds the data base of possible combining recipes")]
     [SerializeField] private List<CombiningRecipeData> _combiningRecipes = new List<CombiningRecipeData>(); 
 
-    [Header("REQUIRED REFERENCES (may be passed as singleton)"), HorizontalLine] 
-    [BoxGroup, Required] public GameObject combiningSubmenuHitbox;
-    [BoxGroup, Required] public GameObject itemHolderLeft;
-    [BoxGroup, Required] public GameObject itemHolderRight;
-    [BoxGroup, Required] public GameObject resultPreview;
+    [Header("Required References (may be passed as singleton)")] 
+    [Required] public GameObject combiningSubmenuHitbox;
+    [Required] public GameObject itemHolderLeft;
+    [Required] public GameObject itemHolderRight;
+    [Required] public GameObject resultPreview;
+    
+    // EDITOR-ONLY Debugging Information ReadOnly Fields Wrapper:
+    // This workaround it's needed cuz properties are hard to update on editor with Naughty Attributes.
+    [Header("Read-Only Debugging Info")]
+    [SerializeField, ReadOnly] private bool _isLeftItemHolderFree = true;
+    [SerializeField, ReadOnly] private bool _isRightItemHolderFree = true;
+    [SerializeField, ReadOnly] private bool _isResultPreviewFree = true;
     
     // Auto-Implemented Get-Only Communication Properties.
     // Used to other classes to understand the current state od the Combining Submenu.
@@ -34,15 +39,6 @@ public class CombiningSubmenu : MonoBehaviour
     public bool IsResultPreviewFree => resultPreview.transform.childCount == 0;
     public bool AnyItemHolderAvailable => (IsLeftItemHolderFree || IsRightItemHolderFree);
     
-    // EDITOR-ONLY:
-    // Debugging Information ReadOnly Fields Wrapper.
-    // Properties are not very customizable and hard to update with Naughty Attributes, this workaround it's needed.
-    private const string G2 = "DEBUG INFO WRAPPER";
-    [HorizontalLine]
-    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isLeftItemHolderFree = true;
-    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isRightItemHolderFree = true;
-    [BoxGroup(G2), ReadOnly, SerializeField] private bool _isResultPreviewFree = true;
-
     private void Awake()
     {
         Instance = this;

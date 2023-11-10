@@ -1,6 +1,4 @@
-﻿using System;
-using NaughtyAttributes;
-using Unity.Mathematics;
+﻿using NaughtyAttributes;
 using UnityEngine;
 
 
@@ -11,13 +9,11 @@ using UnityEngine;
 public class NpcLookAtPlayerWhileInPresenceTrigger : MonoBehaviour
 {
     
-    private const string G1 = "REQUIRED REFERENCES";
-    [HorizontalLine]
-    [BoxGroup(G1), Required, SerializeField] private NpcInteraction _relatedNpcInteraction;
-
-    private const string G2 = "NPC SETTINGS";
-    [HorizontalLine]
-    [BoxGroup(G2), SerializeField] private float _angularSpeed = 10;
+    [Header("Required References")]
+    [SerializeField, Required] private NpcInteraction _relatedNpcInteraction;
+    
+    [Header("NPC Settings")]
+    [SerializeField] private float _angularSpeed = 10;
     
     // Npc
     private Quaternion _originalRotation;

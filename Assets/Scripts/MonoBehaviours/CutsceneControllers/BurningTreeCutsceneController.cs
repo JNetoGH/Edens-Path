@@ -10,12 +10,12 @@ public class BurningTreeCutsceneController : ACutsceneController
 {
     
     [Header("REQUIRED REFERENCES"), HorizontalLine]
-    [BoxGroup, Required, SerializeField] private GameObject _originalTree;
-    [BoxGroup, Required, SerializeField] private GameObject _burntTree;
-    [BoxGroup, Required, SerializeField] private GameObject _birdContainer;
-    [BoxGroup, Required, SerializeField] private GameObject _bird;
-    [BoxGroup, Required, SerializeField] private GameObject _vinylDisc;
-    [BoxGroup, Required, SerializeField] private Transform _birdDroppingTarget; // used only in case of HasBeenAlreadyWatched.
+    [SerializeField, Required, BoxGroup] private GameObject _originalTree;
+    [SerializeField, Required, BoxGroup] private GameObject _burntTree;
+    [SerializeField, Required, BoxGroup] private GameObject _birdContainer;
+    [SerializeField, Required, BoxGroup] private GameObject _bird;
+    [SerializeField, Required, BoxGroup] private GameObject _vinylDisc;
+    [SerializeField, Required, BoxGroup] private Transform _birdDroppingTarget; // used only in case of HasBeenAlreadyWatched.
     
     
     // Called by the BurningTreeCollisionTrigger

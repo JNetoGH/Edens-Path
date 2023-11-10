@@ -16,9 +16,9 @@ public class PickableObject : MonoBehaviour
     
     [Header("Rendering")]
     [SerializeField] private Outline _outlineScript;
-    public Outline OutlineScript => _outlineScript;
     [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
     
+    public Outline OutlineScript => _outlineScript;
     private List<Material> _originalMaterials = new List<Material>();
     private Rigidbody _rigidbody;
 

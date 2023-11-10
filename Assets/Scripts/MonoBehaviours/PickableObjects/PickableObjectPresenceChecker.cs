@@ -1,5 +1,7 @@
 using Cinemachine;
+using NaughtyAttributes;
 using UnityEngine;
+
 
 /// <summary>
 /// Teleports Pickable Objects back to a point if the get out of the trigger.
@@ -8,8 +10,9 @@ public class PickableObjectPresenceChecker : MonoBehaviour
 {
 
     [Header("Required Components")]
-    [SerializeField] private Transform _transportationPoint;
+    [SerializeField, Required] private Transform _transportationPoint;
     [SerializeField, Range(0f, 5f)] private float _exitTime = 2f;
+    
     private CinemachineVirtualCamera _virtualCamera;
 
     private void Start()
@@ -38,6 +41,9 @@ public class PickableObjectPresenceChecker : MonoBehaviour
         obj.transform.position = _transportationPoint.position;
     }
     
+    /// <summary>
+    /// Sets the cutscene's dependencies
+    /// </summary>
     private void StartCinemachine()
     {
         GameManager.EnterCutsceneMode();
@@ -46,6 +52,9 @@ public class PickableObjectPresenceChecker : MonoBehaviour
         Invoke(nameof(EndCinemachine), _exitTime);
     }
     
+    /// <summary>
+    /// Clears cutscene's dependencies in order to enable gameplay.
+    /// </summary>
     private void EndCinemachine()
     {
         GameManager.EnterGameplayMode();
