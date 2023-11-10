@@ -1,6 +1,7 @@
 ﻿using System;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// This script controls the burning tree cutscene sequence.
@@ -14,7 +15,7 @@ public class BurningTreeCutsceneController : ACutsceneController
     [SerializeField, Required, BoxGroup] private GameObject _burntTree;
     [SerializeField, Required, BoxGroup] private GameObject _birdContainer;
     [SerializeField, Required, BoxGroup] private GameObject _bird;
-    [SerializeField, Required, BoxGroup] private GameObject _vinylDisc;
+    [SerializeField, Required, BoxGroup] private GameObject _seed;
     [SerializeField, Required, BoxGroup] private Transform _birdDroppingTarget; // used only in case of HasBeenAlreadyWatched.
     
     
@@ -35,8 +36,8 @@ public class BurningTreeCutsceneController : ACutsceneController
         // The trigger won't trigger it and it will be set as it would be in its complete state.
         if (HasBeenAlreadyWatched)
         {
-            SetDiscToBeInteractive();
-            _vinylDisc.transform.position = _birdDroppingTarget.position;
+            SetSeedToBeInteractive();
+            _seed.transform.position = _birdDroppingTarget.position;
             SetTreeToTheBurntModel();
             DestroyBirdContainer();
         }
@@ -55,15 +56,15 @@ public class BurningTreeCutsceneController : ACutsceneController
         }
         
         // Called by an animation event at the Burning tree sequence cutscene.
-        private void SetDiscToBeInteractive()
+        private void SetSeedToBeInteractive()
         {
-            Rigidbody rb = _vinylDisc.GetComponent<Rigidbody>();
+            Rigidbody rb = _seed.GetComponent<Rigidbody>();
             rb.constraints = RigidbodyConstraints.None;
 
-            PickableObject pickObj = _vinylDisc.GetComponent<PickableObject>();
+            PickableObject pickObj = _seed.GetComponent<PickableObject>();
             pickObj.enabled = true;
 
-            _vinylDisc.transform.parent = null;
+            _seed.transform.parent = null;
         }
         
         // Called by an animation event at the Burning tree sequence cutscene.
