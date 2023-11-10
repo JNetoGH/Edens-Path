@@ -10,11 +10,12 @@ public class CameraController : MonoBehaviour
     [Header("Rotation")]
     [SerializeField, Range(1, 90)] private float _rotationXRangeUpperLimit = 80f;
     [SerializeField, Range(1, 90)] private float _rotationXRangeLowerLimit = 80f;
-    private float _rotationX;
-    private float _rotationY;
-    
+
     [Header("Movement")]
     [SerializeField] private Transform _cameraPosition;
+
+    public float RotationX { get; set; }
+    public float RotationY { get; set; }
     private float _mouseX;
     private float _mouseY;
     
@@ -22,8 +23,8 @@ public class CameraController : MonoBehaviour
     {
         float initialRotationX = transform.rotation.eulerAngles.x;
         float initialRotationY = transform.rotation.eulerAngles.y;
-        _rotationX = initialRotationX;
-        _rotationY = initialRotationY;
+        RotationX = initialRotationX;
+        RotationY = initialRotationY;
     }
 
     private void Update()
@@ -49,14 +50,14 @@ public class CameraController : MonoBehaviour
     private void RotateFreely()
     {
         float mouseSensitivity = _gameSettingsData.MouseSensitivity; 
-        _rotationY += _mouseX * mouseSensitivity;
-        _rotationX -= _mouseY * mouseSensitivity;
+        RotationY += _mouseX * mouseSensitivity;
+        RotationX -= _mouseY * mouseSensitivity;
 
         // Keeps the X axis within range 
-        _rotationX = Mathf.Clamp(_rotationX, -_rotationXRangeUpperLimit, _rotationXRangeLowerLimit);
+        RotationX = Mathf.Clamp(RotationX, -_rotationXRangeUpperLimit, _rotationXRangeLowerLimit);
 
         // Applies the rotations
-        transform.rotation = Quaternion.Euler(_rotationX, _rotationY, 0);
+        transform.rotation = Quaternion.Euler(RotationX, RotationY, 0);
     }
     
     private void MoveToTargetPosition()
@@ -66,8 +67,8 @@ public class CameraController : MonoBehaviour
 
     public void OverrideRotationCache(float rotationX, float rotationY)
     {
-        _rotationX = rotationX;
-        _rotationY = rotationY;
+        RotationX = rotationX;
+        RotationY = rotationY;
     }
     
 }
