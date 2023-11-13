@@ -51,7 +51,6 @@ public class NpcInteraction : MonoBehaviour
     
     [Header("Interaction Message")]
     [SerializeField] private string _name = "None";
-    private TextMeshProUGUI _uiMsg;
     
     [Header("Events")]
     [SerializeField] private UnityEvent _onPlayerInteract;
@@ -60,7 +59,6 @@ public class NpcInteraction : MonoBehaviour
     
     private void Start()
     {
-        _uiMsg = GameManager.NpcInteractableAnimationMsg;
         _player = FindObjectOfType<PlayerController>().gameObject;
         if (_player is null)
             Debug.LogWarning($"NpcInteraction.cs at {gameObject.name} could no find Player");
@@ -68,9 +66,6 @@ public class NpcInteraction : MonoBehaviour
     
     private void Update()
     {
-        // Disables the uiMsg.
-        _uiMsg.transform.parent.gameObject.SetActive(false);
-        
         if (!IsPlayerInRange)
             return;
         
@@ -78,8 +73,8 @@ public class NpcInteraction : MonoBehaviour
             return;
         
         // Player is in range and looking at the LookCollider
-        _uiMsg.text = $"press E to talk with {_name}";
-        _uiMsg.transform.parent.gameObject.SetActive(true);
+        GameManager.NpcInteractableAnimationMsg.text = $"press E to interact with {_name}";
+        GameManager.NpcInteractableAnimationMsg.transform.parent.gameObject.SetActive(true);
         
         if (!Input.GetKeyDown(KeyCode.E))
             return;

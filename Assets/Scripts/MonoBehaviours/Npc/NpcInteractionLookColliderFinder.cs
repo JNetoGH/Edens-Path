@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 
@@ -16,7 +17,15 @@ public class NpcInteractionLookColliderFinder : MonoBehaviour
     /// Cached valid NpcInteractions found in the last frame.
     /// </summary>
     private List<NpcInteraction> _interactionsFound = new List<NpcInteraction>();
-    
+
+    /// <summary>
+    /// Holds when the player is looking to any look collider
+    /// </summary>
+    /// <OBS>
+    /// Displayed on inspector in read-only mode for debugging. 
+    /// </OBS>
+    [SerializeField, ReadOnly] private bool _isPlayerLookingAtAnyInteraction;
+
     private void Update()
     {
         ClearNpcInteractionsCache();
@@ -30,17 +39,27 @@ public class NpcInteractionLookColliderFinder : MonoBehaviour
         foreach (RaycastHit hit in hits)
         {
             NpcInteraction npcInteraction = hit.collider.gameObject.GetComponent<NpcInteraction>();
+            
+            // Is not an NpcInteraction
             if (npcInteraction is null)
                 continue;
+            
+            // If the collider found is not the look collider.
             if (hit.collider != npcInteraction.InteractionLookCollider)
                 continue;
+            
             _interactionsFound.Add(npcInteraction);
         }
         
-        // Notify all Valid Npc Interactions, that they have been found.
-        bool anyValidHits = _interactionsFound.Count > 0;
-        if (!anyValidHits)
+        // Disables the ui msg and return in case the player isn't looking to any look collier. 
+        _isPlayerLookingAtAnyInteraction = _interactionsFound.Count > 0;
+        if (!_isPlayerLookingAtAnyInteraction)
+        {
+            GameManager.NpcInteractableAnimationMsg.transform.parent.gameObject.SetActive(false);
             return;
+        }
+        
+        // Notify all Valid Npc Interactions, that they have been found.
         foreach (NpcInteraction npcInteraction in _interactionsFound)
             npcInteraction.IsPlayerLookingAtLookCollider = true;
     }
