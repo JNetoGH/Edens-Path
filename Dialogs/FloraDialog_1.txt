@@ -1,0 +1,18 @@
+Anime_Girl => Anime_Girl
+Clyde => Player
+Variability = 0.3
+Clarity = 0.75
+
+Player: Flora...
+
+Flora:  Yes, It's me! I missed you so much!
+
+Player: Are you real? I haven't seen you since...
+
+Flora: \"Since you were a kid? - don't worry! Imaginary friends, we normally don't last longer anyway.\" She said playfully.
+
+Flora: I - I would like to ask your help - the grumpy bird on the tree took my seed!
+
+Flora: Could you find a way to make him give it back to me? I heard he is afraid of fire!
+
+Player: Of course Flora...

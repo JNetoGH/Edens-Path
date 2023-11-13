@@ -1,0 +1,45 @@
+\"\"
+Fin => Devil
+Clyde => Player
+Variability = 0.3
+Clarity = 0.75
+
+Introduction:
+
+Line_1_Devil
+\"Oh! - Hello! - I was waiting for you... But why did you take so long?...\" he greeted with excitement and asked, intrigued.
+
+Line_2_PLayer
+\"Where in the hell... am I?..\" he said, pissed and confused but slowly.
+
+Line_3_Devil
+You are... dead, Pretty dead! Things here may be a bit different from what you are used to... 
+
+Line_4_PLayer
+\"A bit!? you are a glowing orb...\" he said, confused.
+
+Line_5_Devil
+Hahahaha... indeed, indeed! But fear not, there are way worse places where the living can go when they are, well... no longer living. Compared to other possible places, this is a paradise, a heaven!
+
+Line_6_PLayer
+\"A heaven? So why am I alone? You know what? In my life, I've already met many people like you...\", he said, suspicious
+
+Line_7_Devil
+Charming?...
+
+Line_8_Player
+Full of shit...
+
+Line_9_Devil
+Well, well, you got me! You are not there... yet! But please, consider following the Eden's Path. Once you finish it, you will see what eternity looks like, I promise. I may be biased because I created it all, but... I LOVE IT!
+
+Line_10_Player
+I guess we have a deal then. I don't see many other options.
+
+Line_11_Devil
+Splendid! What a remarkable specimen you are! Now, if you'll excuse me, I have my own duties to attend to. You know, as a deity, and blah blah blah. But rest assured, we shall see each other soon.
+
+Line_12_Player
+WAIT! HOW AM I!... supposed to get to the end?
+
+Talk with Flora:
