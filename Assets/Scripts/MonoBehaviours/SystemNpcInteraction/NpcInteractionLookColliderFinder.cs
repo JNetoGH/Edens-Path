@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Unity.Collections;
+using NaughtyAttributes;
 using UnityEngine;
 
 

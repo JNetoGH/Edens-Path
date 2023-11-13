@@ -1,6 +1,5 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 /// <summary>
@@ -32,13 +31,6 @@ public class ObjectInteractorSystem : MonoBehaviour
         {
             InteractiveObject newTarget = hit.collider.GetComponent<InteractiveObject>();
             
-            if (newTarget is null)
-            {
-                TrySetOutLineOfCurrentTarget(false);
-                _targetedInteractiveObject = null;
-                return;
-            }
-            
             if (newTarget != _targetedInteractiveObject)
             {
                 TrySetOutLineOfCurrentTarget(false);
@@ -46,6 +38,12 @@ public class ObjectInteractorSystem : MonoBehaviour
                 TrySetOutLineOfCurrentTarget(true);
             }
             
+        }
+        else
+        {
+            TrySetOutLineOfCurrentTarget(false);
+            _targetedInteractiveObject = null;
+            return;
         }
 
         // Checks for input
