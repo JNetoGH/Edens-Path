@@ -33,28 +33,28 @@ public class DigitalLockerController : MonoBehaviour
 
     #region Called Via Buttons Events
     
-    public void ResetDisplay()
-    {
-        foreach (TextMeshProUGUI textMeshProUGUI in _displayTexts)
-            textMeshProUGUI.text = "-";
-        _curDigitIndex = 0;
-    }
-    
-    private bool CheckPassword()
-    {
-        for (int i = 0; i < _password.Length; i++)
-            if (_password[i] != _displayTexts[i].text[0])
-                return false;
-        return true;
-    }
-    
-    public void SetCurrentDigit(int digit)
-    {
-        if (_curDigitIndex >= 3)
-            return;
-        _displayTexts[_curDigitIndex].text = digit.ToString();
-        _curDigitIndex++;
-    }
+        public void ResetDisplay()
+        {
+            foreach (TextMeshProUGUI textMeshProUGUI in _displayTexts)
+                textMeshProUGUI.text = "-";
+            _curDigitIndex = 0;
+        }
+        
+        private bool CheckPassword()
+        {
+            for (int i = 0; i < _password.Length; i++)
+                if (_password[i] != _displayTexts[i].text[0])
+                    return false;
+            return true;
+        }
+        
+        public void SetCurrentDigit(int digit)
+        {
+            if (_curDigitIndex >= 3)
+                return;
+            _displayTexts[_curDigitIndex].text = digit.ToString();
+            _curDigitIndex++;
+        }
     
     #endregion
 
