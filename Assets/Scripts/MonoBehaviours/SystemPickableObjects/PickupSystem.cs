@@ -1,6 +1,9 @@
 using UnityEngine;
 
 
+/// <summary>
+/// Must be attached to the player's first person camera
+/// </summary>
 public class PickupSystem : MonoBehaviour
 {
     
