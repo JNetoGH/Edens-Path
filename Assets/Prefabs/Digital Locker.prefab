@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1788723408751617286}
+  - component: {fileID: 1935194995923284830}
+  - component: {fileID: 3938802902242851344}
   - component: {fileID: 1313104123873216957}
   - component: {fileID: 6259829464028710579}
   - component: {fileID: 2287542558462153789}
@@ -35,6 +37,51 @@ Transform:
   - {fileID: 8998646742382716739}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1935194995923284830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72328035399398777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3938802902242851344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72328035399398777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &1313104123873216957
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -104,7 +151,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &80183943508996656
 GameObject:
@@ -249,6 +296,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587546811685115685}
+  - component: {fileID: 5818756819577579336}
+  - component: {fileID: 2538835468249539522}
   - component: {fileID: 3830221937214769339}
   - component: {fileID: 5303471850849619749}
   - component: {fileID: 3096038033302101573}
@@ -275,6 +324,51 @@ Transform:
   - {fileID: 3414291642461640716}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5818756819577579336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264623685069211793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2538835468249539522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 264623685069211793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &3830221937214769339
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -344,7 +438,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &631662317766565700
 GameObject:
@@ -355,8 +449,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6814091267482976303}
+  - component: {fileID: 1748656136239116046}
   m_Layer: 0
-  m_Name: Password Locker
+  m_Name: Digital Locker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -383,6 +478,24 @@ Transform:
   - {fileID: 1714088082676413963}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1748656136239116046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631662317766565700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d5196a4aa142964095b0ee5ad7df594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _password: 911
+  _curDigitIndex: 0
+  _displayTexts:
+  - {fileID: 4082488737563152187}
+  - {fileID: 6962005164037801259}
+  - {fileID: 101207954255762087}
 --- !u!1 &721922563481114634
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,6 +917,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3177052159161477207}
+  - component: {fileID: 5278512105748175182}
+  - component: {fileID: 3146018871128274893}
   - component: {fileID: 4145336182392135073}
   - component: {fileID: 1714791787499966261}
   - component: {fileID: 2142649788668665122}
@@ -830,6 +945,51 @@ Transform:
   - {fileID: 7198024230755917397}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5278512105748175182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883494286958035267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 9
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3146018871128274893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883494286958035267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &4145336182392135073
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -899,7 +1059,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1099360967996816287
 GameObject:
@@ -1047,7 +1207,7 @@ GameObject:
   - component: {fileID: 3047277870210141087}
   - component: {fileID: 6419248105017351990}
   m_Layer: 0
-  m_Name: Display Background
+  m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1230,6 +1390,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5104647814683625779}
+  - component: {fileID: 8283129135559049724}
+  - component: {fileID: 1618828342316060954}
   - component: {fileID: 9222405521307118237}
   - component: {fileID: 7847175732702191870}
   - component: {fileID: 3361925627888986752}
@@ -1256,6 +1418,51 @@ Transform:
   - {fileID: 632327432502222599}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8283129135559049724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542325095100203581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1618828342316060954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542325095100203581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &9222405521307118237
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1325,7 +1532,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1542532228896477047
 GameObject:
@@ -1604,6 +1811,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8546102107168102698}
+  - component: {fileID: 3705033628284477758}
+  - component: {fileID: 8198695989888722874}
   - component: {fileID: 6290032474859411898}
   - component: {fileID: 98984030644408827}
   - component: {fileID: 1355081932282792828}
@@ -1630,6 +1839,51 @@ Transform:
   - {fileID: 3964985828851544069}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3705033628284477758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108738155495330388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: ResetDisplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8198695989888722874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2108738155495330388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &6290032474859411898
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1699,7 +1953,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2220540671292956942
 GameObject:
@@ -2501,6 +2755,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1066329055588416348}
+  - component: {fileID: 5032344081559665026}
+  - component: {fileID: 430884783519868600}
   - component: {fileID: 4347086415211752643}
   - component: {fileID: 9104619749801280352}
   - component: {fileID: 3619159317399817673}
@@ -2527,6 +2783,51 @@ Transform:
   - {fileID: 8355447735074699616}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5032344081559665026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925689709414534580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &430884783519868600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3925689709414534580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &4347086415211752643
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2596,7 +2897,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4238278693848512387
 GameObject:
@@ -2843,6 +3144,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1641545862587056684}
+  - component: {fileID: 7827753584334263056}
+  - component: {fileID: 8179525532194238631}
   - component: {fileID: 3416864053639997203}
   - component: {fileID: 5361500004788680283}
   - component: {fileID: 7362367986531809924}
@@ -2869,6 +3172,51 @@ Transform:
   - {fileID: 1410298450524244571}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7827753584334263056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4739221207840075083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8179525532194238631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4739221207840075083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &3416864053639997203
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2938,7 +3286,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6280573550812856891
 GameObject:
@@ -3402,6 +3750,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3878325806361112795}
+  - component: {fileID: 2884171630708560085}
+  - component: {fileID: 5621072244722133735}
   - component: {fileID: 4537147196819059229}
   - component: {fileID: 1286618155529445933}
   - component: {fileID: 5651095969936897490}
@@ -3428,6 +3778,51 @@ Transform:
   - {fileID: 1499300585892750590}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2884171630708560085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994827199170819305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5621072244722133735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6994827199170819305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &4537147196819059229
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3497,7 +3892,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7144857662537055184
 GameObject:
@@ -3827,6 +4222,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7056612424912173024}
+  - component: {fileID: 485725876897522326}
+  - component: {fileID: 200506269439171536}
   - component: {fileID: 4024713729067004875}
   - component: {fileID: 2210950057836768031}
   - component: {fileID: 8033200485054737416}
@@ -3853,6 +4250,51 @@ Transform:
   - {fileID: 1177694252053782980}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &485725876897522326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7549993988986910013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &200506269439171536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7549993988986910013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &4024713729067004875
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3922,7 +4364,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7656274070270060119
 GameObject:
@@ -4016,6 +4458,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 453450326546209660}
+  - component: {fileID: 9124357842396084106}
+  - component: {fileID: 756558901981230704}
   - component: {fileID: 2222498682092093735}
   - component: {fileID: 8795997729989838032}
   - component: {fileID: 3238073174779140198}
@@ -4042,6 +4486,51 @@ Transform:
   - {fileID: 8850353181359415108}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9124357842396084106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674757838886328690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &756558901981230704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674757838886328690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &2222498682092093735
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4111,7 +4600,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8412341908866594917
 GameObject:
@@ -4187,6 +4676,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5934478611054450781}
+  - component: {fileID: 6109650414284820124}
+  - component: {fileID: 5419251282101376236}
   - component: {fileID: 229340410245161709}
   - component: {fileID: 6565445402605113792}
   - component: {fileID: 259802722728284903}
@@ -4213,6 +4704,51 @@ Transform:
   - {fileID: 5754802178341455560}
   m_Father: {fileID: 1714088082676413963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6109650414284820124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8468663663592407848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 152562dfe7a04703ad421262c186a3e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  events:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1748656136239116046}
+        m_TargetAssemblyTypeName: DigitalLockerController, Assembly-CSharp
+        m_MethodName: SetCurrentDigit
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5419251282101376236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8468663663592407848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 0, g: 1, b: 0.053681135, a: 1}
+  outlineWidth: 10
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &229340410245161709
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -4282,7 +4818,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1.2, y: 1.2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8977863129362310873
 GameObject:

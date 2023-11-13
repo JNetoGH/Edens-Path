@@ -47,11 +47,8 @@ public class ObjectInteractorSystem : MonoBehaviour
         }
 
         // Checks for input
-        if (Input.GetButtonDown("Fire1"))
-        {
+        if (Input.GetButtonDown("Fire1") && _targetedInteractiveObject is not null)
             _targetedInteractiveObject.events.Invoke();
-        }
-        
     }
 
     private void TrySetOutLineOfCurrentTarget(bool onOff)
