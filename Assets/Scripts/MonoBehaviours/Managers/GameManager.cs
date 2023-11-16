@@ -10,16 +10,13 @@ using Cursor = UnityEngine.Cursor;
 public class GameManager : MonoBehaviour
 {
     
+    [Header("Required References")]
+    [SerializeField, Required] private GameObject _settingsMenu;
+    [SerializeField, Required] private GameObject _inventory;
     
-    private const string G1 = "REQUIRED REFENCES";
-    [HorizontalLine]
-    [BoxGroup(G1), Required, SerializeField] private GameObject _settingsMenu;
-    [BoxGroup(G1), Required, SerializeField] private GameObject _inventory;
-    
-    private const string G2 = "CACHING FOR OTHER SCRIPTS";
-    [HorizontalLine]
-    [BoxGroup(G2), Required, SerializeField] private TextMeshProUGUI _npcInteractableAnimationMsg; 
-    [BoxGroup(G2), Required, SerializeField] private PhysicMaterial _slipperyMaterial; 
+    [Header("Cached for Other Scripts")]
+    [SerializeField, Required] private TextMeshProUGUI _npcInteractableAnimationMsg; 
+    [SerializeField, Required] private PhysicMaterial _slipperyMaterial; 
     public static PhysicMaterial SlipperyMaterial { get; private set; } // passed to pickable objects.
     public static TextMeshProUGUI NpcInteractableAnimationMsg { get; private set; } // passed to NpcInteractableAnimations.
 

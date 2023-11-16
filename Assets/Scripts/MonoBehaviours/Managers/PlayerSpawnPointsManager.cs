@@ -8,20 +8,16 @@ using UnityEngine;
 /// </summary>
 public class PlayerSpawnPointsManager : MonoBehaviour
 {
-    
-    private const string G0 = "DEBBUGING";
-    [HorizontalLine]
-    [BoxGroup(G0), ReadOnly, SerializeField] private bool hasAlreadyTeleported;
-    
-    private const string G1 = "PLAYER REFERENCE";
-    [HorizontalLine]
-    [Required, BoxGroup(G1), SerializeField] private GameObject _player;
 
-    private const string G2 = "SPAWN POINTS SETTINGS";
-    private const string DP = nameof(_spawnPoints);
-    [HorizontalLine]
-    [BoxGroup(G2), Dropdown(DP), SerializeField] private Transform _selectedSpawnPoint;
-    [BoxGroup(G2), SerializeField] private Transform[] _spawnPoints = {};
+    [Header("Debugging Read-Only")]
+    [SerializeField, ReadOnly] private bool _hasAlreadyTeleported;
+    
+    [Header("Player Reference")]
+    [SerializeField, Required] private GameObject _player;
+    
+    [Header("Spawn Point Settings")]
+    [SerializeField, Dropdown("_spawnPoints")] private Transform _selectedSpawnPoint;
+    [SerializeField] private Transform[] _spawnPoints = {};
     
     private void Start()
     {
@@ -36,17 +32,17 @@ public class PlayerSpawnPointsManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!hasAlreadyTeleported)
+        if (!_hasAlreadyTeleported)
         {
             TryTeleportPlayerToActiveSpawnPoint();
             MakeEverySpawnPointMeshDisappear();
-            hasAlreadyTeleported = true;
+            _hasAlreadyTeleported = true;
         }
     }
     
     private void TriggerTeleport()
     {
-        hasAlreadyTeleported = false;
+        _hasAlreadyTeleported = false;
     }
 
     private void TryTeleportPlayerToActiveSpawnPoint()
@@ -63,7 +59,7 @@ public class PlayerSpawnPointsManager : MonoBehaviour
             {
                 Debug.LogWarning("Spawn point index set to PlayerSpawnPointManager is invalid.");
             }
-            hasAlreadyTeleported = true;
+            _hasAlreadyTeleported = true;
         }
         else
         {

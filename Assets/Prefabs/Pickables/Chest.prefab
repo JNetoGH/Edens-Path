@@ -92,10 +92,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3361419204548514853}
-  - component: {fileID: 8407636510316355969}
-  - component: {fileID: 5907738914486557787}
   - component: {fileID: 7235530316377374617}
   - component: {fileID: 612124967786654458}
+  - component: {fileID: 8407636510316355969}
+  - component: {fileID: 5907738914486557787}
   - component: {fileID: 1581400364966241424}
   - component: {fileID: 2620046261817441722}
   m_Layer: 0
@@ -121,6 +121,41 @@ Transform:
   - {fileID: 1424622037312780236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7235530316377374617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6352899810754258526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a94eb19f4b9f4f1cb724b205e29e2198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickableObjectData: {fileID: 11400000, guid: 5ba791561996dbc409251170ed4fe2c5, type: 2}
+  _outlineScript: {fileID: 612124967786654458}
+  _renderers:
+  - {fileID: 7273354248851191970}
+  - {fileID: 5812168597395349358}
+--- !u!114 &612124967786654458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6352899810754258526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!33 &8407636510316355969
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -171,41 +206,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7235530316377374617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6352899810754258526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94eb19f4b9f4f1cb724b205e29e2198, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pickableObjectData: {fileID: 11400000, guid: 5ba791561996dbc409251170ed4fe2c5, type: 2}
-  _outlineScript: {fileID: 612124967786654458}
-  _renderers:
-  - {fileID: 7273354248851191970}
-  - {fileID: 5812168597395349358}
---- !u!114 &612124967786654458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6352899810754258526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outlineMode: 0
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
-  precomputeOutline: 0
-  bakeKeys: []
-  bakeValues: []
 --- !u!65 &1581400364966241424
 BoxCollider:
   m_ObjectHideFlags: 0

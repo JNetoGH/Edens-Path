@@ -1,6 +1,9 @@
 using UnityEngine;
 
 
+/// <summary>
+/// Must be attached to the player's first person camera
+/// </summary>
 public class PickupSystem : MonoBehaviour
 {
     
@@ -12,9 +15,11 @@ public class PickupSystem : MonoBehaviour
     [SerializeField, Range(1, 10)] private float _objMoveSpeed = 6f;
     [SerializeField] private Transform _pickedUpPosition;
     
-    [Header("Outliner & Being Picked Up Highlight")]
+    [Header("Outline")]
     [SerializeField] private Color _outlineColor = Color.cyan;
     [SerializeField, Range(1, 40)] private float _outlineWidth = 10f;
+    
+    [Header("Being Picked Up Highlight")]
     [SerializeField] private Material _beingPickedMaterial;
     
     public PickableObject PickedObject => _pickedObject;

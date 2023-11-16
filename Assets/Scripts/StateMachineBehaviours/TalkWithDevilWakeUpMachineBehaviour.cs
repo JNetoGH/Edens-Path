@@ -33,12 +33,16 @@ public class TalkWithDevilWakeUpMachineBehaviour : StateMachineBehaviour
             Debug.LogWarning("FirstTalkWithDevilMachineBehaviour could not find devil using the SuperTag system");
             return;
         }
-        _playerCamera.transform.LookAt(_devil.transform);    
-        
+          
         // Looks to the ground to set the animation.
+        _playerCamera.transform.LookAt(_devil.transform);  
         Vector3 currentRotation = _playerCamera.transform.rotation.eulerAngles;
         currentRotation.x = _cameraXInitialRotation;
         _playerCamera.transform.rotation = Quaternion.Euler(currentRotation);
+        
+        // Syncs the Camera Controller with the new rotation
+        CameraController cameraController = FindObjectOfType<CameraController>();
+        cameraController.RotationY = currentRotation.y;
     }
     
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

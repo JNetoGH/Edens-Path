@@ -13,14 +13,14 @@ public class FirstLevelBridgeAnimationController : ACutsceneController
 
     private const string G1 = "REQUIRED REFENCES";
     [HorizontalLine]
-    [BoxGroup(G1), Required, SerializeField] private CinemachineVirtualCamera _virtualCamera;
-    [BoxGroup(G1), Required, SerializeField] private GameObject _bridgeContainer;
+    [SerializeField, Required, BoxGroup(G1)] private CinemachineVirtualCamera _virtualCamera;
+    [SerializeField, Required, BoxGroup(G1)] private GameObject _bridgeContainer;
     
     private const string G2 = "CUTSCENE PARAMETERS";
     [HorizontalLine]
-    [BoxGroup(G2), SerializeField] private float _bridgeRisingSpeed = 2;
-    [BoxGroup(G2), SerializeField] private float _risingDelay = 1;
-    [BoxGroup(G2), SerializeField] private float _exitDelay = 1;
+    [SerializeField, BoxGroup(G2)] private float _bridgeRisingSpeed = 2;
+    [SerializeField, BoxGroup(G2)] private float _risingDelay = 1;
+    [SerializeField, BoxGroup(G2)] private float _exitDelay = 1;
     
     // Bridge cutscene fields
     private bool _triggerCutscene = false;

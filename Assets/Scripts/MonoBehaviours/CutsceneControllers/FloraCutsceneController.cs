@@ -5,12 +5,12 @@ using UnityEngine;
 public class FloraCutsceneController : ACutsceneController
 {
     
-    [BoxGroup, Required, SerializeField] private GameObject _flora;
-    [BoxGroup, Required, SerializeField] private AudioClip _floraDialogue1;
-    [BoxGroup, Required, SerializeField] private GameObject _floraNpcInteraction1;
-    [BoxGroup, Required, SerializeField] private GameObject _floraNpcInteractionMsg;
-    private AudioSource _audioSource;
+    [SerializeField, Required, BoxGroup] private GameObject _flora;
+    [SerializeField, Required, BoxGroup] private AudioClip _floraDialogue1;
+    [SerializeField, Required, BoxGroup] private GameObject _floraNpcInteraction1;
+    [SerializeField, Required, BoxGroup] private GameObject _floraNpcInteractionMsg;
     
+    private AudioSource _audioSource;
     
     private void Awake()
     {
@@ -40,6 +40,5 @@ public class FloraCutsceneController : ACutsceneController
         }
         
     #endregion
-   
     
 }

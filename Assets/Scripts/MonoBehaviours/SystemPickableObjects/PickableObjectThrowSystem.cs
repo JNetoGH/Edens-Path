@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 
-public class ThrowSystem : MonoBehaviour
+public class PickableObjectThrowSystem : MonoBehaviour
 {
 
     [Header("System UI")] 
