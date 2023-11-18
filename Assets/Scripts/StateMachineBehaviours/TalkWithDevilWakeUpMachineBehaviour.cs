@@ -43,6 +43,7 @@ public class TalkWithDevilWakeUpMachineBehaviour : StateMachineBehaviour
         // Syncs the Camera Controller with the new rotation
         CameraController cameraController = FindObjectOfType<CameraController>();
         cameraController.RotationY = currentRotation.y;
+        cameraController.RotationX = currentRotation.x;
     }
     
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
