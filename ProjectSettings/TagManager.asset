@@ -11,6 +11,7 @@ TagManager:
   - CraftHolder
   - InventoryContent
   - Torch
+  - Bouquet
   layers:
   - Default
   - TransparentFX

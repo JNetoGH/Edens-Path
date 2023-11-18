@@ -7,19 +7,19 @@ using UnityEngine.Serialization;
 public class LevelOneProgressValidator : MonoBehaviour, ILevelProgressValidator
 {
 
-    [HideInInspector] public bool finishLevelAndRaiseBridge = false; 
+    [HideInInspector] public bool hasDrinhaGotTheFlowers = false; 
     
     private void Start()
     {
         // Subscribes this validator to the handler
-        finishLevelAndRaiseBridge = false;
+        hasDrinhaGotTheFlowers = false;
         CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressHandler>());
     }
     
     // Comes From the Interface.
     public void OnValidation(LevelProgressHandler handler)
     {
-        if (finishLevelAndRaiseBridge)
+        if (hasDrinhaGotTheFlowers)
             handler.HasProgressed = true;
     }
     
