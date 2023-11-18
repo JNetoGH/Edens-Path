@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
             CloseInventory();
         
         // Inventory Button Pressed, can't open the menu while in cutscenes.
-        if (Input.GetKeyDown(KeyCode.I) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
+        if (Input.GetKeyDown(KeyCode.Tab) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
             SwitchInventoryState();
     }
     
