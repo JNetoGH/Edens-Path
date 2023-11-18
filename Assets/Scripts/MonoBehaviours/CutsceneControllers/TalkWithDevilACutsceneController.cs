@@ -1,3 +1,4 @@
+using System;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -38,9 +39,34 @@ public class TalkWithDevilACutsceneController : ACutsceneController
         
         // In case the cutscene has been already watched,simply won't play the cutscene.
         if (!hasBeenAlreadyWatched)
+        {
             PlayCutscene();
+        }
         if (hasBeenAlreadyWatched)
+        {
             DisableDevil();
+            GameManager.SkipCutsceneMsg.SetActive(false);
+        }
+    }
+
+    private void Update()
+    {
+        bool isRunning = animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+        if (isRunning && Input.GetKeyDown(KeyCode.Return))
+        {
+            animator.enabled = false;
+            DisableDevil();
+            _audioSource.Stop();
+            _eyesEffect.gameObject.SetActive(false);
+            GameManager.EnterGameplayMode();
+            GameManager.SkipCutsceneMsg.SetActive(false);
+        }
+    }
+
+    public override void SkipCutscene()
+    {
+        DisableDevil();
+        GameManager.EnterGameplayMode();
     }
     
     public override void PlayCutscene()

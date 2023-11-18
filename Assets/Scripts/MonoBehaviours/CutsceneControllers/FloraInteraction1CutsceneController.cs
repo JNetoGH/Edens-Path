@@ -1,4 +1,5 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+using JetBrains.Annotations;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -18,7 +19,19 @@ public class FloraInteraction1CutsceneController : ACutsceneController
         _audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
-    
+
+    private void Update()
+    {
+        bool isRunning = animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f;
+        if (isRunning && Input.GetKeyDown(KeyCode.Return))
+        {
+            animator.enabled = false;
+            _audioSource.Stop();
+            GameManager.EnterGameplayMode();
+            GameManager.SkipCutsceneMsg.SetActive(false);
+        }
+    }
+
     public override void PlayCutscene()
     {
         animator.SetTrigger("NextCutscutscene");

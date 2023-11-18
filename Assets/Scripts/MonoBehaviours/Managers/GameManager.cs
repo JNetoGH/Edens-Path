@@ -17,9 +17,11 @@ public class GameManager : MonoBehaviour
     [Header("Cached for Other Scripts")]
     [SerializeField, Required] private TextMeshProUGUI _npcInteractableAnimationMsg; 
     [SerializeField, Required] private PhysicMaterial _slipperyMaterial; 
+    [SerializeField, Required] private GameObject _skipCutsceneMsg;
     public static PhysicMaterial SlipperyMaterial { get; private set; } // passed to pickable objects.
     public static TextMeshProUGUI NpcInteractableAnimationMsg { get; private set; } // passed to NpcInteractableAnimations.
-
+    public static GameObject SkipCutsceneMsg { get; private set; } // passed to cutscenes
+    
     // Public control properties (can be called by other scripts to control the game state).
     public static bool CanMovePlayer { get; set; } = true;
     public static bool CanRotateCamera { get; set; } = true;
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     {
         SlipperyMaterial = _slipperyMaterial;
         NpcInteractableAnimationMsg = _npcInteractableAnimationMsg;
+        SkipCutsceneMsg = _skipCutsceneMsg;
         
         _audioSourcesPausedOnPausedEvent = new List<AudioSource>();
         CanMovePlayer = true;

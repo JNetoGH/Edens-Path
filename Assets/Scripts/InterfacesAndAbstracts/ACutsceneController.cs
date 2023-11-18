@@ -18,6 +18,14 @@ public abstract class ACutsceneController : MonoBehaviour
     public bool HasBeenAlreadyWatched => hasBeenAlreadyWatched;
 
     /// <summary>
+    /// Enable to be skip cutscenes while they are running.
+    /// </summary>
+    public virtual void SkipCutscene()
+    {
+        Debug.Log("Not implementation for skipping this Cutscene");
+    }
+    
+    /// <summary>
     /// A button that appears automatically in the editor to force the cutscene to play.
     /// </summary>
     [Button]
