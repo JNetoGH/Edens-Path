@@ -11,7 +11,6 @@ public class GroundDetector : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private LayerMask _considerLayers;
     [SerializeField] private LayerMask _ignoreLayers;
-    [SerializeField] private float _yLimitSpeedSafetyMargin = 0.4f;
     
     [Header("Visualization")]
     [SerializeField] private bool _showGroundDetector = false;
