@@ -82,8 +82,7 @@ public class NpcInteraction : MonoBehaviour
         Debug.Log($"player interacted with {gameObject.name} NpcInteraction.cs Trigger");
         _onPlayerInteract.Invoke();
     }
-    
-    
+
     /// <summary>
     /// Draw a wire sphere representing the interaction range in the Scene view
     /// </summary>

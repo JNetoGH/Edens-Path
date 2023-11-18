@@ -1,15 +1,16 @@
-﻿using NaughtyAttributes;
+﻿using JetBrains.Annotations;
+using NaughtyAttributes;
 using UnityEngine;
 
 
-public class FloraCutsceneController : ACutsceneController
+public class FloraInteraction1CutsceneController : ACutsceneController
 {
     
-    [SerializeField, Required, BoxGroup] private GameObject _flora;
-    [SerializeField, Required, BoxGroup] private AudioClip _floraDialogue1;
-    [SerializeField, Required, BoxGroup] private GameObject _floraNpcInteraction1;
-    [SerializeField, Required, BoxGroup] private GameObject _floraNpcInteractionMsg;
-    
+    private const string G1 = "DIALOGUE 1";
+    [SerializeField, Required, BoxGroup(G1)] private AudioClip _floraDialogue1;
+    [SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteraction1;
+    [SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteractionMsg;
+
     private AudioSource _audioSource;
     
     private void Awake()
@@ -24,7 +25,7 @@ public class FloraCutsceneController : ACutsceneController
         PlayDialog1Audio();
         DisableFloraNpcInteractionTrigger1();
     }
-
+    
     #region Animation Events
     
         public void PlayDialog1Audio()
@@ -32,7 +33,7 @@ public class FloraCutsceneController : ACutsceneController
             _audioSource.clip = _floraDialogue1;
             _audioSource.Play();
         }
-
+        
         public void DisableFloraNpcInteractionTrigger1()
         {
             _floraNpcInteraction1.SetActive(false);

@@ -14,7 +14,7 @@ public abstract class ACutsceneController : MonoBehaviour
     /// and not be able to be triggered anymore.
     /// </summary>
     [HorizontalLine]
-    [BoxGroup("CONTROLLING"), SerializeField] protected bool hasBeenAlreadyWatched = false;
+    [BoxGroup("CONTROLLING"), SerializeField] public bool hasBeenAlreadyWatched = false;
     public bool HasBeenAlreadyWatched => hasBeenAlreadyWatched;
 
     /// <summary>

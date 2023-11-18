@@ -31,6 +31,7 @@ public class NpcInteractionLookColliderFinder : MonoBehaviour
         ClearNpcInteractionsCache();
         
         RaycastHit[] hits = Physics.RaycastAll(transform.position, transform.forward, 10F);
+        
         bool foundAnything = hits.Length > 0;
         if (!foundAnything)
             return;
@@ -42,6 +43,10 @@ public class NpcInteractionLookColliderFinder : MonoBehaviour
             
             // Is not an NpcInteraction
             if (npcInteraction is null)
+                continue;
+
+            // Is turned on 
+            if (npcInteraction.enabled == false)
                 continue;
             
             // If the collider found is not the look collider.

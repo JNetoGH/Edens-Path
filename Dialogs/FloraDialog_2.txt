@@ -1,0 +1,8 @@
+Anime_Girl => Anime_Girl
+Clyde => Player
+Variability = 0.3
+Clarity = 0.75
+
+Flora: \"My Seed!!! - Thank you!!! - Please! have this flowers and... give it to someone you really like!\", She said it so happy
+
+PLayer: \"Someone - I really like??\", he said it confused
