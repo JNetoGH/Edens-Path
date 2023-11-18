@@ -1,22 +1,26 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Validates the progression for the first level.
 /// </summary>
 public class LevelOneProgressValidator : MonoBehaviour, ILevelProgressValidator
 {
+
+    [HideInInspector] public bool finishLevelAndRaiseBridge = false; 
     
     private void Start()
     {
         // Subscribes this validator to the handler
+        finishLevelAndRaiseBridge = false;
         CallAtStartAndSubscribeToHandler(GetComponent<LevelProgressHandler>());
     }
     
     // Comes From the Interface.
     public void OnValidation(LevelProgressHandler handler)
     {
-        // when validates the progression.
-        // handler.HasProgressed = true;
+        if (finishLevelAndRaiseBridge)
+            handler.HasProgressed = true;
     }
     
     // Comes From the Interface.
