@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5674284480903748632}
   - component: {fileID: 745837708612335192}
   - component: {fileID: 8591125971868105262}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,7 +50,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickableObjectData: {fileID: 11400000, guid: e916f13e90d941441bfb3555a0c42f9a, type: 2}
-  _showDebugInfo: 1
   _outlineScript: {fileID: 8109614059201044010}
   _renderers:
   - {fileID: 5674284480903748632}

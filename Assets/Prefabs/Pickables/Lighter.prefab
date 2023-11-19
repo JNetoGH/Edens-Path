@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8542946746732583415}
   - component: {fileID: 4290532480310850716}
   - component: {fileID: 80872222660836782}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Object05
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 5021581318215246971}
   - component: {fileID: 2457680791289769283}
   - component: {fileID: 5492154245912018480}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Object01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: -7378847569684979599}
   - component: {fileID: 8859966947149923033}
   - component: {fileID: 631346949514935470}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Lighter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickableObjectData: {fileID: 11400000, guid: 3fe85ce34b01a6746bac4ae7a3a0a6a6, type: 2}
-  _showDebugInfo: 1
   _outlineScript: {fileID: -7378847569684979599}
   _renderers:
   - {fileID: 5492154245912018480}
@@ -302,7 +301,7 @@ GameObject:
   - component: {fileID: 4300517925619436902}
   - component: {fileID: 4047519444003741918}
   - component: {fileID: 1632402111258009245}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Object04
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -385,7 +384,7 @@ GameObject:
   - component: {fileID: 7473801247808694490}
   - component: {fileID: 7239358617863723829}
   - component: {fileID: 488320213092331615}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Object02
   m_TagString: Untagged
   m_Icon: {fileID: 0}

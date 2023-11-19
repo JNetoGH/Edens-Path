@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3774359568010648765}
   - component: {fileID: 4756555186795276752}
   - component: {fileID: 3690159887830756052}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: UnlitTorch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,16 +112,41 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4949379480352011096}
     m_Modifications:
+    - target: {fileID: 910665367549640343, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3923144737159851514, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
         type: 3}
       propertyPath: m_Name
       value: Torch3DModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923144737159851514, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4005578329940800668, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4005578329942731356, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 68035997041c7d64ea074d8419c56506, type: 2}
+    - target: {fileID: 4197696287397361595, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6641993115049033209, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 7951071987707353812, guid: d3ec7dfd0ddfa7c429ecd8eba394c0f8,
         type: 3}
       propertyPath: m_LocalPosition.x

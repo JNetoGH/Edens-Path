@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1194750098105490693}
   - component: {fileID: 1425036501575478632}
   - component: {fileID: 5812168597395349358}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Prop_Chest_Wood_Lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 5907738914486557787}
   - component: {fileID: 1581400364966241424}
   - component: {fileID: 2620046261817441722}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Chest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 6813354333308781679}
   - component: {fileID: 7273354248851191970}
   - component: {fileID: 8776219032989763996}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Prop_Chest_Wood_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}

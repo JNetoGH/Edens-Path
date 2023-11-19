@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6105765313889517854}
   - component: {fileID: 7952226108257075667}
   - component: {fileID: 8070826319103048553}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pSphere3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6606840779643198773}
   - component: {fileID: 3496298994129118547}
   - component: {fileID: 8052550490559450105}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Seed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 9218935746719092595}
   - component: {fileID: 5125916588841825100}
   - component: {fileID: 5500436354413321046}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: pSphere2
   m_TagString: Untagged
   m_Icon: {fileID: 0}

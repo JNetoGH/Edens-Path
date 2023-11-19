@@ -58,7 +58,7 @@ public class PickableObject : MonoBehaviour
         }
         else
         {
-            gameObject.layer = LayerMask.NameToLayer("Default");
+            gameObject.layer = LayerMask.NameToLayer("PickableObject");
             _rigidbody.maxAngularVelocity = 7;
             _rigidbody.useGravity = true;
             
