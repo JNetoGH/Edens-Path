@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cinemachine;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
@@ -12,7 +13,13 @@ public class DigitalLockerController : MonoBehaviour
     [SerializeField, ReadOnly] private int _curDigitIndex = 0;
   
     [Header("Digits Text")]
-    [SerializeField] private List<TextMeshProUGUI> _displayTexts;
+    [SerializeField, Required] private List<TextMeshProUGUI> _displayTexts;
+
+    [Header("Door")] 
+    [SerializeField] private float _doorAnimationDuration = 2;
+    [SerializeField, Required] private Animator _doorAnimator;
+    [SerializeField, Required] private CinemachineVirtualCamera _doorVirtualCamera;
+    [SerializeField, Required] private Camera _handsCameraOverlay;
     
     // Start is called before the first frame update
     private void Start()
@@ -27,6 +34,11 @@ public class DigitalLockerController : MonoBehaviour
         {
             bool correct = CheckPassword();
             Debug.Log($"Password is {correct}");
+            if (correct)
+            {
+                TempEnableDorCam(_doorAnimationDuration);
+                _doorAnimator.SetTrigger("open");
+            }
             ResetDisplay();
         }
     }
@@ -56,6 +68,22 @@ public class DigitalLockerController : MonoBehaviour
             _curDigitIndex++;
         }
     
+        private void TempEnableDorCam(float howLong)
+        {
+            GameManager.EnterCutsceneMode();
+            _doorVirtualCamera.enabled = true;
+            _handsCameraOverlay.enabled = false;
+            Invoke(nameof(DisableDorCam), howLong);
+           
+        }
+        
+        public void DisableDorCam()
+        {
+            GameManager.EnterGameplayMode();
+            _doorVirtualCamera.enabled = false;
+            _handsCameraOverlay.enabled = true;
+        }
+        
     #endregion
 
 }
