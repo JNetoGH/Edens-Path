@@ -12,9 +12,6 @@ public class CutsceneEnd : StateMachineBehaviour
     {
         // Unlocks many systems
         GameManager.EnterGameplayMode();
-        
-        // Enables the PickupSystem.
-        FindObjectOfType<PickupSystem>().enabled = true;
 
         // Deactivates the CinemachineBrain object to disable camera overriding after the cutscene.
         FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(false);

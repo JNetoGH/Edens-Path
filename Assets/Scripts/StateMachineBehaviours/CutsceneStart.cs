@@ -22,11 +22,6 @@ public class CutsceneStart : StateMachineBehaviour
             FindObjectOfType<CinemachineBrain>(includeInactive: true).gameObject.SetActive(true);
         }
         
-        // Release the current object held by the PickupSystem and disable the PickupSystem.
-        PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
-        pickupSystem.ReleaseCurrentObject(false);
-        pickupSystem.enabled = false;
-        
     }
 }
 

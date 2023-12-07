@@ -126,6 +126,9 @@ public class GameManager : MonoBehaviour
             // Makes the player movable.
             GameManager.CanMovePlayer = true;
         
+            // Activates the Camera Controller.
+            GameManager.ActivateCameraSystems();
+            
             // Makes Camera movable.
             GameManager.CanRotateCamera = true;
         
@@ -146,7 +149,10 @@ public class GameManager : MonoBehaviour
         
             // Makes the player Immovable.
             GameManager.CanMovePlayer = false;
-        
+            
+            // Deactivate the camera controller.
+            GameManager.DeactivateCameraSystems();
+            
             // Makes Camera Immovable.
             GameManager.CanRotateCamera = false;
             
@@ -266,6 +272,24 @@ public class GameManager : MonoBehaviour
         {
             SuperTag.GetFirstObjectWithSuperTag("cross")?.SetActive(false);
         }
+
+        public static void ActivateCameraSystems()
+        {
+            FindObjectOfType<CameraController>().enabled = true;
+           
+            // Enables the PickupSystem.
+            FindObjectOfType<PickupSystem>().enabled = true;
+        }
+        
+        public static void DeactivateCameraSystems()
+        {
+            FindObjectOfType<CameraController>().enabled = false;
+            
+            // Release the current object held by the PickupSystem and disables the PickupSystem.
+            PickupSystem pickupSystem = FindObjectOfType<PickupSystem>();
+            pickupSystem.ReleaseCurrentObject(false);
+            pickupSystem.enabled = false;
+        } 
         
     #endregion
     

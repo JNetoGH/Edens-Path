@@ -11,7 +11,6 @@ public class FloraInteraction1CutsceneController : ACutsceneController
     [SerializeField, Required, BoxGroup(G1)] private AudioClip _floraDialogue1;
     [SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteraction1;
     [SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteractionMsg;
-
     private AudioSource _audioSource;
     
     private void Awake()

@@ -34,6 +34,7 @@ public class FloraInteraction2CutsceneController : ACutsceneController
     {
         if (_updateTimer)
             _timer += Time.deltaTime;
+        
         if (_timer >= TimerDuration)
         {
             // Instantiates the flowers
@@ -43,8 +44,6 @@ public class FloraInteraction2CutsceneController : ACutsceneController
             _timer = 0;
             _updateTimer = false;
         }
-        
-        
     }
     
     public override void PlayCutscene()

@@ -14,8 +14,8 @@ public class CameraController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private Transform _cameraPosition;
 
-    public float RotationX { get; set; }
-    public float RotationY { get; set; }
+    private float RotationX { get; set; }
+    private float RotationY { get; set; }
     private float _mouseX;
     private float _mouseY;
     
