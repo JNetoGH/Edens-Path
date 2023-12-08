@@ -29,13 +29,18 @@ public class PickupSystem : MonoBehaviour
     
     private void Update()
     {
-        // Checking for player being able to move
+
+        // Checking for player being able to move.
         if (!GameManager.CanMovePlayer)
             return;
         
         TryOutlinePickablesInRangeOfTheCameraRay();
-        
-        // Checks for Fire1 button press, Attempts to pick up an object
+
+        // Checks for Fire 2 button press, tries to add the outlined object to the inventory.
+        if (Input.GetButtonUp("Fire2") && _outlinedObject != null)
+            TrySendToPickedObjectToInventory();
+
+        // Checks for Fire1 button press, Attempts to pick up an object.
         if (Input.GetButtonDown("Fire1"))
             TryPickupObject();
         
@@ -47,17 +52,6 @@ public class PickupSystem : MonoBehaviour
         if (!Input.GetButton("Fire1"))
             ReleaseCurrentObject(true);
         
-        // Checks for Fire 2 button and adds the object to the inventory
-        if (Input.GetButtonUp("Fire2") && IsPickingUp && _pickedObject != null)
-        {
-            Inventory inventory = FindObjectOfType<Inventory>(includeInactive: true);
-            if (inventory == null) 
-                return;
-            inventory.Add(_pickedObject);
-            Destroy(_pickedObject.gameObject);
-            IsPickingUp = false;
-            _pickedObject = null;
-        }
     }
     
     private void FixedUpdate()
@@ -78,6 +72,17 @@ public class PickupSystem : MonoBehaviour
                 UpdateObjectPosition(false);
     }
     
+    private void TrySendToPickedObjectToInventory()
+    {
+        Inventory inventory = FindObjectOfType<Inventory>(includeInactive: true);
+        if (inventory == null)
+            return;
+        inventory.Add(_outlinedObject);
+        Destroy(_outlinedObject.gameObject);
+        IsPickingUp = false;
+        _outlinedObject = null;
+    }
+
     private void TryOutlinePickablesInRangeOfTheCameraRay()
     {
         // Checks for pickable objects in range
