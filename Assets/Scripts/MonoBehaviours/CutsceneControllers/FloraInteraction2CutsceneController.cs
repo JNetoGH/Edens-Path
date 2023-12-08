@@ -48,8 +48,6 @@ public class FloraInteraction2CutsceneController : ACutsceneController
     
     public override void PlayCutscene()
     {
-        // animator.SetTrigger("NextCutscutscene");
-        
         // Disables interaction 1
         GetComponentInChildren<FloraInteraction1CutsceneController>().DisableFloraNpcInteractionTrigger1();
         

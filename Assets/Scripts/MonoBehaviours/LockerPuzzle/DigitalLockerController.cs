@@ -43,7 +43,7 @@ public class DigitalLockerController : MonoBehaviour
         }
     }
 
-    #region Called Via Buttons Events
+    #region Called Via Buttons and Other Events
     
         public void ResetDisplay()
         {
@@ -52,7 +52,7 @@ public class DigitalLockerController : MonoBehaviour
             _curDigitIndex = 0;
         }
         
-        private bool CheckPassword()
+        public bool CheckPassword()
         {
             for (int i = 0; i < _password.Length; i++)
                 if (_password[i] != _displayTexts[i].text[0])
@@ -77,7 +77,7 @@ public class DigitalLockerController : MonoBehaviour
            
         }
         
-        public void DisableDorCam()
+        private void DisableDorCam()
         {
             GameManager.EnterGameplayMode();
             _doorVirtualCamera.enabled = false;
