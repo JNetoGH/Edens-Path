@@ -14,6 +14,10 @@ public class CameraController : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private Transform _cameraPosition;
 
+    [Header("Camera")] 
+    [SerializeField] private float _near = 0.1f; 
+    private Camera _camera;
+
     private float RotationX { get; set; }
     private float RotationY { get; set; }
     private float _mouseX;
@@ -25,13 +29,17 @@ public class CameraController : MonoBehaviour
         float initialRotationY = transform.rotation.eulerAngles.y;
         RotationX = initialRotationX;
         RotationY = initialRotationY;
+        _camera = GetComponent<Camera>();
     }
 
     private void Update()
     {
+        // Prevents the Cinemachine to override te near clip plane
+        _camera.nearClipPlane = _near;
+        
         if (!GameManager.CanRotateCamera)
             return;
-      
+        
         UpdateInputs();
         RotateFreely();
     }
