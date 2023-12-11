@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class HandAnimationStateSync : MonoBehaviour
+public class PlayerAnimationStateSync : MonoBehaviour
 {
 
     private Animator _animator;
