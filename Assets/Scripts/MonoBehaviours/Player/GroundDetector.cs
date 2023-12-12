@@ -1,64 +1,66 @@
+using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 
 [RequireComponent(typeof(Rigidbody)), RequireComponent(typeof(SphereCollider))]
 public class GroundDetector : MonoBehaviour
 {
     
-    // Used to communicate with other scripts.
+    // Used to other scripts to get the detector's state.
     public bool IsGrounded { get; private set; } = false;
     
     [Header("Settings")]
     [SerializeField] private LayerMask _considerLayers;
     [SerializeField] private LayerMask _ignoreLayers;
     
-    [Header("Visualization")]
+    [Header("Debugging")]
     [SerializeField] private bool _showGroundDetector = false;
-    [SerializeField] private Color _groundedColor = Color.red;
-    [SerializeField] private Color _notGroundedColor = Color.green;
-    [SerializeField] private bool _printDebugStatus;
+    [SerializeField, ShowIf("_showGroundDetector")] private Color _groundedColor = Color.green;
+    [SerializeField, ShowIf("_showGroundDetector")] private Color _notGroundedColor = Color.red;
+    
+    [Header("Debugging (Ready-Only)")] 
+    [SerializeField, ShowAssetPreview(300, 300), ReadOnly] private GameObject _collidingWith;
     
     // Components
     private Renderer _groundDetectorRenderer;
-    private PlayerController _playerController;
     
     private void Awake()
     {
         IsGrounded = false;
         _groundDetectorRenderer = GetComponent<Renderer>();
     }
-
-    private void Start()
-    {
-        _playerController = GetComponentInParent<PlayerController>();
-        if (_playerController == null)
-            Debug.LogWarning("The Ground Detector could not find the PlayerController.cs");
-    }
-
+    
     private void OnTriggerStay(Collider other)
     {
-        // checks if the player is stopped in Y
-        //if (Mathf.Abs(_playerController.VerticalVelocity) > _yLimitSpeedSafetyMargin)
-            //IsGrounded = false;
-        if (LayerMaskContainsLayer(_considerLayers, other.gameObject.layer) && 
-            !LayerMaskContainsLayer(_ignoreLayers, other.gameObject.layer))
-            if (other.gameObject.GetComponent<PlayerController>() == null)
-                IsGrounded = true;
+        if (ValidateColliderLayer(other))
+        {
+            IsGrounded = true;
+            _collidingWith = other.gameObject;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (LayerMaskContainsLayer(_considerLayers, other.gameObject.layer) && 
-            !LayerMaskContainsLayer(_ignoreLayers, other.gameObject.layer))
-            if (other.gameObject.GetComponent<PlayerController>() == null)
-                IsGrounded = false;
+        if (ValidateColliderLayer(other))
+        {
+            IsGrounded = false;
+            _collidingWith = null;
+        }
     }
-
+    
     private void Update()
     {
-        if (_printDebugStatus)
-            Debug.Log($"Is Grounded {IsGrounded}");
         SyncVisualizationColor();
+    }
+    
+    private bool ValidateColliderLayer(Collider other)
+    {
+        bool isInValidLayer = LayerMaskContainsLayer(_considerLayers, other.gameObject.layer);
+        bool isInIgnoredLayer = LayerMaskContainsLayer(_ignoreLayers, other.gameObject.layer);
+        bool isPlayer = other.gameObject.GetComponent<PlayerController>() != null;
+        bool isPresenceChecker = other.gameObject.GetComponent<PickableObjectPresenceChecker>() != null;
+        return isInValidLayer && !isInIgnoredLayer && !isPlayer && !isPresenceChecker;
     }
 
     private void SyncVisualizationColor()
@@ -76,4 +78,5 @@ public class GroundDetector : MonoBehaviour
     {
         return (layerMask & (1 << layer)) != 0;
     }
+    
 }

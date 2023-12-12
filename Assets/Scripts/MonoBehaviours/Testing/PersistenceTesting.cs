@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PersistenceTesting : MonoBehaviour
 {
-    
+
+    private bool _runTest = false;
     private int _value = 3;
     
     private void Update()
@@ -10,6 +11,7 @@ public class PersistenceTesting : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.M))
             _value = 5;
         
-        // Debug.Log("Test Value: " + _value);
+        if (_runTest)
+            Debug.Log("Test Value: " + _value);
     }
 }
