@@ -63,6 +63,11 @@ public class GroundDetector : MonoBehaviour
         return isInValidLayer && !isInIgnoredLayer && !isPlayer && !isPresenceChecker;
     }
 
+    private bool LayerMaskContainsLayer(LayerMask layerMask, int layer)
+    {
+        return (layerMask & (1 << layer)) != 0;
+    }
+    
     private void SyncVisualizationColor()
     {
         // Verifies the state and syncs the color
@@ -72,11 +77,6 @@ public class GroundDetector : MonoBehaviour
             if (IsGrounded) _groundDetectorRenderer.material.color = _groundedColor;
             else _groundDetectorRenderer.material.color = _notGroundedColor;
         }
-    }
-
-    private bool LayerMaskContainsLayer(LayerMask layerMask, int layer)
-    {
-        return (layerMask & (1 << layer)) != 0;
     }
     
 }
