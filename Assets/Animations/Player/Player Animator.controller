@@ -203,7 +203,7 @@ AnimatorState:
   m_PrefabAsset: {fileID: 0}
   m_Name: PickUp
   m_Speed: 1
-  m_CycleOffset: 0.8
+  m_CycleOffset: 0
   m_Transitions:
   - {fileID: 4799197166136147181}
   m_StateMachineBehaviours: []
@@ -215,7 +215,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 7602d8d87c0f044448eb8227c73d4367,
+  m_Motion: {fileID: -203655887218126122, guid: f66a9f8327fcb2740b3982745f66a260,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -360,10 +360,10 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -7755144139192451179}
-    m_Position: {x: 40, y: 250, z: 0}
+    m_Position: {x: 30, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1794987531515421347}
-    m_Position: {x: 40, y: 360, z: 0}
+    m_Position: {x: 30, y: 320, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

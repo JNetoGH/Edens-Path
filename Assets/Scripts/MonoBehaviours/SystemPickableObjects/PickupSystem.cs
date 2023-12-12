@@ -132,7 +132,7 @@ public class PickupSystem : MonoBehaviour
         outlined.IsBeingHitByPickUpRay = true;
         outlined.OutlineScript.OutlineColor = _outlineColor;
         outlined.OutlineScript.OutlineWidth = _outlineWidth;
-        outlined.OutlineScript.OutlineMode = Outline.Mode.OutlineAll;
+        outlined.OutlineScript.OutlineMode = Outline.Mode.OutlineVisible;
     }
     
     private void TryPickupObject()
