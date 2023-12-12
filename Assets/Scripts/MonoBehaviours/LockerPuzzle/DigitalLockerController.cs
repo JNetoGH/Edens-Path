@@ -19,12 +19,14 @@ public class DigitalLockerController : MonoBehaviour
     [SerializeField] private float _doorAnimationDuration = 2;
     [SerializeField, Required] private Animator _doorAnimator;
     [SerializeField, Required] private CinemachineVirtualCamera _doorVirtualCamera;
-    [SerializeField, Required] private Camera _handsCameraOverlay;
+    
+    private CinemachineBrain _cinemachineBrain;
     
     // Start is called before the first frame update
     private void Start()
     {
         _curDigitIndex = 0;
+        _cinemachineBrain = FindObjectOfType<CinemachineBrain>(includeInactive: true);
     }
 
     // Update is called once per frame
@@ -71,8 +73,9 @@ public class DigitalLockerController : MonoBehaviour
         private void TempEnableDorCam(float howLong)
         {
             GameManager.EnterCutsceneMode();
+            // Activate CinemachineBrain object to enable virtual camera control during the cutscene.
+            _cinemachineBrain.gameObject.SetActive(true);
             _doorVirtualCamera.enabled = true;
-            _handsCameraOverlay.enabled = false;
             Invoke(nameof(DisableDorCam), howLong);
            
         }
@@ -80,8 +83,9 @@ public class DigitalLockerController : MonoBehaviour
         private void DisableDorCam()
         {
             GameManager.EnterGameplayMode();
+            // Activate CinemachineBrain object to enable virtual camera control during the cutscene.
+            _cinemachineBrain.gameObject.SetActive(false);
             _doorVirtualCamera.enabled = false;
-            _handsCameraOverlay.enabled = true;
         }
         
     #endregion

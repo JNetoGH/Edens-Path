@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Required References")]
     [SerializeField, Required] private GameObject _settingsMenu;
     [SerializeField, Required] private GameObject _inventory;
+    [SerializeField, Required] private GameObject _crossHair;
     
     [Header("Cached for Other Scripts")]
     [SerializeField, Required] private TextMeshProUGUI _npcInteractableAnimationMsg; 
@@ -74,6 +75,9 @@ public class GameManager : MonoBehaviour
         // Inventory Button Pressed, can't open the menu while in cutscenes.
         if (Input.GetKeyDown(KeyCode.Tab) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
             SwitchInventoryState();
+        
+        // only shows the cross hair while in gameplay.
+        _crossHair.SetActive(!_isInCutscene && !_isInInventory && !_isInSettingsMenu);
     }
     
     
