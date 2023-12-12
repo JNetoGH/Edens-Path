@@ -7,7 +7,9 @@ using UnityEngine;
 public class PickupSystem : MonoBehaviour
 {
     
-    public bool IsPickingUp { get; private set; } = false;  // Flag to track if picking up is in progress
+    public PickableObject PickedObject => _pickedObject;
+    public bool IsPickingUp { get; private set; } = false;  
+    public bool IsOutlining => _outlinedObject is not null;
     
     [Header("System Settings")]
     [SerializeField, Range(1, 10)] private float _pickupRange = 2.5f;  
@@ -22,14 +24,12 @@ public class PickupSystem : MonoBehaviour
     [Header("Being Picked Up Highlight")]
     [SerializeField] private Material _beingPickedMaterial;
     
-    public PickableObject PickedObject => _pickedObject;
-    private PickableObject _pickedObject; // Reference to the object being picked up
-    private PickableObject _outlinedObject; // Reference to the previously highlighted object
-    private Vector3 _objLastVelocity = Vector3.zero; // Used in order to keep the release force of the object.
+    private PickableObject _pickedObject;               // Reference to the object being picked up
+    private PickableObject _outlinedObject;             // Reference to the previously highlighted object
+    private Vector3 _objLastVelocity = Vector3.zero;    // Used in order to keep the release force of the object.
     
     private void Update()
     {
-
         // Checking for player being able to move.
         if (!GameManager.CanMovePlayer)
             return;
@@ -51,7 +51,6 @@ public class PickupSystem : MonoBehaviour
         // will need to press and release the button again.
         if (!Input.GetButton("Fire1"))
             ReleaseCurrentObject(true);
-        
     }
     
     private void FixedUpdate()
