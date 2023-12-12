@@ -38,28 +38,6 @@ public class TalkWithDevilWakeUpMachineBehaviour : StateMachineBehaviour
         LookToTheGround();
     }
 
-    /// <summary>
-    /// Looks to the ground to set the animation.
-    /// </summary>
-    private void LookToTheGround()
-    {
-        Vector3 currentRotation = _playerCamera.transform.rotation.eulerAngles;
-        currentRotation.x = _cameraXInitialRotation;
-        _animatedRotation.x = currentRotation.x;
-        _playerCamera.transform.rotation = Quaternion.Euler(currentRotation);
-    }
-    
-    /// <summary>
-    /// Syncs the Camera Controller with the new rotation in the y axis.
-    /// </summary>
-    private void SyncYWithDevil()
-    {
-        _playerCamera.transform.LookAt(_devil.transform);
-        Vector3 currentCamRotation = _playerCamera.transform.rotation.eulerAngles;
-        currentCamRotation.x = _animatedRotation.x;
-        _playerCamera.transform.rotation = Quaternion.Euler(currentCamRotation);
-    }
-
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (_devil is null || _playerCamera is null)
@@ -87,9 +65,32 @@ public class TalkWithDevilWakeUpMachineBehaviour : StateMachineBehaviour
         
         SyncYWithDevil();
     }
-
+    
+    /// <summary>
+    /// Looks to the ground to set the animation.
+    /// </summary>
+    private void LookToTheGround()
+    {
+        Vector3 currentRotation = _playerCamera.transform.rotation.eulerAngles;
+        currentRotation.x = _cameraXInitialRotation;
+        _animatedRotation.x = currentRotation.x;
+        _playerCamera.transform.rotation = Quaternion.Euler(currentRotation);
+    }
+    
+    /// <summary>
+    /// Syncs the Camera Controller with the new rotation in the y axis.
+    /// </summary>
+    private void SyncYWithDevil()
+    {
+        _playerCamera.transform.LookAt(_devil.transform);
+        Vector3 currentCamRotation = _playerCamera.transform.rotation.eulerAngles;
+        currentCamRotation.x = _animatedRotation.x;
+        _playerCamera.transform.rotation = Quaternion.Euler(currentCamRotation);
+    }
+    
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _playerCamera.OverrideRotationCache(_animatedRotation.x, _animatedRotation.y);
     }
+    
 }
