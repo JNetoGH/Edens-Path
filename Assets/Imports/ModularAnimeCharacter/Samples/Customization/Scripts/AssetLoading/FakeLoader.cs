@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace Rukha93.ModularAnimeCharacter.Customization

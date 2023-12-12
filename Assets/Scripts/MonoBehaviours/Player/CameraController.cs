@@ -15,7 +15,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Transform _cameraPosition;
 
     [Header("Camera")] 
-    [SerializeField] private float _near = 0.1f; 
+    [SerializeField] private float _near = 0.1f;
+    [SerializeField] private float _fov = 60f;
     private Camera _camera;
 
     private float RotationX { get; set; }
@@ -34,8 +35,9 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        // Prevents the Cinemachine to override te near clip plane
+        // Prevents the Cinemachine to override the camera
         _camera.nearClipPlane = _near;
+        _camera.fieldOfView = _fov;
         
         if (!GameManager.CanRotateCamera)
             return;
