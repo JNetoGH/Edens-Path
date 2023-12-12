@@ -6,9 +6,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     
-    public bool IsMoving => (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) && GameManager.CanMovePlayer;
+    // Communication with other scripts.
+    public bool HasMoveInput => (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0);
+    public bool IsMoving => HasMoveInput && GameManager.CanMovePlayer;
+    public bool JumpedThisFrame { get; private set; } = false;
     public float VerticalVelocity { get; private set; } = 0;
     public const float GroundedDecrement = -0.5f;
+    
     
     [Header("References")]
     [SerializeField] private Transform _camera;
@@ -48,6 +52,10 @@ public class PlayerController : MonoBehaviour
     {
         UpdateInputs();
         RotatePlayerAccordingToCamera();
+        
+        // Resets the jump communication cache.
+        JumpedThisFrame = false;
+        
         // Calling the move in the update instead of fixed syncs better with the camera.
         if (GameManager.CanMovePlayer) 
             Move();
@@ -85,11 +93,14 @@ public class PlayerController : MonoBehaviour
             delta = delta * Time.deltaTime * _forwardMoveSpeed; 
         else
             delta = delta * Time.deltaTime * _backwardMoveSpeed;
-
-
+        
         // Applies the jump force to the vertical velocity delta Time is not required, because it's an instantaneous force.
-        if (_jumpInput) VerticalVelocity = _jumpForce;
-            
+        if (_jumpInput)
+        {
+            VerticalVelocity = _jumpForce;
+            JumpedThisFrame = true;
+        }
+
         // Applies custom gravity, Delta Time is required because it's a constant force
         // Resets of vertical velocity when on the ground to prevent accumulation,
         // with is a non-0 value to prevent character controller failures like the ground detector not working properly.
