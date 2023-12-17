@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField, Required] private GameObject _settingsMenu;
     [SerializeField, Required] private GameObject _inventory;
     [SerializeField, Required] private GameObject _crossHair;
+    [SerializeField, Required] private GameObject _playerHead;
+    [SerializeField, Required] private GameObject _playerHair;
     
     [Header("Cached for Other Scripts")]
     [SerializeField, Required] private TextMeshProUGUI _npcInteractableAnimationMsg; 
@@ -63,6 +65,10 @@ public class GameManager : MonoBehaviour
             PauseGame();
         else
             UnpauseGame();
+        
+        // Set's the player's head activity.
+        _playerHead.SetActive(_isInCutscene);
+        _playerHair.SetActive(_isInCutscene);
         
         // Menu Button Pressed
         if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
