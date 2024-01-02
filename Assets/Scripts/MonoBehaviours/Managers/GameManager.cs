@@ -270,7 +270,11 @@ public class GameManager : MonoBehaviour
 
         public static void ExitGame()
         {
-            Application.Quit();
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         }
 
         public static void ActivateScreenCross()
