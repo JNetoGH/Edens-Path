@@ -19,7 +19,11 @@ public class DigitalLockerController : MonoBehaviour
     [SerializeField] private float _doorAnimationDuration = 2;
     [SerializeField, Required] private Animator _doorAnimator;
     [SerializeField, Required] private CinemachineVirtualCamera _doorVirtualCamera;
+
+    [Header("Door Darkness (Teleport Trigger)")] 
+    [SerializeField, Required] private Collider _doorDarkness;
     
+    // Important Components
     private CinemachineBrain _cinemachineBrain;
     
     // Start is called before the first frame update
@@ -40,6 +44,7 @@ public class DigitalLockerController : MonoBehaviour
             {
                 TempEnableDorCam(_doorAnimationDuration);
                 _doorAnimator.SetTrigger("open");
+                _doorDarkness.enabled = true;
             }
             ResetDisplay();
         }
