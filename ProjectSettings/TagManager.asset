@@ -12,6 +12,7 @@ TagManager:
   - InventoryContent
   - Torch
   - Bouquet
+  - Seed
   layers:
   - Default
   - TransparentFX

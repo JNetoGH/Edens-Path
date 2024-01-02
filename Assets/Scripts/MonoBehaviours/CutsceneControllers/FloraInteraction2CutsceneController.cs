@@ -1,8 +1,6 @@
-﻿using System;
-using JetBrains.Annotations;
-using NaughtyAttributes;
+﻿using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
+
 
 
 public class FloraInteraction2CutsceneController : ACutsceneController
@@ -15,13 +13,10 @@ public class FloraInteraction2CutsceneController : ACutsceneController
     private const string G1 = "DIALOG 2";
     //[SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteraction2;
     //[SerializeField, Required, BoxGroup(G1)] private GameObject _floraNpcInteractionMsg;
-    [SerializeField, Required, BoxGroup(G1)] private GameObject _seed;
     [SerializeField, Required, BoxGroup(G1)] private Transform _seedPositionWithFlora;
     [SerializeField, Required, BoxGroup(G1)] private AudioClip _floraDialog2;
     [SerializeField, Required, BoxGroup(G1)] private GameObject _bouquetPrefab;
     [SerializeField, Required, BoxGroup(G1)] private Transform _bouquetInstantiationPosition;
-  
-    
     private AudioSource _audioSource;
     
     private void Awake()
@@ -52,14 +47,15 @@ public class FloraInteraction2CutsceneController : ACutsceneController
         GetComponentInChildren<FloraInteraction1CutsceneController>().DisableFloraNpcInteractionTrigger1();
         
         // Locks seed with flora.
-        _seed.transform.parent = _seedPositionWithFlora;
-        _seed.transform.localScale = new Vector3(5f, 5f, 5f);
-        _seed.transform.localRotation = Quaternion.identity;
-        _seed.transform.localPosition = Vector3.zero;
-        _seed.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
-        _seed.GetComponent<PickableObject>().enabled = false;
-        _seed.GetComponent<Outline>().enabled = false;
-        _seed.GetComponent<Collider>().enabled = false;
+        GameObject seed = GameObject.FindWithTag("Seed");
+        seed.transform.parent = _seedPositionWithFlora;
+        seed.transform.localScale = new Vector3(5f, 5f, 5f);
+        seed.transform.localRotation = Quaternion.identity;
+        seed.transform.localPosition = Vector3.zero;
+        seed.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+        seed.GetComponent<PickableObject>().enabled = false;
+        seed.GetComponent<Outline>().enabled = false;
+        seed.GetComponent<Collider>().enabled = false;
 
         // sets the timer to give the flowers
         _updateTimer = true;

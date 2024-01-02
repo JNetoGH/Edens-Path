@@ -1,16 +1,15 @@
-﻿using NaughtyAttributes;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 
 public class FloraSeedCompletionTrigger : MonoBehaviour
 {
-    [SerializeField, Required] private GameObject _seed;
+    
     [SerializeField] private UnityEvent _onTrigger;
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject != _seed)
+        if (!other.gameObject.tag.Equals("Seed"))
             return;
         
         _onTrigger.Invoke();
