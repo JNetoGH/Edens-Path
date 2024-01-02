@@ -55,7 +55,7 @@ public class SettingsMenu : MonoBehaviour
         _gameSettingsData.targetFps = int.Parse(_dropdownTargetFpsValueText.text);
        
         // Updates the game to the Fps Settings
-        _gameSettingsData.SyncGameFpsWithGameData();
+        _gameSettingsData.SyncFpsWithGameData();
     }
 
 } 
