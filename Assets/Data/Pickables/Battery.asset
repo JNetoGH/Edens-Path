@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Battery
   m_EditorClassIdentifier: 
   itemName: Battery
-  icon: {fileID: 0}
-  correspondingPickablePrefab: {fileID: 0}
+  icon: {fileID: 21300000, guid: 91ce223474a47f64d91bac1aa0968811, type: 3}
+  correspondingPickablePrefab: {fileID: 1653433681164703155, guid: 97f27313a30937748b3219c214bf59c0,
+    type: 3}

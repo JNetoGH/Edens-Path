@@ -13,6 +13,8 @@ TagManager:
   - Torch
   - Bouquet
   - Seed
+  - Target
+  - Battery
   layers:
   - Default
   - TransparentFX

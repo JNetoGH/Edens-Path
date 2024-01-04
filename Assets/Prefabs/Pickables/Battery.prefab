@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8338144916416527042}
   m_Layer: 0
   m_Name: Battery
-  m_TagString: Untagged
+  m_TagString: Battery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1653433681164703155}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.122895196, y: -0.072163135, z: 0.119657755, w: 0.98253316}
+  m_LocalRotation: {x: 0.12289569, y: -0.07216409, z: 0.119660825, w: 0.98253256}
   m_LocalPosition: {x: -9.006, y: 1.7981, z: -39.6084}
   m_LocalScale: {x: 0.790423, y: 0.42645198, z: 0.5899999}
   m_ConstrainProportionsScale: 1
@@ -38,7 +38,7 @@ Transform:
   - {fileID: 5472946309503571581}
   - {fileID: 6893036361345606608}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 1.683, y: -6.456, z: 14.553}
+  m_LocalEulerAnglesHint: {x: 14.997, y: -6.682, z: 13.007}
 --- !u!114 &4729322426312210618
 MonoBehaviour:
   m_ObjectHideFlags: 0
