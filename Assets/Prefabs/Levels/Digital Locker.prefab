@@ -496,6 +496,10 @@ MonoBehaviour:
   - {fileID: 4082488737563152187}
   - {fileID: 6962005164037801259}
   - {fileID: 101207954255762087}
+  _doorAnimationDuration: 2
+  _doorAnimator: {fileID: 0}
+  _doorVirtualCamera: {fileID: 0}
+  _doorDarkness: {fileID: 0}
 --- !u!1 &721922563481114634
 GameObject:
   m_ObjectHideFlags: 0
