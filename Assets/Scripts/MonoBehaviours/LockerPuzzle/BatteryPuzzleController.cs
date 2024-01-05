@@ -4,6 +4,7 @@ using Cinemachine;
 using NaughtyAttributes;
 using UnityEngine;
 
+
 [RequireComponent(typeof(AudioSource))]
 public class BatteryPuzzleController : ACutsceneController
 {
@@ -17,8 +18,7 @@ public class BatteryPuzzleController : ACutsceneController
     [SerializeField] private float _cutsceneDuration = 7f;
     [SerializeField] private float _playerVoiceAt = 1.2f;
     [SerializeField] private CinemachineBrain _cinemachineBrain;
-
-    private bool _dirty = false;
+    
     private List<SpotlightController> _spotlightControllers;
     private CinemachineVirtualCamera _virtualCamera;
     private AudioSource _audioSource;
@@ -44,10 +44,7 @@ public class BatteryPuzzleController : ACutsceneController
         if (!HasBeenAlreadyWatched) 
             return;
         
-        if (_dirty)
-            return;
-        
-        _dirty = true;
+        hasBeenAlreadyWatched = true;
         LockBatteryInPlace();
         TurnSpotlightsOn();
     }
@@ -62,11 +59,11 @@ public class BatteryPuzzleController : ACutsceneController
         
         LockBatteryInPlace();
         Invoke(nameof(PlayCutscene), _playCutsceneAfter);
+        hasBeenAlreadyWatched = true;
     }
     
     public override void PlayCutscene()
     {
-        _dirty = true;
         TurnSpotlightsOn();
         GameManager.EnterCutsceneMode();
         CinemachineSetUp = true;
