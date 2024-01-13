@@ -55,8 +55,7 @@ public class GameManager : MonoBehaviour
     {
         _isInSettingsMenu = _settingsMenu.activeInHierarchy;
         _isInInventory = _inventory.activeInHierarchy;
-        if (!_isInSettingsMenu || !_isInInventory) LockTheCursor();
-        else ReleaseTheCursor();
+        ReleaseTheCursor();
     }
 
     private void Update()
@@ -82,8 +81,6 @@ public class GameManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab) && !_isInSettingsMenu && CanOpenOrCloseInventory && !_isInCutscene)
             SwitchInventoryState();
         
-        // only shows the cross hair while in gameplay.
-        _crossHair.SetActive(!_isInCutscene && !_isInInventory && !_isInSettingsMenu);
     }
     
     
@@ -148,8 +145,6 @@ public class GameManager : MonoBehaviour
             // Activate screen cross.
             GameManager.ActivateScreenCross();
             
-            // Locks the cursor.
-            GameManager.LockTheCursor();
         }
         
         public static void EnterCutsceneMode()
@@ -172,8 +167,7 @@ public class GameManager : MonoBehaviour
             // Deactivate screen cross.
             GameManager.DeactivateScreenCross();
             
-            // Locks the cursor.
-            GameManager.LockTheCursor();
+          
         }
         
         public static void EnterSettingsMenuMode()
