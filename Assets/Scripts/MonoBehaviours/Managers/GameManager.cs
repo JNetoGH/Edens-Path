@@ -67,8 +67,8 @@ public class GameManager : MonoBehaviour
             UnpauseGame();
         
         // Set's the player's head activity.
-        _playerHead.SetActive(_isInCutscene);
-        _playerHair.SetActive(_isInCutscene);
+        _playerHead.SetActive(true);
+
         
         // Menu Button Pressed
         if (Input.GetButtonDown("Settings Menu") && _settingsMenu != null)
