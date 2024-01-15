@@ -85,7 +85,7 @@ MonoBehaviour:
     sceneIgnoresFilters: []
     ignoreScenesInBuild: 1
     ignoreOnlyEnabledScenesInBuild: 1
-    scenesSelection: 10
+    scenesSelection: 5
     findUnreferencedAssets: 1
     findUnreferencedScripts: 0
     findEmptyFolders: 1
