@@ -1,2 +1,2 @@
-# First-Person-Controller
+# Eden's Path
 A puzzle game.
